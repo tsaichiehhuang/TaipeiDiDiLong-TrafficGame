@@ -1,5 +1,5 @@
 class Walker {
-	constructor(startPosY = 250) {
+	constructor(startPosY = 250, text = 'walker') {
 		this.walkerSpeed = 3;
 		this.walkerWidth = 30;
 		this.walkerHeight = 30;
@@ -7,6 +7,7 @@ class Walker {
 		this.roadMinX = 0;
 		this.roadMaxX = 0;
 		this.startPosY = startPosY;
+		this.text = text;
 	}
 
 	setup(roadBounds) {
@@ -16,6 +17,7 @@ class Walker {
 		let walker = createSprite(this.roadMinX, this.startPosY, this.walkerWidth, this.walkerHeight);
 		walker.color = color(255, 0, 0);
 		walker.velocity.x = this.walkerSpeed;
+		walker.text = this.text;
 		this.walkerSprites.push(walker);
 	}
 

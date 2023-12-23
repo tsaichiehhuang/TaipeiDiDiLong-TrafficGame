@@ -3,10 +3,15 @@ const Section1 = () => {
 
     let sectionVariable = 'This is a variable in Section1 scope';
 
-    // Demo walker a in session
-    let walker1 = new Walker(startPosY = 100);
+    // Demo walker a in section
+    let walker1 = new Walker(startPosY = 100, "第一個行人");
     
     return {
+        preload: () => {
+            // Called in p5.js preload() function
+            console.log('Section 1 preload');
+        },
+
         onSectionStart: () => {
 
             walker1.setup(gameManager.getRoadXRange());
@@ -45,6 +50,7 @@ const Section1 = () => {
         },
 
         drawDuringSection: () => {
+            // 只會在遊戲進行到該段落時，一直執行的事件
             const currentEvents = eventManager.getCurrentEvent();
             
             // Demo draw based on current event
@@ -59,6 +65,7 @@ const Section1 = () => {
         },
 
         drawAlways: () => {
+            // 不論遊戲的 section 是哪一個，都會執行
             walker1.update();
         },
 

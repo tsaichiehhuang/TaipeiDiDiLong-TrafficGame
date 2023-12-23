@@ -3,6 +3,10 @@ const Section3 = () => {
     let sectionVariable = 'This is a variable in Section1 scope';
 
     return {
+        preload: () => {
+            // Called in p5.js preload() function
+        },
+        
         onSectionStart: () => {
 
         },

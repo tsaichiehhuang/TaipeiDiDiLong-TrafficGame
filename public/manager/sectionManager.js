@@ -11,6 +11,12 @@ const SectionManager = (gameManager) => {
     const section5 = Section5();
     const sections = [section1, section2, section3, section4, section5];
 
+    const preloadSections = () => {
+        sections.forEach(section => {
+            section.preload();
+        });
+    }
+
     const startFirstSection = () => {
         sections[0].onSectionStart();
     };
@@ -32,6 +38,7 @@ const SectionManager = (gameManager) => {
     };
 
     return {
+        preloadSections,
         onSectionChanged,
         drawSections,
         startFirstSection
