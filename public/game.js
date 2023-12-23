@@ -1,78 +1,99 @@
-// 既然始終只有一頁，那就來寫一個長長的 main 叭 > <
+// System  ================================
+const gameManager = new GameManager();
+const eventManager = new EventManager();
+const playerData = new PlayerData();
+const playerController = new PlayerController(); //For demo
 
-// const { text } = require("express");
+// UIs =======================================
+const mainUIController = new MainUIController();
 
-// Managers  ================================
-let gameManager;
+// Sections ================================
+const sectionManager = SectionManager(gameManager);
 
+// Player
+let player; // be created after PlayerController.setup()
 
-// 變數 ===========================================
-let background_img_path = 'images/start.gif'; // 馬路
-let run_status = 0; // 0 是開始，1~無限是要做什麼的執行階段
-
-let score = 0;
-// ===============================================
-
-
-// fuction =======================================
-
-function addScore(value){
-    score += value;
-}
-
-function subScore(value){
-    score -= value;
-    score = Math.max(score, 0); // 最低就是 0 分
-}
-
-/*
- *  繪製分數
- */
-function drawPlayerScore(x, y, size){
-    textSize(size);
-    text(score.toString(), x, y);
-}
+// Objects ========================================
+let car = new Car(); // demo car (moving object)
 
 // p5js ==========================================
 function preload() {
-    gameManager = new GameManager();
     gameManager.preload();
-    background_img = loadImage(background_img_path);
+    mainUIController.preload();
+    sectionManager.preloadSections();
 }
 
 function setup() {
-    createCanvas(1280, 720);
     gameManager.setup();
+    gameManager.addSectionChangedCallback(sectionManager.onSectionChanged);
+
+    mainUIController.setup();
+    mainUIController.setTaskText('測試：三寶上路');
+
+    playerData.onScoreChange((score) => {
+        mainUIController.setScore(score);
+    })
+
+    // Setup player controller and player instance
+    playerController.setup();
+    player = playerController.getPlayer();
+
+    // Demo moving objects
+    car.setup();
+
+    // Start from section 1
+    sectionManager.startFirstSection();
+
+    // Prevent sprites overlayed UI or section text
+    allSprites.autoDraw = false;
 }
 
 function draw() {
-    /* 顯示背景 */
-    background(background_img);
-    
     gameManager.update();
-    
-    drawSprites();
+    gameManager.cameraFollow(player.position);
 
-    /* 畫出分數 */
-    drawPlayerScore(800, 100, 20);
+    camera.on();
+    allSprites.draw();
+    camera.off();
+
+    update();
+
+    sectionManager.drawSections();
+    mainUIController.update();
 }
 
 function keyPressed() {
-    // For demo background speed
-    if (keyCode === UP_ARROW) {
-      gameManager.setBackgroundSpeed(5);
-    } else if (keyCode === DOWN_ARROW) {
-      gameManager.setBackgroundSpeed(-5);
-    }  
+
+    // For demo moving
+    switch (keyCode) {
+        case UP_ARROW:
+            playerController.move('up');
+            break;
+        case DOWN_ARROW:
+            playerController.move('down');  
+            break;
+        case LEFT_ARROW:
+            break;
+        case RIGHT_ARROW:
+            break;
+        default:
+            break;
+    }
 }
 
 function keyReleased() {
-    // For demo background speed
-    gameManager.setBackgroundSpeed(0);
+    // For demo 
+    playerController.move('stop');
 }
 
-function mousePressed(){
+function mousePressed() {
+    // TODO: discussion fullscreen
     fullscreen(true);
 }
 
-// ===============================================
+// fuctions =======================================
+
+// Update values
+function update() {
+    car.update();
+}
