@@ -11,7 +11,8 @@
 管理背景、道路圖片、畫布、目前段落（1~5）
 
 Functions:
-- `getRoadXRange()`: 取得道路的邊界，回傳左界 x 座標和右界的 x 座標
+- `getRoadXRange()`: 取得**只有馬路**的邊界，回傳左界 x 座標和右界的 x 座標
+- `getSteetXRange()`: 取得**馬路 + 人行道**的邊界，回傳左界 x 座標和右界的 x 座標
 - `getVisibleYRange()`: 取得目前畫面上下邊界，回傳上界 y 座標和下屆 y 座標
 - `getSection()`: 取得目前的段落編號（1 ~ 5）
 - `setSection(newSection)`: 設定段落
