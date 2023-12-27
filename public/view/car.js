@@ -16,6 +16,8 @@ class Car {
 		car.vel.y = this.carSpeed;
 		car.text = "對向車，撞到扣分";
 		this.carSprite = car;
+		//load explode image
+		this.explosion = loadImage("../images/explosion.png");
 	}
 
 	update() {
@@ -28,12 +30,15 @@ class Car {
 			this.carSprite.vel.x = min(0, this.carSprite.vel.x + this.acc);
 		}
 
-        if(this.carSprite.collide(playerController.getPlayer()) && !this.collided) {
+        if(this.carSprite.collide(playerController.getPlayer())) {
             playerData.addScore(-1);
             
 			this.collided = true;
 			this.carSprite.vel.x = -5;
 			this.carSprite.vel.y = -3;
+
+			//if the car collides with player, show explosion iamge
+			image(this.explosion, playerController.getPlayer().position.x - playerController.playerWidth, playerController.getPlayer().position.y - playerController.playerHeight, 100, 100);
         } 
 	}
 }

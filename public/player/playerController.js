@@ -21,6 +21,9 @@ class PlayerController {
 
 		// 為了讓玩家的 sprite 在最上面
 		this.playerSprite.autodraw = false;
+
+		//load explode image
+		this.explosion = loadImage("../images/explosion.png");
 	};
 
 	getPlayer = () => {
@@ -47,13 +50,18 @@ class PlayerController {
 		}
 	};
 
-	update = () => { //let player‘s movement range not exceed the road 
+	update = () => { 
+		//let player‘s movement range not exceed the road 
 		let minRoadX = gameManager.getRoadXRange()[0] + this.playerWidth / 2;
 		let maxRoadX = gameManager.getRoadXRange()[1] - this.playerWidth / 2;
 		if(this.playerSprite.position.x < minRoadX) {
+			image(this.explosion, gameManager.getRoadXRange()[0] - this.playerWidth, this.playerSprite.position.y - this.playerHeight , 100, 100);
 			this.playerSprite.position.x = minRoadX;
+			this.playerSprite.velocity.x = 0;
 		} else if(this.playerSprite.position.x > maxRoadX) {
+			image(this.explosion, gameManager.getRoadXRange()[1] - this.playerWidth, this.playerSprite.position.y - this.playerHeight , 100, 100);
 			this.playerSprite.position.x = maxRoadX;
+			this.playerSprite.velocity.x = 0;
 		}
 	}
 }
