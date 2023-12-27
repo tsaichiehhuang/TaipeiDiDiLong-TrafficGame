@@ -73,8 +73,10 @@ function keyPressed() {
             playerController.move('down');  
             break;
         case LEFT_ARROW:
+            playerController.move('left');  
             break;
         case RIGHT_ARROW:
+            playerController.move('right');  
             break;
         default:
             break;
@@ -96,4 +98,5 @@ function mousePressed() {
 // Update values
 function update() {
     car.update();
+    playerController.update(); //let player‘s movement range not exceed the road
 }
