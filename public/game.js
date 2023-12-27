@@ -59,6 +59,7 @@ function draw() {
     update();
 
     sectionManager.drawSections();
+    
     playerController.draw();
     camera.off();
     mainUIController.update();

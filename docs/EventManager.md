@@ -1,17 +1,32 @@
 # EventManager
-EventManager 負責管理事件（關卡，檢舉，情境題，或其他短期發生的事件）
+- EventManager 負責管理事件（關卡，檢舉，情境題，或其他短期事件）
+- 由寫扣的人自行控制事件的開始與結束，EventManager 會幫忙加減分
+- 事件要先定義在 `eventData.js` 之中
 
 ## Event
 > 依照遊戲情境的 google 文件，每個 event（關卡，檢舉，情境題） 都有成功與失敗判定、成功與失敗的分數、以及觸發的機制。
 
-因此每個 Event 可以定義成
+因此每個 Event 定義成：
 - EventId (unique)
 - EventName（方便辨識的名字）
 - EventType (關卡，檢舉，情景，或其他)
 - SuccessScore（事件成功時要加的分數）
 - FailScore（事件失敗時要加的分數）
 
-## How to use
+## 簡介
+- 先在 `eventData.js` 定義一個 event，才會有 eventID
+
+（可能常用的）Functions 簡介:
+- `eventManager.startEvent(eventId, delay = 0)`: 讓某個 event 開始
+- `eventManager.listen(eventId, callback(status))`: 監聽某個事件的狀態改變，只在狀態改變時呼叫一次
+- `eventManager.getCurrentEvent()`: 取得目前的已經開始的 eventIDs
+- `eventManager.successEvent(eventId)`: 讓某個 event 成功地結束，會依據 eventData.js 的定義加分
+- `eventManager.failEvent(eventId)`: 讓某個 event 失敗地結束，會依據 eventData.js 的定義扣分
+- `eventManager.endEvent(eventId)`: 讓某個 event 默默ㄉ結束，不會影響分數
+
+
+
+## How to use (Step by step)
 
 ### 1. 在 `eventData.js` 定義一個 event
 
