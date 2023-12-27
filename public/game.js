@@ -54,11 +54,13 @@ function draw() {
 
     camera.on();
     allSprites.draw();
-    camera.off();
+    
 
     update();
 
     sectionManager.drawSections();
+    playerController.draw();
+    camera.off();
     mainUIController.update();
 }
 
@@ -88,10 +90,6 @@ function keyReleased() {
     playerController.move('stop');
 }
 
-function mousePressed() {
-    // TODO: discussion fullscreen
-    fullscreen(true);
-}
 
 // fuctions =======================================
 

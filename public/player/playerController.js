@@ -18,10 +18,17 @@ class PlayerController {
 		// 'kinematic' colliders can be moved programmatically but not by other sprites. 
 		// They also won't collide with other kinematic colliders.
 		this.playerSprite.collider = 'k';
+
+		// 為了讓玩家的 sprite 在最上面
+		this.playerSprite.autodraw = false;
 	};
 
 	getPlayer = () => {
 		return this.playerSprite;
+	};
+
+	draw = () => {
+		this.playerSprite.draw();
 	};
 
 	move = (direction) => {
