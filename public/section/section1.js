@@ -116,19 +116,6 @@ const Section1 = () => {
             // 在這畫圖會蓋在 player 上面！
         },
 
-
-        drawDuringSection: () => {
-
-        },
-
-        drawAlways: () => {
-            // 不論遊戲的 section 是哪一個，都會執行
-            walker1.update();
-
-            // 路邊紅線停車事件
-            image(this._redLineVio, gameManager.getRoadXRange()[1] - this._redLineVio.width, startPosiY - 750);
-        },
-
         onSectionEnd: () => {
             console.log('Section 1 end');
             // 可能結束所有此 section 的事件
