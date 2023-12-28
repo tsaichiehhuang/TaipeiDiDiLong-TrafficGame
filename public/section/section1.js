@@ -5,11 +5,20 @@ const Section1 = () => {
 
     // Demo walker a in section
     let walker1 = new Walker(startPosY = 100, "第一個行人");
+
+    // get car position y when EVENT_REPORT_RED_LINE_PARKING start
+    let startPosiY;
+
+    // red line violation success var
+    let successVio = false;
     
     return {
         preload: () => {
             // Called in p5.js preload() function
             console.log('Section 1 preload');
+
+            // load red line parking violation img
+            this._redLineVio = loadImage('../images/redLineParking.jpeg');
         },
 
         onSectionStart: () => {
@@ -33,18 +42,25 @@ const Section1 = () => {
 
             // 檢舉：紅線停車
             eventManager.listen(EVENT_REPORT_RED_LINE_PARKING, (status) => { 
+                console.log('Red line event : ' + status);
                 switch(status) {
+                    case EventStatus.START:
+                        // get car y position when status is start
+                        startPosiY = playerController.getPlayer().position.y;
+                        break;
                     case EventStatus.SUCCESS:
                         // Do something
+                        console.log("Report Success!")
                         break;
                     case EventStatus.FAIL:
                         // Do something
+                        console.log("Report Fail!")
                         break;
                 }
             });
 
             // Demo start and success event
-            eventManager.startEvent(EVENT_REPORT_RED_LINE_PARKING); // start immediately
+            eventManager.startEvent(EVENT_REPORT_RED_LINE_PARKING, 4000); // start after 4 second
             eventManager.startEvent(EVENT_LEVEL_TRAFFIC_LIGHT, 1000); // start after 1 second
             eventManager.successEvent(EVENT_LEVEL_TRAFFIC_LIGHT, 6000); // success after 6 seconds
         },
@@ -60,20 +76,33 @@ const Section1 = () => {
             }
 
             if (currentEvents.has(EVENT_REPORT_RED_LINE_PARKING)) {
-                // 檢舉事件相關的東西
+                // Report on time or not
+                if (keyIsDown(32)) {
+                    eventManager.successEvent(EVENT_REPORT_RED_LINE_PARKING);
+                    successVio = true;
+                }else if (playerController.getPlayer().position.y + 50 < startPosiY - 750) {
+                    eventManager.failEvent(EVENT_REPORT_RED_LINE_PARKING);
+                }
+            }
+
+            // Break out the game when report success
+            if(successVio){
+                violationManager.draw("redLineParking");
             }
         },
 
         drawAlways: () => {
             // 不論遊戲的 section 是哪一個，都會執行
             walker1.update();
+
+            // 路邊紅線停車事件
+            image(this._redLineVio, gameManager.getRoadXRange()[1] - this._redLineVio.width, startPosiY - 750);
         },
 
         onSectionEnd: () => {
             console.log('Section 1 end');
             // 可能結束所有此 section 的事件
             // 或是 trigger 下一階段的事件
-            eventManager.endEvent(EVENT_REPORT_RED_LINE_PARKING);
 
             // 清除之後不會再用到的事件 listener
             eventManager.clearListeners([EVENT_REPORT_RED_LINE_PARKING, EVENT_LEVEL_TRAFFIC_LIGHT, EVENT_QA_FLOWER_SELLER])

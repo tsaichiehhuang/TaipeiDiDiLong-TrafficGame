@@ -3,6 +3,7 @@ const gameManager = new GameManager();
 const eventManager = new EventManager();
 const playerData = new PlayerData();
 const playerController = new PlayerController(); //For demo
+const violationManager = new ViolationManager();
 
 // UIs =======================================
 const mainUIController = new MainUIController();
@@ -46,6 +47,9 @@ function setup() {
 
     // Prevent sprites overlayed UI or section text
     allSprites.autoDraw = false;
+
+    // Violation Success
+    violationManager.setup();
 }
 
 function draw() {
@@ -91,6 +95,10 @@ function keyReleased() {
     playerController.move('stop');
 }
 
+function mousePressed() {
+    // TODO: discussion fullscreen
+    // fullscreen(true);
+}
 
 // fuctions =======================================
 
