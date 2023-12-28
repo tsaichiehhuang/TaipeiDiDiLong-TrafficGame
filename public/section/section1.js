@@ -65,30 +65,60 @@ const Section1 = () => {
             eventManager.successEvent(EVENT_LEVEL_TRAFFIC_LIGHT, 6000); // success after 6 seconds
         },
 
-        drawDuringSection: () => {
-            // 只會在遊戲進行到該段落時，一直執行的事件
-            const currentEvents = eventManager.getCurrentEvent();
+        draw: () => {
             
-            // Demo draw based on current event
-            if (currentEvents.has(EVENT_LEVEL_TRAFFIC_LIGHT)) {
-                // 畫紅綠燈的相關遊戲元素
-                text("紅綠燈相關事件...即將加分", 60, 100);
-            }
+            // 不管哪個 section，都會執行
+            // 原本的 drawAlways()
+            // 在這畫圖會畫在 player 底下！
 
-            if (currentEvents.has(EVENT_REPORT_RED_LINE_PARKING)) {
-                // Report on time or not
-                if (keyIsDown(32)) {
-                    eventManager.successEvent(EVENT_REPORT_RED_LINE_PARKING);
-                    successVio = true;
-                }else if (playerController.getPlayer().position.y + 50 < startPosiY - 750) {
-                    eventManager.failEvent(EVENT_REPORT_RED_LINE_PARKING);
+            walker1.update();
+
+            // 路邊紅線停車事件
+            image(this._redLineVio, gameManager.getRoadXRange()[1] - this._redLineVio.width, startPosiY - 750);
+        
+
+            // --------  原本的 drawDuringSection() ----------------
+            // 這裡的程式碼只會在第 1 段執行
+            if(gameManager.getSection() == 1) {
+                
+               console.log('Section 1 draw');
+                const currentEvents = eventManager.getCurrentEvent();
+                
+                // Demo draw based on current event
+                if (currentEvents.has(EVENT_LEVEL_TRAFFIC_LIGHT)) {
+                    // 畫紅綠燈的相關遊戲元素
+                    text("紅綠燈相關事件...即將加分", 60, 100);
                 }
-            }
 
-            // Break out the game when report success
-            if(successVio){
-                violationManager.draw("redLineParking");
+                if (currentEvents.has(EVENT_REPORT_RED_LINE_PARKING)) {
+                    // Report on time or not
+                    if (keyIsDown(32)) {
+                        eventManager.successEvent(EVENT_REPORT_RED_LINE_PARKING);
+                        successVio = true;
+                    }else if (playerController.getPlayer().position.y + 50 < startPosiY - 750) {
+                        eventManager.failEvent(EVENT_REPORT_RED_LINE_PARKING);
+                    }
+                }
+
+                // Break out the game when report success
+                if(successVio){
+                    violationManager.draw("redLineParking");
+                }
+                
+                playerController.draw(); // 畫玩家
+
+                // 在這畫圖會蓋在 player 上面！
             }
+            // -------------------------------------------
+
+
+            // 不管哪個 section，都會執行
+            // 在這畫圖會蓋在 player 上面！
+        },
+
+
+        drawDuringSection: () => {
+
         },
 
         drawAlways: () => {

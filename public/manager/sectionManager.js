@@ -27,14 +27,9 @@ const SectionManager = (gameManager) => {
     };
 
     const drawSections = () => {
-        // Draw always, ignore current section
         sections.forEach(section => {
-            section.drawAlways();
+            section.draw();
         });
-
-        // Draw during section of current section
-        if (gameManager.getSection() >= sections.length) return;
-        sections[gameManager.getSection() - 1].drawDuringSection();
     };
 
     return {

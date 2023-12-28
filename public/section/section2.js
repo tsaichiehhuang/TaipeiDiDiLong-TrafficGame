@@ -11,12 +11,25 @@ const Section2 = () => {
 
         },
 
-        drawDuringSection: () => {
-            // 只會在此 section 一直執行的事件
-        },
+        draw: () => {
+            // 不管哪個 section，都會執行
+            // 原本的 drawAlways()
+            // 在這畫圖會畫在 player 底下！
 
-        drawAlways: () => {
-            // 不論是否在此 section，都會執行
+            if(gameManager.getSection() ==2) {
+                // 原本的 drawDuringSection()
+                // 這裡的程式碼只有在第二段時執行
+                console.log('Section 2 draw');
+
+                // 在這畫圖會畫在 player 底下！
+                
+                playerController.draw(); // 畫玩家
+                
+                // 在這畫圖會蓋在 player 上面！
+            }
+
+            // 不管哪個 section，都會執行
+            // 在這畫圖會蓋在 player 上面！
         },
 
         onSectionEnd: () => {

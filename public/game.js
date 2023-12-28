@@ -54,17 +54,17 @@ function setup() {
 
 function draw() {
     gameManager.update();
+    
     gameManager.cameraFollow(player.position);
 
     camera.on();
-    allSprites.draw();
+    allSprites.draw(); //TODO:這個目前是畫背景，但應該要把把背景拆開來
     
-
+    
     update();
-
+     
     sectionManager.drawSections();
     
-    playerController.draw();
     camera.off();
     mainUIController.update();
 }
