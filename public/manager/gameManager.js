@@ -6,13 +6,19 @@ class GameManager {
 	constructor() {
 		this._roadSprites = [];
 		this._roadImage = null;
+		this._streetImage = null;
+		this._streetSprites = [];
 		this._roadHeight = 600; // road image height
 		this._section = 1; // 1-based, from 1 ~ 5
 		this._sectionChangedCallbacks = [];
 	}
 
 	preload = () => {
+		// 馬路
 		this._roadImage = loadImage("images/road/road_bg.png");
+		// 馬路 + 人行道
+		this._streetImage = loadImage("images/road/street_bg.png");
+
 		this._backgroundImage = loadImage("images/start.gif");
 	};
 
@@ -26,6 +32,11 @@ class GameManager {
 			sprite.addImage(this._roadImage);
 			sprite.collider = 'n'; //none
 			this._roadSprites.push(sprite);
+
+			let streetSprite = createSprite(width / 2, yPos);
+			streetSprite.addImage(this._streetImage);
+			streetSprite.collider = 'n'; //none
+			this._streetSprites.push(streetSprite);
 		}
 	};
 
@@ -64,13 +75,24 @@ class GameManager {
 	}
 	
 	/**
-	 * Return the bounds of the road sprite (minX, maxX)
+	 * 取得只有馬路的 (minX, maxX)
 	 * @returns {number[]} [leftBound, rightBound]
 	 */
 	getRoadXRange = () => {
 		return [
 			this._roadSprites[0].position.x - this._roadSprites[0].width / 2,
 			this._roadSprites[0].position.x + this._roadSprites[0].width / 2,
+		];
+	}
+
+	/**
+	 * 取得馬路 + 人行道的 (minX, maxX)
+	 * @returns {number[]} [leftBound, rightBound]
+	 */
+	getStreetXRange = () => {
+		return [
+			this._streetSprites[0].position.x - this._streetSprites[0].width / 2,
+			this._streetSprites[0].position.x + this._streetSprites[0].width / 2,
 		];
 	}
 
@@ -99,6 +121,8 @@ class GameManager {
 					let nextIndex = (i + 1) % this._roadSprites.length;
 					roadSprite.position.y =
 						this._roadSprites[nextIndex].position.y - this._roadHeight;
+					this._streetSprites[i].position.y = 
+						this._streetSprites[nextIndex].position.y - this._roadHeight;
 				}
 			} else if (player.vel.y > 0) {
 				let isOutOfTopScreen = roadSprite.position.y < minY - halfRoadHeight;
@@ -107,6 +131,8 @@ class GameManager {
 						(i - 1 + this._roadSprites.length) % this._roadSprites.length;
 					roadSprite.position.y =
 						this._roadSprites[prevIndex].position.y + this._roadHeight;
+					this._streetSprites[i].position.y = 
+						this._streetSprites[prevIndex].position.y + this._roadHeight;
 				}
 			}
 		});

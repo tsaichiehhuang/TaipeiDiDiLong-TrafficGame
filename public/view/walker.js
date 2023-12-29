@@ -19,12 +19,20 @@ class Walker {
 		walker.velocity.x = this.walkerSpeed;
 		walker.text = this.text;
 		this.walkerSprites.push(walker);
+
+		this.explosion = loadImage("../images/explosion.png");
 	}
 
 	update() {
 		for (let i = 0; i < this.walkerSprites.length; i++) {
 			if (this.walkerSprites[i].position.x > this.roadMaxX) {
 				this.walkerSprites[i].position.x = this.roadMinX;
+			}
+
+			//check if the walker collides with player
+			if (this.walkerSprites[i].collide(playerController.getPlayer())) {
+				playerData.addScore(-100);
+				image(this.explosion, playerController.getPlayer().position.x - playerController.playerWidth, playerController.getPlayer().position.y - playerController.playerHeight, 100, 100);
 			}
 		}
 	}

@@ -3,6 +3,7 @@ const gameManager = new GameManager();
 const eventManager = new EventManager();
 const playerData = new PlayerData();
 const playerController = new PlayerController(); //For demo
+const violationManager = new ViolationManager();
 
 // UIs =======================================
 const mainUIController = new MainUIController();
@@ -46,19 +47,25 @@ function setup() {
 
     // Prevent sprites overlayed UI or section text
     allSprites.autoDraw = false;
+
+    // Violation Success
+    violationManager.setup();
 }
 
 function draw() {
     gameManager.update();
+    
     gameManager.cameraFollow(player.position);
 
     camera.on();
-    allSprites.draw();
-    camera.off();
-
+    allSprites.draw(); //TODO:這個目前是畫背景，但應該要把把背景拆開來
+    
+    
     update();
-
+     
     sectionManager.drawSections();
+    
+    camera.off();
     mainUIController.update();
 }
 
@@ -73,8 +80,10 @@ function keyPressed() {
             playerController.move('down');  
             break;
         case LEFT_ARROW:
+            playerController.move('left');  
             break;
         case RIGHT_ARROW:
+            playerController.move('right');  
             break;
         default:
             break;
@@ -88,7 +97,7 @@ function keyReleased() {
 
 function mousePressed() {
     // TODO: discussion fullscreen
-    fullscreen(true);
+    // fullscreen(true);
 }
 
 // fuctions =======================================
@@ -96,4 +105,5 @@ function mousePressed() {
 // Update values
 function update() {
     car.update();
+    playerController.update(); //let player‘s movement range not exceed the road
 }
