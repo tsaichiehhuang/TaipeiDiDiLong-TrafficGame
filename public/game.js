@@ -53,13 +53,12 @@ function setup() {
 }
 
 function draw() {
-    gameManager.update();
-    
     gameManager.cameraFollow(player.position);
 
     camera.on();
-    allSprites.draw(); //TODO:這個目前是畫背景，但應該要把把背景拆開來
     
+    gameManager.update(); // 更新背景、畫背景
+    allSprites.draw(); // 畫所有物件
     
     update();
      

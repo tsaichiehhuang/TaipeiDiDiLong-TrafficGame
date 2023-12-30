@@ -34,20 +34,29 @@ class GameManager {
 	setup = () => {
 		createCanvas(GAME_WIDTH, GAME_HEIGHT);
 
+		let group = new Group();
+
 		// Make multiple roads, so they can look like scrolling
 		for (let i = 0; i < 3; i++) {
 			let yPos = i * this._roadHeight;
-			let sprite = createSprite(width / 2, yPos);
-			sprite.addImage(this._roadImage);
-			sprite.collider = 'n'; //none
-			this._roadSprites.push(sprite);
 
-			let streetSprite = createSprite(width / 2, yPos);
-			streetSprite.addImage(this._streetImage);
-			streetSprite.collider = 'n'; //none
-			this._streetSprites.push(streetSprite);
+			this._createRoadSprite(group, width / 2, yPos, this._roadImage, this._roadSprites);
+			this._createRoadSprite(group, width / 2, yPos, this._streetImage, this._streetSprites);
 		}
+
+		this._backgroundGroup = group;
 	};
+
+	_createRoadSprite = (group, x, y, img, array) => {
+		let sprite = new group.Sprite(x, y);
+		sprite.addImage(img);
+		sprite.collider = 'n'; //none
+
+		this.autoDraw = false; // 自己決定什麼時候畫，不要自動畫
+		allSprites.remove(sprite); // 從 allSprites (default group) 中移除
+		
+		array.push(sprite);
+	}
 
 	update = () => {
 		/* 顯示背景 */
@@ -57,6 +66,8 @@ class GameManager {
 		if(this._isCheckingNextSectionDistance) {
 			this._checkIfShouldNextSection();
 		}
+		// Draw roads
+		this._backgroundGroup.draw();
 	};
 
 	getSection = () => {
@@ -128,7 +139,7 @@ class GameManager {
 	 *  	// 在一個段落的所有的事件完成後
 	 *  	gameManager.nextSectionAfterScreenHeight();
 	 * 
-	 * @param {*} screenHeightCount 要往上走幾個螢幕高度後，才會進入下一個 section
+	 * @param {number} screenHeightCount 要往上走幾個螢幕高度後，才會進入下一個 section
 	 */
 	nextSectionAfterScreenHeight = (screenHeightCount = 3) => {
 		if(this._isCheckingNextSectionDistance) {
@@ -157,24 +168,24 @@ class GameManager {
 
 	// Check if the road needs to be repositioned based on scroll direction
 	_repositionRoadsIfNeed = () => {
-		let player = playerController.getPlayer();
-		let [minY, maxY] = this.getVisibleYRange();
-		this._roadSprites.forEach((roadSprite, i) => {
-			let halfRoadHeight = this._roadHeight / 2;
+		if(player.vel.y === 0) return;
 
-			if (player.vel.y < 0) {
-				let isOutOfBottomScreen =
-					roadSprite.position.y > maxY + halfRoadHeight;
-				if (isOutOfBottomScreen) {
+		if (player.vel.y < 0) {
+			this._roadSprites.forEach((roadSprite, i) => {
+				let isVisible = roadSprite.visible;
+				if (!isVisible) {
 					let nextIndex = (i + 1) % this._roadSprites.length;
 					roadSprite.position.y =
 						this._roadSprites[nextIndex].position.y - this._roadHeight;
 					this._streetSprites[i].position.y = 
 						this._streetSprites[nextIndex].position.y - this._roadHeight;
 				}
-			} else if (player.vel.y > 0) {
-				let isOutOfTopScreen = roadSprite.position.y < minY - halfRoadHeight;
-				if (isOutOfTopScreen) {
+			})
+		}
+		else if(player.vel.y > 0) {
+			this._roadSprites.forEach((roadSprite, i) => {
+				let isVisible = roadSprite.visible;
+				if (!isVisible) {
 					let prevIndex =
 						(i - 1 + this._roadSprites.length) % this._roadSprites.length;
 					roadSprite.position.y =
@@ -182,7 +193,7 @@ class GameManager {
 					this._streetSprites[i].position.y = 
 						this._streetSprites[prevIndex].position.y + this._roadHeight;
 				}
-			}
-		});
+			})
+		}
 	};
 }
