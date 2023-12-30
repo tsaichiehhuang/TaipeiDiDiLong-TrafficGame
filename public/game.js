@@ -70,6 +70,7 @@ function draw() {
 }
 
 function keyPressed() {
+    if(gameManager.isEnded()) return;
 
     // For demo moving
     switch (keyCode) {
@@ -91,6 +92,8 @@ function keyPressed() {
 }
 
 function keyReleased() {
+    if(gameManager.isEnded()) return;
+
     // For demo 
     playerController.move('stop');
 }

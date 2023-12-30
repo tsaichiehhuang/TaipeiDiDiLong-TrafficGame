@@ -9,7 +9,8 @@ const SectionManager = (gameManager) => {
     const section3 = Section3();
     const section4 = Section4();
     const section5 = Section5();
-    const sections = [section1, section2, section3, section4, section5];
+    const sectionEnd = SectionEnd(); // 結束畫面
+    const sections = [section1, section2, section3, section4, section5, sectionEnd];
 
     const preloadSections = () => {
         sections.forEach(section => {

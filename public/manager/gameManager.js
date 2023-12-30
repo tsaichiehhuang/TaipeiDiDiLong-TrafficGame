@@ -107,6 +107,13 @@ class GameManager {
 		]
 	}
 
+	/**
+	 * @returns {boolean} true if the game is ended
+	 */
+	isEnded = () => {
+		return this._section === 6;
+	}
+
 	// Check if the road needs to be repositioned based on scroll direction
 	_repositionRoadsIfNeed = () => {
 		let player = playerController.getPlayer();
