@@ -11,6 +11,15 @@ class GameManager {
 		this._roadHeight = 600; // road image height
 		this._section = 1; // 1-based, from 1 ~ 5
 		this._sectionChangedCallbacks = [];
+
+		// For nextSectionAfterScreenHeight()
+		// 紀錄玩家一開始的位置
+		this._nextSectionStartY = 0;
+		// 是否有在等待進入下一個 section
+		this._isCheckingNextSectionDistance = false;
+		// 要走幾個螢幕高度後，才會進入下一個 section
+		this._nextSectionHeightCount = 3;
+
 	}
 
 	preload = () => {
@@ -44,6 +53,10 @@ class GameManager {
 		/* 顯示背景 */
 		background(this._backgroundImage);
 		this._repositionRoadsIfNeed();
+
+		if(this._isCheckingNextSectionDistance) {
+			this._checkIfShouldNextSection();
+		}
 	};
 
 	getSection = () => {
@@ -108,10 +121,38 @@ class GameManager {
 	}
 
 	/**
+	 *  要切換到下一個 section 時呼叫此 function，
+	 *  會等玩家走了 n 個螢幕高度後，自動切換到下一個 section
+	 *  
+	 * Example:
+	 *  	// 在一個段落的所有的事件完成後
+	 *  	gameManager.nextSectionAfterScreenHeight();
+	 * 
+	 * @param {*} screenHeightCount 要往上走幾個螢幕高度後，才會進入下一個 section
+	 */
+	nextSectionAfterScreenHeight = (screenHeightCount = 3) => {
+		if(this._isCheckingNextSectionDistance) {
+			console.log("[WARN] 已經在等待進入下一個 section 了!")
+			return;
+		}
+		this._nextSectionHeightCount = screenHeightCount;
+		this._nextSectionStartY = playerController.getPlayer().position.y;
+		this._isCheckingNextSectionDistance = true;
+	}
+
+	/**
 	 * @returns {boolean} true if the game is ended
 	 */
 	isEnded = () => {
 		return this._section === 6;
+	}
+
+	_checkIfShouldNextSection = () => {
+		// 如果玩家已經走了 n 個螢幕高度
+		if(playerController.getPlayer().position.y <= this._nextSectionStartY - height * this._nextSectionHeightCount) {
+			this.setSection(this._section + 1);
+			this._isCheckingNextSectionDistance = false;
+		}
 	}
 
 	// Check if the road needs to be repositioned based on scroll direction
