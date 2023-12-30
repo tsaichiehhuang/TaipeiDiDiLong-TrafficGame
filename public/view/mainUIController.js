@@ -86,11 +86,20 @@ class MainUIController {
 		// 依照速度畫出指針
 		let angle = this._speedToAngle(player.vel);
 		this.flipper.rotateTo(angle, 5);
+
+		// 畫出時速
+		textSize(30);
+		textAlign(CENTER, CENTER);
+		strokeWeight(0);
+		fill(this.speedColor);
+		
+		// 四捨五入速度
+		text(round(player.vel.mag()), this.speedPos.x, this.speedPos.y + 40);
 	}
 
 	_speedToAngle = (speed) => { 
 		let minSpeed = 0;
-		let maxSpeed = 5; // TODO: 配合玩家的速度上限調整
+		let maxSpeed = sqrt(50); // TODO: 配合玩家的速度上限調整, sqrt(5^2 + 5^2)
 		let speedMag = speed.mag();
 		return map(speedMag, minSpeed, maxSpeed, 0, 180);
 	}
