@@ -4,6 +4,8 @@ const eventManager = new EventManager();
 const playerData = new PlayerData();
 const playerController = new PlayerController(); //For demo
 const violationManager = new ViolationManager();
+const runRedLightManager = new RunRedLightManager();
+const questionManager = new QuestionManager();
 
 // UIs =======================================
 const mainUIController = new MainUIController();
@@ -19,91 +21,89 @@ let car = new Car(); // demo car (moving object)
 
 // p5js ==========================================
 function preload() {
-    gameManager.preload();
-    mainUIController.preload();
-    sectionManager.preloadSections();
+  gameManager.preload();
+  mainUIController.preload();
+  sectionManager.preloadSections();
 }
 
 function setup() {
-    gameManager.setup();
-    gameManager.addSectionChangedCallback(sectionManager.onSectionChanged);
+  gameManager.setup();
+  gameManager.addSectionChangedCallback(sectionManager.onSectionChanged);
 
-    mainUIController.setup();
-    mainUIController.setTaskText('測試：三寶上路');
+  mainUIController.setup();
+  mainUIController.setTaskText("測試：三寶上路");
 
-    playerData.onScoreChange((score) => {
-        mainUIController.setScore(score);
-    })
+  playerData.onScoreChange((score) => {
+    mainUIController.setScore(score);
+  });
 
-    // Setup player controller and player instance
-    playerController.setup();
-    player = playerController.getPlayer();
+  // Setup player controller and player instance
+  playerController.setup();
+  player = playerController.getPlayer();
 
-    // Demo moving objects
-    car.setup();
+  // Demo moving objects
+  car.setup();
 
-    // Start from section 1
-    sectionManager.startFirstSection();
+  // Start from section 1
+  sectionManager.startFirstSection();
 
-    // Prevent sprites overlayed UI or section text
-    allSprites.autoDraw = false;
+  // Prevent sprites overlayed UI or section text
+  allSprites.autoDraw = false;
 
-    // Violation Success
-    violationManager.setup();
+  // Violation Success
+  violationManager.setup();
 }
 
 function draw() {
-    gameManager.update();
-    
-    gameManager.cameraFollow(player.position);
+  gameManager.update();
 
-    camera.on();
-    allSprites.draw(); //TODO:這個目前是畫背景，但應該要把把背景拆開來
-    
-    
-    update();
-     
-    sectionManager.drawSections();
-    
-    camera.off();
-    mainUIController.update();
+  gameManager.cameraFollow(player.position);
+
+  camera.on();
+  allSprites.draw(); //TODO:這個目前是畫背景，但應該要把把背景拆開來
+
+  update();
+
+  sectionManager.drawSections();
+
+  camera.off();
+  mainUIController.update();
 }
 
 function keyPressed() {
-
-    // For demo moving
-    switch (keyCode) {
-        case UP_ARROW:
-            playerController.move('up');
-            break;
-        case DOWN_ARROW:
-            playerController.move('down');  
-            break;
-        case LEFT_ARROW:
-            playerController.move('left');  
-            break;
-        case RIGHT_ARROW:
-            playerController.move('right');  
-            break;
-        default:
-            break;
-    }
+  // For demo moving
+  switch (keyCode) {
+    case UP_ARROW:
+      playerController.move("up");
+      break;
+    case DOWN_ARROW:
+      playerController.move("down");
+      break;
+    case LEFT_ARROW:
+      playerController.move("left");
+      break;
+    case RIGHT_ARROW:
+      playerController.move("right");
+      break;
+    default:
+      break;
+  }
 }
 
 function keyReleased() {
-    // For demo 
-    playerController.move('stop');
+  // For demo
+  playerController.move("stop");
 }
 
 function mousePressed() {
-    // TODO: discussion fullscreen
-    // fullscreen(true);
+  // TODO: discussion fullscreen
+  // fullscreen(true);
 }
 
 // fuctions =======================================
 
 // Update values
 function update() {
-    car.update();
-    playerController.update(); //let player‘s movement range not exceed the road
+  car.update();
+  playerController.update(); //let player‘s movement range not exceed the road
 }
