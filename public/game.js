@@ -31,6 +31,7 @@ function setup() {
     mainUIController.setup();
     mainUIController.setTaskText('測試：三寶上路');
 
+    mainUIController.setScore(playerData.getScore()); // 設定 UI 上的分數
     playerData.onScoreChange((score) => {
         mainUIController.setScore(score);
     })
@@ -56,7 +57,7 @@ function draw() {
     gameManager.cameraFollow(player.position);
 
     camera.on();
-    
+
     gameManager.update(); // 更新背景、畫背景
     allSprites.draw(); // 畫所有物件
     
