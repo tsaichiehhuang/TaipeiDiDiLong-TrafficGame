@@ -33,6 +33,9 @@ class MainUIController {
 	}
 
 	update = () => {
+		if(gameManager.isEnded()) {
+			return;
+		}
 		push();
 		this._drawTaskText();
 		this._drawScore();

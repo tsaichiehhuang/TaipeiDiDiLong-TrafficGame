@@ -7,6 +7,7 @@ const SectionEnd = () => {
     return {
         preload: () => {
             // Called in p5.js preload() function
+            endUIController.preload();
         },
         
         onSectionStart: () => {
