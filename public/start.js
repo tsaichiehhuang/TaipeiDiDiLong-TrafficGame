@@ -20,14 +20,14 @@ function setup() {
 
     // button:遊戲介紹
     intro_button = createImg(intro_game_button_path);
-    intro_button.position(500, 600);
+    intro_button.position(530, 600);
     intro_button.mousePressed(() => intro_started = true);
     intro_button.mouseOver(() => intro_button.attribute('src', intro_game_button_path.replace('1.png', '2.png')));
     intro_button.mouseOut(() => intro_button.attribute('src', intro_game_button_path));
 
     // button:遊戲開始
     start_button = createImg(game_started_button_path);
-    start_button.position(500, 500);
+    start_button.position(530, 500);
     start_button.mousePressed(() => game_started = true);
     start_button.mouseOver(() => start_button.attribute('src', game_started_button_path.replace('1.png', '2.png')));
     start_button.mouseOut(() => start_button.attribute('src', game_started_button_path));
