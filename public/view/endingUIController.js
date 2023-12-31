@@ -58,7 +58,7 @@ class EndingUIController {
      * 根據分數，顯示不同的文字評語
      */
     _generateTextByScore = (score) => {
-
+        score -= playerData.initScore; // TODO: 最後檢查分數條件
         if (score <= 4) {
             return `你很有三寶潛力，還是不要上路比較好^_^`;
         }
