@@ -11,6 +11,7 @@ const EventType = {
 const EVENT_REPORT_RED_LINE_PARKING = 'event_id_report_red_line_parking';
 const EVENT_LEVEL_TRAFFIC_LIGHT = 'event_id_level_traffic_light';
 const EVENT_QA_FLOWER_SELLER = 'event_id_flower_seller';
+const EVENT_REPORT_RUNNING_RED_LIGHT = 'event_id_report_running_red_light';
 
 // Section2
 // etc...
@@ -33,5 +34,11 @@ const _eventsMap = {
     "EventType": EventType.QA,
     "SuccessScore": 1,
     "FailScore": -1
+  },
+  [EVENT_REPORT_RUNNING_RED_LIGHT]: {
+    "EventName": "檢舉_闖紅燈",
+    "EventType": EventType.REPORT,
+    "SuccessScore": 1,
+    "FailScore": -0.5
   }
 };

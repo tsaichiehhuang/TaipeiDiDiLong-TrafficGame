@@ -7,10 +7,13 @@ const Section1 = () => {
     let walker1 = new Walker(startPosY = 100, "第一個行人");
 
     // get car position y when EVENT_REPORT_RED_LINE_PARKING start
-    let startPosiY;
+    let RedLineParkingStart_PosiY;
 
     // red line violation success var
-    let successVio = false;
+    let successVio_RedLineParking = false;
+
+    // report success var
+    let showImgAndText;
     
     return {
         preload: () => {
@@ -45,12 +48,12 @@ const Section1 = () => {
                 console.log('Red line event : ' + status);
                 switch(status) {
                     case EventStatus.START:
-                        // get car y position when status is start
-                        startPosiY = playerController.getPlayer().position.y;
+                        // get car y position when red line parking status is start
+                        RedLineParkingStart_PosiY = playerController.getPlayer().position.y;
                         break;
                     case EventStatus.SUCCESS:
                         // Do something
-                        console.log("Report Success!")
+                        console.log("Report Success!");
                         break;
                     case EventStatus.FAIL:
                         // Do something
@@ -60,28 +63,27 @@ const Section1 = () => {
             });
 
             // Demo start and success event
-            eventManager.startEvent(EVENT_REPORT_RED_LINE_PARKING, 4000); // start after 4 second
-            eventManager.startEvent(EVENT_LEVEL_TRAFFIC_LIGHT, 1000); // start after 1 second
-            eventManager.successEvent(EVENT_LEVEL_TRAFFIC_LIGHT, 6000); // success after 6 seconds
+            eventManager.startEvent(EVENT_REPORT_RED_LINE_PARKING, 3000); // start after 4 second(Red Light Parking)
+            eventManager.startEvent(EVENT_LEVEL_TRAFFIC_LIGHT, 6000); // start after 6 second(Traffic Light)
+            eventManager.successEvent(EVENT_LEVEL_TRAFFIC_LIGHT, 7000); // success after 7 seconds(Success Traffic Light)
         },
 
         draw: () => {
             
+            // --------  原本的 drawAlways() ----------------
             // 不管哪個 section，都會執行
-            // 原本的 drawAlways()
             // 在這畫圖會畫在 player 底下！
 
             walker1.update();
 
-            // 路邊紅線停車事件
-            image(this._redLineVio, gameManager.getRoadXRange()[1] - this._redLineVio.width, startPosiY - 750);
-        
+            // trigger red line parking img
+            image(this._redLineVio, gameManager.getRoadXRange()[1] - this._redLineVio.width, RedLineParkingStart_PosiY - 750);
 
             // --------  原本的 drawDuringSection() ----------------
             // 這裡的程式碼只會在第 1 段執行
             if(gameManager.getSection() == 1) {
                 
-               console.log('Section 1 draw');
+                console.log('Section 1 draw');
                 const currentEvents = eventManager.getCurrentEvent();
                 
                 // Demo draw based on current event
@@ -90,28 +92,30 @@ const Section1 = () => {
                     text("紅綠燈相關事件...即將加分", 60, 100);
                 }
 
+                // Report on time or not when red line parking event start
                 if (currentEvents.has(EVENT_REPORT_RED_LINE_PARKING)) {
-                    // Report on time or not
                     if (keyIsDown(32)) {
                         eventManager.successEvent(EVENT_REPORT_RED_LINE_PARKING);
-                        successVio = true;
-                    }else if (playerController.getPlayer().position.y + 50 < startPosiY - 750) {
-                        eventManager.failEvent(EVENT_REPORT_RED_LINE_PARKING);
+                        showImgAndText = true;
+                        successVio_RedLineParking = true;
+                    }else if (playerController.getPlayer().position.y + 50 < RedLineParkingStart_PosiY - 750) {
+                        eventManager.endEvent(EVENT_REPORT_RED_LINE_PARKING);
                     }
-                }
-
-                // Break out the game when report success
-                if(successVio){
-                    violationManager.draw("redLineParking");
                 }
                 
                 playerController.draw(); // 畫玩家
 
                 // 在這畫圖會蓋在 player 上面！
+
+                // Break out the game when report success
+                if(successVio_RedLineParking) {
+                    violationManager.draw("redLineParking", showImgAndText);
+                    setTimeout(() => {
+                        successVio_RedLineParking = false;
+                    }, 2000);
+                }
             }
-            // -------------------------------------------
-
-
+            // ------------------------------------------- 
             // 不管哪個 section，都會執行
             // 在這畫圖會蓋在 player 上面！
         },
