@@ -57,6 +57,9 @@ function setup() {
 
     // Violation Success
     violationManager.setup();
+
+    // 開始紀錄所有與玩家碰撞的 sprite 的最新碰撞點
+    recordPlayerCollidePoint(car);
 }
 
 function draw() {

@@ -75,11 +75,11 @@ class PlayerController {
 		let minRoadX = gameManager.getRoadXRange()[0] + this.playerWidth / 2;
 		let maxRoadX = gameManager.getRoadXRange()[1] - this.playerWidth / 2;
 		if(this.playerSprite.position.x < minRoadX) {
-			image(this.explosion, gameManager.getRoadXRange()[0] - this.playerWidth, this.playerSprite.position.y - this.playerHeight , 100, 100);
+			image(this.explosion, gameManager.getRoadXRange()[0] - this.playerWidth / 2, this.playerSprite.position.y - this.playerHeight / 2 , 100, 100);
 			this.playerSprite.position.x = minRoadX;
 			this.playerSprite.velocity.x = 0;
 		} else if(this.playerSprite.position.x > maxRoadX) {
-			image(this.explosion, gameManager.getRoadXRange()[1] - this.playerWidth, this.playerSprite.position.y - this.playerHeight , 100, 100);
+			image(this.explosion, gameManager.getRoadXRange()[1] - this.playerWidth / 2, this.playerSprite.position.y - this.playerHeight / 2, 100, 100);
 			this.playerSprite.position.x = maxRoadX;
 			this.playerSprite.velocity.x = 0;
 		}
