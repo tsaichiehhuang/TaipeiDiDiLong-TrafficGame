@@ -7,8 +7,11 @@ class GameManager {
 		this._roadSprites = [];
 		this._roadImage = null;
 		this._streetImage = null;
-		this._streetSprites = [];
-		this._roadHeight = 600; // road image height
+		this._sidewalkSprites = [];
+		this._bgSprites = []; // 最外層的背景
+
+		// 720 會有一點很小的縫縫
+		this._roadHeight = 719; // road image height
 		this._section = 1; // 1-based, from 1 ~ 5
 		this._sectionChangedCallbacks = [];
 
@@ -24,7 +27,12 @@ class GameManager {
 
 	preload = () => {
 		// 馬路
-		this._roadImage = loadImage("images/road/road_bg.png");
+		this._roadImages = [
+			loadImage("images/road/Road_1.png"),
+			loadImage("images/road/Road_2.png"),
+		]
+		this._sidewalkImage = loadImage("images/road/Sidewalk.png");
+
 		// 馬路 + 人行道
 		this._streetImage = loadImage("images/road/street_bg.png");
 
@@ -37,11 +45,11 @@ class GameManager {
 		let group = new Group();
 
 		// Make multiple roads, so they can look like scrolling
-		for (let i = 0; i < 3; i++) {
+		for (let i = 0; i < 4; i++) {
 			let yPos = i * this._roadHeight;
-
-			this._createRoadSprite(group, width / 2, yPos, this._roadImage, this._roadSprites);
-			this._createRoadSprite(group, width / 2, yPos, this._streetImage, this._streetSprites);
+			let imageIndx = i % this._roadImages.length;
+			this._createRoadSprite(group, width / 2, yPos, this._sidewalkImage, this._sidewalkSprites);
+			this._createRoadSprite(group, width / 2, yPos, this._roadImages[imageIndx], this._roadSprites);
 		}
 
 		this._backgroundGroup = group;
@@ -103,10 +111,7 @@ class GameManager {
 	 * @returns {number[]} [leftBound, rightBound]
 	 */
 	getRoadXRange = () => {
-		return [
-			this._roadSprites[0].position.x - this._roadSprites[0].width / 2,
-			this._roadSprites[0].position.x + this._roadSprites[0].width / 2,
-		];
+		return [425, 855]; // 用 figma 量的
 	}
 
 	/**
@@ -114,10 +119,7 @@ class GameManager {
 	 * @returns {number[]} [leftBound, rightBound]
 	 */
 	getStreetXRange = () => {
-		return [
-			this._streetSprites[0].position.x - this._streetSprites[0].width / 2,
-			this._streetSprites[0].position.x + this._streetSprites[0].width / 2,
-		];
+		return [270, 1010]; // 用 figma 量的
 	}
 
 	/**
@@ -177,8 +179,10 @@ class GameManager {
 					let nextIndex = (i + 1) % this._roadSprites.length;
 					roadSprite.position.y =
 						this._roadSprites[nextIndex].position.y - this._roadHeight;
-					this._streetSprites[i].position.y = 
-						this._streetSprites[nextIndex].position.y - this._roadHeight;
+					
+					this._sidewalkSprites[i].position.y = 
+						this._sidewalkSprites[nextIndex].position.y - this._roadHeight;
+
 				}
 			})
 		}
@@ -190,8 +194,10 @@ class GameManager {
 						(i - 1 + this._roadSprites.length) % this._roadSprites.length;
 					roadSprite.position.y =
 						this._roadSprites[prevIndex].position.y + this._roadHeight;
-					this._streetSprites[i].position.y = 
-						this._streetSprites[prevIndex].position.y + this._roadHeight;
+
+					this._sidewalkSprites[i].position.y = 
+						this._sidewalkSprites[prevIndex].position.y + this._roadHeight;
+
 				}
 			})
 		}
