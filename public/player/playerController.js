@@ -4,16 +4,29 @@
 class PlayerController {
 
 	constructor() {
-		this.playerWidth = 50
-		this.playerHeight = 50;
 		this.playerSpeed = 5;
-		this.playerSprite = null;
+		this.playerImg = null;
+		this.playerSizeOffset = -20; // 讓 player 的範圍較小一點，去掉透明的區域
 	}
+	
+	preload = () =>{
+		this.playerImg = loadImage("images/player/player.png");
+		//load explode image
+		this.explosion = loadImage("../images/explosion.png");
+	};
 
 	setup = () => {
-		this.playerSprite = createSprite(width / 2, height - 50, this.playerWidth, this.playerHeight);
-		this.playerSprite.color = color(0, 150, 255);
+		this.playerWidth = this.playerImg.width + this.playerSizeOffset;
+		this.playerHeight = this.playerImg.height + this.playerSizeOffset;
+
+		this.playerSprite = new Sprite(width / 2, height - 50, this.playerWidth, this.playerHeight);
+		this.playerSprite.img = this.playerImg;
 		
+		this.playerSprite.removeColliders();
+		this.playerSprite.addCollider(0, 0, 35, 225) // 比較長型的
+		this.playerSprite.addCollider(0, -30, 100, 80) // 比較寬的
+		this.playerSprite.mass = 5; // 大概是車子的 1/3
+	
 		// From p5play doc:
 		// 'kinematic' colliders can be moved programmatically but not by other sprites. 
 		// They also won't collide with other kinematic colliders.
@@ -24,10 +37,13 @@ class PlayerController {
 		this.playerSprite.rotationLock = true;
 
 		// 為了讓玩家的 sprite 在最上面
-		this.playerSprite.autodraw = false;
+		this.playerSprite.autoDraw = false;
 
-		//load explode image
-		this.explosion = loadImage("../images/explosion.png");
+		// 如果沒 remove 的話， allSprites.draw() 會再畫第二次 player
+		allSprites.remove(this.playerSprite);
+
+		// Debug 用，可以看到 player 的 collider
+		this.playerSprite.debug = true;
 	};
 
 	getPlayer = () => {

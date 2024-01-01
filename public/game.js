@@ -27,6 +27,7 @@ function preload() {
     sectionManager.preloadSections();
     carImages = preloadCarImages();
     car.preload();
+    playerController.preload();
 }
 
 function setup() {
