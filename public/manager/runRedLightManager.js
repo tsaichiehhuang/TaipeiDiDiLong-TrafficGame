@@ -21,7 +21,7 @@ class RunRedLightManager {
       textSize(30);
 
       // 判斷有沒有違規
-      if (status == "stopped") {
+      if (status === "stopped") {
         text(
           "好棒！你有遵守紅綠燈，加1分！",
           xCurrPosi - 200,

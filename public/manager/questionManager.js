@@ -2,13 +2,13 @@ class QuestionManager {
   constructor() {
     this.questions = [
       {
-        question: "在雙向 2 車道上「欲」超越前行車，發現對向有來車，你應該？",
+        question: "在雙向兩車道上「欲」超越前行車，發現對向有來車，你應該？",
         options: [
           "(1) 立即減速放棄超車",
           "(2) 馬上加速搶先超越",
           "(3) 按鳴喇叭，促來車減速或避讓",
         ],
-        answer: 0,
+        answer: 1,
       },
       {
         question: "行人穿越馬路時，未禮讓行人通過最高可罰？",
@@ -17,7 +17,7 @@ class QuestionManager {
       },
       {
         question:
-          "機車駕駛人行駛於道路時，以手持方式使用行動電話、電腦或其他相類功能裝置進行撥接、通話、數據通訊或其他有礙駕駛安全之行為者，處新臺幣？",
+          "機車駕駛人行駛於道路時，以手持方式使用行動電話、電腦或其他相類功能裝置\n進行撥接、通話、數據通訊或其他有礙駕駛安全之行為者，處新臺幣？",
         options: ["(1) 1,000 元", "(2) 1,500 元", "(3) 2,000 元罰鍰"],
         answer: 1,
       },
@@ -101,59 +101,39 @@ class QuestionManager {
     return this.currentQuestion;
   };
 
-  getCorrectAnswer = () => {
-    if (this.currentQuestion) {
-      return this.currentQuestion.answer;
-    }
-    return null;
-  };
-
-  draw = (text) => {
-    // 在畫面中間顯示情境題框框，要包含依據不同觸發情境的傳進來的招呼語（text）、題目以及選項按鈕
+  draw = ({ greeting }) => {
+    let xCurrPosi =
+      (gameManager.getRoadXRange()[0] + gameManager.getRoadXRange()[1]) / 2;
+    let yCurrPosi =
+      (gameManager.getVisibleYRange()[0] + gameManager.getVisibleYRange()[1]) /
+      2;
 
     // 情境題框框
+    rectMode(CENTER);
     fill(255, 255, 255, 200);
-    rect(width / 2 - 300, height / 2 - 200, 600, 400);
+    const isMultiLine = this.currentQuestion.question.split("\n").length >= 1;
+    rect(xCurrPosi, yCurrPosi, 800, isMultiLine ? 450 : 400);
 
     // 招呼語
-    textSize(30);
+    textSize(20);
+    textAlign(CENTER, CENTER);
+    //行高
+    textLeading(20 * 1.5);
     fill(0);
-    text(text, width / 2 - 260, height / 2 - 150, 500, 100);
+    //顯示在框框裡
+    text(greeting, xCurrPosi, yCurrPosi - 125, 780, 100);
 
     // 題目
-    textSize(20);
     fill(0);
-    text(
-      this.currentQuestion.question,
-      width / 2 - 260,
-      height / 2 - 100,
-      500,
-      100
-    );
+    text(this.currentQuestion.question, xCurrPosi, yCurrPosi - 50, 780, 100);
 
     // 選項按鈕，要有 hover 效果，按下去要有反應
-    textSize(20);
     fill(0);
-    text(
-      this.currentQuestion.options[0],
-      width / 2 - 260,
-      height / 2 - 50,
-      500,
-      100
-    );
-    text(
-      this.currentQuestion.options[1],
-      width / 2 - 260,
-      height / 2,
-      500,
-      100
-    );
-    text(
-      this.currentQuestion.options[2],
-      width / 2 - 260,
-      height / 2 + 50,
-      500,
-      100
-    );
+    textSize(16);
+    textLeading(16 * 1.5);
+    this.currentQuestion.options.forEach((option, index) => {
+      const yNewPosi = isMultiLine ? yCurrPosi + 50 : yCurrPosi;
+      text(option, xCurrPosi, yNewPosi + index * 50, 780, 100);
+    });
   };
 }
