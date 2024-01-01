@@ -17,11 +17,16 @@ let player; // be created after PlayerController.setup()
 // Objects ========================================
 let car = new Car(); // demo car (moving object)
 
+// Shared Images
+let carImages;
+
 // p5js ==========================================
 function preload() {
     gameManager.preload();
     mainUIController.preload();
     sectionManager.preloadSections();
+    carImages = preloadCarImages();
+    car.preload();
 }
 
 function setup() {
