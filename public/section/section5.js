@@ -17,7 +17,7 @@ const Section5 = () => {
             // Called in p5.js preload() function
 
             // load running red light violation img
-            this._redLightVio = loadImg('../images/redLineParking.jpeg');
+            this._redLightVio = loadImage('../images/redLineParking.jpeg');
         },
         
         onSectionStart: () => {
