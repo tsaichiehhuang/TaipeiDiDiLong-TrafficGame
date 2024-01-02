@@ -8,19 +8,22 @@
 - `game.js` 是個一般的 p5.js ，包含了 preload -> setup -> draw(loop)
 - 因為我們遊戲有分 5 段，所以希望能將各個段落的 code 寫在對應的 section1.js , section2.js, section3.js ...中
 - 因此 `game.js` 的 draw() 裡會做以下事情：
-    -  畫**目前段落**的 `drawDuringSection()`
-        - 根據目前的段落(`gameManager.getSection()`)，去執行對應段落的 code
-        - 例如：遊戲會從段落 1 開始，game.js 的 draw() 就會重複執行 `section1.js` 的 `drawDuringSection()`，不會執行其他 section 的  `drawDuringSection()`
-    - 畫每個段落的 `drawAlways()`
-        - 不論目前的段落是多少， section1 ~ section5 的 `drawAlways()` 通通都會在 game.js 的 `draw()` 一直執行
-    - 畫玩家操控的角色、遊戲的共用 UI （分數、任務等等）、背景的道路
+    -  呼叫**所有段落**的 `draw()`
+        - 每個 draw() 裡面包含畫玩家的地方：
+        ```js
+        playerController.draw();
+        ```
+        - 每個 draw() 裡都有「進行到這個 section 時才做的事情」，跟「不論在哪個 section 都會執行」的
+        ![Screenshot](images/image_section_draw.jpg)
+
+- `game.js` 還會畫遊戲的共用 UI （分數、任務等等）、背景的道路
 
 ### 寫扣的情境
 - **如果要寫某一個段落的事情** -> 寫在對應的 section1 ~ 5.js
     - 每個 sectionX.js 可以看作是一個 p5.js 的 preload -> setup -> draw(有分兩種)
     - sectinoX.js 的 draw 有分兩種：
-        - `drawDuringSection()`: 只有處在那個 section 時才 draw ：適合寫只限那個 section 的判斷邏輯
-        - `drawAlways()`: 不管 section 是多少，都會 draw：適合畫東西，不會因為 section 結束而消失
+        - `if(gameManager.getSection() ==目前 section)`: 只有處在那個 section 時才 draw ：適合寫只限那個 section 的判斷邏輯
+        - 其他： 不管 section 是多少，都會 draw：適合畫東西，不會因為 section 結束而消失
 - **如果要寫與段落無關、貫穿整個遊戲的東西** -> 可以寫在 game.js
     - 例如會一直有車冒出來、有行人冒出來、或是其他 UI
 
@@ -41,7 +44,7 @@
 - PlayerController: 負責畫玩家、控制玩家（藍色方塊）
 - MainUIController: 負責畫最上面圖層的 UI，包含：分數、任務、警告等等
 - SectionManager: 負責畫目前的段落
-- section1-5.js: 定義了各個段落的 preload, onSectionStart（段落開始時呼叫一次）, drawDuringSection（段落執行時 draw）, drawAlways（不管段落是多少都 draw）
+- section1-5.js: 定義了各個段落的 preload, onSectionStart（段落開始時呼叫一次）, draw（同 p5.js）, onSectionEnd（段落結束時呼叫一次）
     - **主要寫扣的地方！**
 
 ### 只跟資料/狀態有關，沒有畫圖
@@ -61,6 +64,7 @@ Functions:
 - `getRoadXRange()`: 取得**只有馬路**的邊界，回傳左界 x 座標和右界的 x 座標
 - `getSteetXRange()`: 取得**馬路 + 人行道**的邊界，回傳左界 x 座標和右界的 x 座標
 - `getVisibleYRange()`: 取得目前畫面上下邊界，回傳上界 y 座標和下屆 y 座標
+- `nextSectionAfterScreenHeight()`: 呼叫此 function 後，會在玩家往上走了 3 個螢幕高度後，切換成下一個 section
 
 以下較少用：
 - `getSection()`: 取得目前的段落編號（1 ~ 5）
@@ -76,9 +80,7 @@ Functions:
 Functions:
 - `preload`: 在 p5.js 的 preload 執行一次
 - `onSectionStart`: Section 開始時觸發一次
-- `drawDuringSection`: 在該 Section 進行時重複執行
-- `drawAlways`: 不論 Section 為何，都會一直執行（相當於寫在 p5.js draw 裡面）
-    - 例如前面留下的車禍現場或是停車格等等不應該因 section 結束就消失的東西
+- `draw`: 不論 section 是多少，都會重複執行
 - `onSectionEnd`: Section 結束時觸發一次
 
 ### `MainUIController`

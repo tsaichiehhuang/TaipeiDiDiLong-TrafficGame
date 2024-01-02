@@ -1,10 +1,12 @@
 class PlayerData {
   constructor() {
-    this._score = 0;
     this._trafficTickets = []; // 罰單們
 
     this._scoreCallbacks = new Map();
     this._nextCallbackId = 0;
+
+    this.initScore = 500; // 初始分數
+    this._score = this.initScore;
   }
 
   addTrafficTicket = (title, amount) => {
@@ -17,7 +19,7 @@ class PlayerData {
       return;
     }
     this._score += scoreChange;
-    // this._score = Math.max(this._score, 0); // 最低就是 0 分
+    this._score = Math.max(this._score, 0); // 最低就是 0 分
 
     this._scoreCallbacks.forEach((callback) => {
       callback(this._score);

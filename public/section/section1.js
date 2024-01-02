@@ -9,7 +9,9 @@ const Section1 = () => {
   let startPosiY;
 
   // red line violation success var
-  let successVio = false;
+  let successVio_RedLineParking = false;
+
+  let showImgAndText;
 
   // red light success and image position
   let trafficLightImg;
@@ -47,7 +49,7 @@ const Section1 = () => {
         console.log("Red line event : " + status);
         switch (status) {
           case EventStatus.START:
-            // get car y position when status is start
+            // get car y position when red line parking status is start
             startPosiY = playerController.getPlayer().position.y;
             break;
           case EventStatus.SUCCESS:
@@ -70,7 +72,7 @@ const Section1 = () => {
             trafficLightImg = this._yellowLightImg;
             setTimeout(() => {
               trafficLightImg = this._redLightImg;
-            }, 1500);
+            }, 1000);
             break;
           case EventStatus.SUCCESS:
             // 停紅綠燈 0.5 秒後觸發玉蘭花情境題
@@ -129,7 +131,7 @@ const Section1 = () => {
 
       walker1.update();
 
-      // 路邊紅線停車事件
+      // trigger red line parking img
       image(
         this._redLineVio,
         gameManager.getRoadXRange()[1] - this._redLineVio.width,
@@ -161,25 +163,27 @@ const Section1 = () => {
         console.log("Section 1 draw");
         const currentEvents = eventManager.getCurrentEvent();
 
+        // Demo draw based on current event
+        if (currentEvents.has(EVENT_LEVEL_TRAFFIC_LIGHT)) {
+          // 畫紅綠燈的相關遊戲元素
+          text("紅綠燈相關事件...即將加分", 60, 100);
+        }
+
+        // Report on time or not when red line parking event start
         if (currentEvents.has(EVENT_REPORT_RED_LINE_PARKING)) {
-          // Report on time or not
           if (keyIsDown(32)) {
             eventManager.successEvent(EVENT_REPORT_RED_LINE_PARKING);
-            successVio = true;
+            showImgAndText = true;
+            successVio_RedLineParking = true;
           } else if (
             playerController.getPlayer().position.y + 50 <
             startPosiY - 750
           ) {
-            eventManager.failEvent(EVENT_REPORT_RED_LINE_PARKING);
+            eventManager.endEvent(EVENT_REPORT_RED_LINE_PARKING);
           }
         }
 
-        // Break out the game when report success
-        if (successVio) {
-          violationManager.draw("redLineParking");
-        }
-
-        // 紅綠燈事件
+        // Traffic light event
         if (currentEvents.has(EVENT_LEVEL_TRAFFIC_LIGHT)) {
           const isPlayerStopped = playerController.getPlayer().velocity.y === 0;
 
@@ -220,6 +224,13 @@ const Section1 = () => {
         playerController.draw(); // 畫玩家
 
         // 在這畫圖會蓋在 player 上面！
+        if (successVio_RedLineParking) {
+          violationManager.draw("redLineParking", showImgAndText);
+          setTimeout(() => {
+            successVio_RedLineParking = false;
+          }, 2000);
+        }
+
         if (showQaQuestion) {
           questionManager.draw({
             greeting:

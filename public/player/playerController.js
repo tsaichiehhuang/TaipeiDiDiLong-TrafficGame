@@ -21,7 +21,11 @@ class PlayerController {
     // From p5play doc:
     // 'kinematic' colliders can be moved programmatically but not by other sprites.
     // They also won't collide with other kinematic colliders.
-    this.playerSprite.collider = "k";
+    // this.playerSprite.collider = 'k';
+
+    // 一開始是 collider = kinematic，但會讓 player 無法與其他 collider （車子）自然地碰撞
+    // rotationLock = true 可以讓 player 不會因碰撞就旋轉
+    this.playerSprite.rotationLock = true;
 
     // 為了讓玩家的 sprite 在最上面
     this.playerSprite.autodraw = false;

@@ -19,11 +19,16 @@ let player; // be created after PlayerController.setup()
 // Objects ========================================
 let car = new Car(); // demo car (moving object)
 
+// Shared Images
+let carImages;
+
 // p5js ==========================================
 function preload() {
   gameManager.preload();
   mainUIController.preload();
   sectionManager.preloadSections();
+  carImages = preloadCarImages();
+  car.preload();
 }
 
 function setup() {
@@ -33,6 +38,7 @@ function setup() {
   mainUIController.setup();
   mainUIController.setTaskText("測試：三寶上路");
 
+  mainUIController.setScore(playerData.getScore()); // 設定 UI 上的分數
   playerData.onScoreChange((score) => {
     mainUIController.setScore(score);
   });
@@ -55,12 +61,12 @@ function setup() {
 }
 
 function draw() {
-  gameManager.update();
-
   gameManager.cameraFollow(player.position);
 
   camera.on();
-  allSprites.draw(); //TODO:這個目前是畫背景，但應該要把把背景拆開來
+
+  gameManager.update(); // 更新背景、畫背景
+  allSprites.draw(); // 畫所有物件
 
   update();
 
@@ -71,6 +77,8 @@ function draw() {
 }
 
 function keyPressed() {
+  if (gameManager.isEnded()) return;
+
   // For demo moving
   switch (keyCode) {
     case UP_ARROW:
@@ -91,6 +99,8 @@ function keyPressed() {
 }
 
 function keyReleased() {
+  if (gameManager.isEnded()) return;
+
   // For demo
   playerController.move("stop");
 }
