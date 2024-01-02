@@ -112,6 +112,7 @@ const Section1 = () => {
               trafficLightImg = this._greenLightImg;
             }, 500);
             console.log("Flower seller Success!");
+            gameManager.nextSectionAfterScreenHeight();
             break;
           case EventStatus.FAIL:
             // 玉蘭花情境題失敗時，過0.5秒後變回綠燈
@@ -119,6 +120,7 @@ const Section1 = () => {
               trafficLightImg = this._greenLightImg;
             }, 500);
             console.log("Flower seller Fail!");
+            gameManager.nextSectionAfterScreenHeight();
             break;
         }
       });
@@ -218,6 +220,11 @@ const Section1 = () => {
             // 停在玩家前面，顯示情境題
             flowerSellerX = playerController.getPlayer().position.x - 50;
             showQaQuestion = true;
+
+            setTimeout(() => {
+              eventManager.successEvent(EVENT_QA_FLOWER_SELLER);
+              showQaQuestion = false;
+            }, 2000);
           }
         }
 

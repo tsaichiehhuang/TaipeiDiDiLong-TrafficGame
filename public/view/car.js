@@ -50,12 +50,16 @@ class Car {
 		}
 
         if(this.carSprite.collide(playerController.getPlayer())) {
-            playerData.addScore(-1);
-            
+			playerData.addScore(-1);
+
 			this.collided = true;
 
+			// 因為玩家的形狀後來不是正方形，所以放煙火的位置改到兩者碰撞點
+			let collidedPoint = getCollidedPlayerPoint(this.carSprite);
+			let effectSize = 100;
+
 			//if the car collides with player, show explosion iamge
-			image(this.explosion, playerController.getPlayer().position.x - playerController.playerWidth, playerController.getPlayer().position.y - playerController.playerHeight, 100, 100);
-        } 
+			image(this.explosion, collidedPoint.x - effectSize / 2, collidedPoint.y - effectSize / 2, effectSize, effectSize);
+		} 
 	}
 }

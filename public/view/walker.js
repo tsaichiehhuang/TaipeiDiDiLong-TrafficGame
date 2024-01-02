@@ -32,7 +32,12 @@ class Walker {
 			//check if the walker collides with player
 			if (this.walkerSprites[i].collide(playerController.getPlayer())) {
 				playerData.addScore(-100);
-				image(this.explosion, playerController.getPlayer().position.x - playerController.playerWidth, playerController.getPlayer().position.y - playerController.playerHeight, 100, 100);
+
+				// 因為玩家的形狀後來不是正方形，所以放煙火的位置改到兩者碰撞點
+				let collidedPoint = getCollidedPlayerPoint(this.walkerSprites[i]);
+				let effectSize = 100;
+			
+				image(this.explosion, collidedPoint.x - effectSize / 2, collidedPoint.y - effectSize / 2, effectSize, effectSize);
 			}
 		}
 	}
