@@ -4,6 +4,7 @@ const GAME_HEIGHT = 720;
 // Control the background and section
 class GameManager {
 	constructor() {
+		this.cameraYOffest = -200;
 		this._roadSprites = [];
 		this._roadImage = null;
 		this._streetImage = null;
@@ -26,6 +27,14 @@ class GameManager {
 	}
 
 	preload = () => {
+		// 背景（綠色草部分）
+		this._bgImages = [
+			loadImage("images/road/background/Road1.png"),
+			loadImage("images/road/background/Road2.png"),
+			loadImage("images/road/background/Road3.png"),
+			loadImage("images/road/background/Road4.png"),
+		];
+
 		// 馬路
 		this._roadImages = [
 			loadImage("images/road/Road_1.png"),
@@ -44,6 +53,13 @@ class GameManager {
 
 		let group = new Group();
 
+		// Make background
+		let yPos =  (-this._bgImages[0].height - this.cameraYOffest) / 2  + height + 10;
+		for(let i = 0; i < this._bgImages.length; i++) {
+			this._createRoadSprite(group, width / 2, yPos, this._bgImages[i], this._bgSprites);
+			yPos -= this._bgImages[i].height;
+		}
+
 		// Make multiple roads, so they can look like scrolling
 		for (let i = 0; i < 4; i++) {
 			let yPos = i * this._roadHeight;
@@ -60,7 +76,7 @@ class GameManager {
 		sprite.addImage(img);
 		sprite.collider = 'n'; //none
 
-		this.autoDraw = false; // 自己決定什麼時候畫，不要自動畫
+		sprite.autoDraw = false; // 自己決定什麼時候畫，不要自動畫
 		allSprites.remove(sprite); // 從 allSprites (default group) 中移除
 		
 		array.push(sprite);
@@ -102,8 +118,7 @@ class GameManager {
 	 */
 	cameraFollow = (followPoint) => {
 		// Set camera follow player on y axis
-		let offsetY = -200;
-		camera.y = followPoint.y + offsetY;
+		camera.y = followPoint.y + this.cameraYOffest;;
 	}
 	
 	/**
