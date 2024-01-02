@@ -1,11 +1,17 @@
 class EndingUIController {
     constructor() {
+        this.state = 0; // 0: 分數結算, 1: 封底
     }
 
     preload = () => {
         this._backgroundImage = loadImage('images/ending/end_bg.png');
         this._replayButtonImageDefault = loadImage('images/ending/end_button_default.png');
         this._replayButtonImagePressed = loadImage('images/ending/end_button_pressed.png');
+        this._endingsImgs = [
+            loadImage('images/ending/Ending3.png'),
+            loadImage('images/ending/Ending2.png'),
+            loadImage('images/ending/Ending1.png'),
+        ]
     }
 
     setup = () => {
@@ -18,22 +24,41 @@ class EndingUIController {
             this._replayButtonImageDefault, this._replayButtonImagePressed, buttonOnClick);
     }
 
+    _scoreSize = (score) => {
+        switch(score.toString().length) {
+            case 1:
+                return 60;
+            case 2:
+                return 50;
+            case 3:
+                return 40;
+            default: // 也太多
+                return 30;
+        }
+    }
+
     show = (score, tickets) => {
         push();
-        background(this._backgroundImage);
+        
+        if(this.state == 0) {
+            background(this._bgByScore(score));
+            fill(255);
+            textFont('Comic Sans MS');
+            textSize(this._scoreSize(score));
+            text(score, 810, 290);
 
-        this._button.display();
-
-        // // 底色
-        // noStroke();
-        // rectMode(CENTER);
-        // fill(246, 247, 251);
-        // let radius = 40; // 圓角
-        // rect(width/2, height/2, width * 0.7, height * 0.7, radius, radius, radius, radius);
-        // // 字色
-        // fill(60);
-        // this._showTexts([`分數: ${score}`, this._generateTextByScore(score), this._genereateTicketText(tickets)]);
-        // pop();
+            let continueText = "(任意處點擊後繼續)"
+            fill(200);
+            textSize(16);
+            text(continueText, width/2 - textWidth(continueText)/2, height - 70);
+            
+            if(mouseIsPressed) {
+                this.state = 1;
+            }
+        } else {
+            background(this._backgroundImage);
+            this._button.display();
+        }
     }
 
 
@@ -54,7 +79,19 @@ class EndingUIController {
         return text;
     }
 
+    _bgByScore = (score) => {
+        score -= playerData.initScore; // TODO: 最後檢查分數條件
+        if (score <= 4) {
+            return this._endingsImgs[0];
+        }
+        if (score <= 9) {
+            return this._endingsImgs[1];
+        }
+        return this._endingsImgs[2];
+    }
+
     /**
+     * 目前沒使用，直接用圖
      * 根據分數，顯示不同的文字評語
      */
     _generateTextByScore = (score) => {
