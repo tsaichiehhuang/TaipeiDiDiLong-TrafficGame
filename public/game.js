@@ -16,9 +16,6 @@ const sectionManager = SectionManager(gameManager);
 // Player
 let player; // be created after PlayerController.setup()
 
-// Objects ========================================
-let car = new Car(); // demo car (moving object)
-
 // Shared Images
 let carImages;
 
@@ -28,7 +25,6 @@ function preload() {
   mainUIController.preload();
   sectionManager.preloadSections();
   carImages = preloadCarImages();
-  car.preload();
   playerController.preload();
 }
 
@@ -48,9 +44,6 @@ function setup() {
   playerController.setup();
   player = playerController.getPlayer();
 
-  // Demo moving objects
-  car.setup();
-
   // Start from section 1
   sectionManager.startFirstSection();
 
@@ -61,7 +54,8 @@ function setup() {
   violationManager.setup();
 
   // 開始紀錄所有與玩家碰撞的 sprite 的最新碰撞點
-  recordPlayerCollidePoint(car);
+  recordPlayerCollidePoint();
+
 }
 
 function draw() {
@@ -134,6 +128,5 @@ function mousePressed() {
 
 // Update values
 function update() {
-  car.update();
   playerController.update(); //let player‘s movement range not exceed the road
 }

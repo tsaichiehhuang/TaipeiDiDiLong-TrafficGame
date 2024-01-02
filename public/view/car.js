@@ -28,13 +28,15 @@ class Car {
 		this.explosion = loadImage("../images/explosion.png");
 	}
 
-	setup(startY = - 50) {
-		let car = new Sprite(width/2, startY);
+	setup(startX = width/2, startY = height/4) {
+		let car = new Sprite(startX, startY);
 		car.img = carImages[this.carType - 1];
 		car.w += this.colliderOffset;
 		car.h += this.colliderOffset;
 		car.vel.y = this.carSpeed;
 		car.debug = true; // TODO: remove this debug feature
+		car.autoDraw = false;
+		allSprites.remove(car);
 		car.mass = 15;
 		car.rotationLock = true; // 車被撞之後旋轉有點怪
 		this.carSprite = car;
@@ -49,6 +51,8 @@ class Car {
 			this.carSprite.vel.x = min(0, this.carSprite.vel.x + this.acc);
 		}
 
+		this.carSprite.draw();
+		
         if(this.carSprite.collide(playerController.getPlayer())) {
 			playerData.addScore(-1);
 

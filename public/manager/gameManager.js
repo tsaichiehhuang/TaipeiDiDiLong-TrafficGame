@@ -154,6 +154,15 @@ class GameManager {
 			this._bgSprites[0].position.y + this._bgSprites[0].h / 2
 		]
 	};
+	
+	/**
+	 * 取得兩條路的中心 X 位置
+	 * @returns {number[]} [左邊那條路的中心, 右邊那條路的中心]
+	 */
+	getRoadCenterXs = () => {
+		let roadWidth = 433; // figma 量 
+		return [width/2 - roadWidth/4, width/2 + roadWidth/4];
+	}
 
 	// 判斷 player 的螢幕畫面是否已經到最上面
 	canPlayerSeeTopMost = (velY = 0) => {
