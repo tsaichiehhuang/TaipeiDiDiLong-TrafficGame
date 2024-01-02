@@ -22,6 +22,7 @@ class GameManager {
 		// 要走幾個螢幕高度後，才會進入下一個 section
 		this._nextSectionHeightCount = 3;
 
+		this.isCameraFollowPlayer = true;
 	}
 
 	preload = () => {
@@ -110,6 +111,8 @@ class GameManager {
 	 * @param {p5.vector} followPoint 
 	 */
 	cameraFollow = (followPoint) => {
+		if(!this.isCameraFollowPlayer) return;
+
 		// Set camera follow player on y axis
 		camera.y = followPoint.y + this.cameraYOffest;;
 	}
@@ -139,6 +142,28 @@ class GameManager {
 			camera.position.y - height / 2,
 			camera.position.y + height / 2
 		]
+	}
+
+	/**
+	 * 依據背景圖片，取得遊戲的 y 範圍
+	 * @returns {number[]} [minY, maxY]
+	 */
+	getGameYRange = () => {
+		return [
+			this._bgSprites[this._bgSprites.length - 1].position.y - this._bgSprites[this._bgSprites.length - 1].h / 2,
+			this._bgSprites[0].position.y + this._bgSprites[0].h / 2
+		]
+	};
+
+	// 判斷 player 的螢幕畫面是否已經到最上面
+	canPlayerSeeTopMost = (velY = 0) => {
+		let screenTopY = gameManager.getVisibleYRange()[0];
+		let minY = gameManager.getGameYRange()[0];
+		return (screenTopY + velY <= minY);
+	}
+
+	setCameraFollowPlayer = (isFollowing) => {
+		this.isCameraFollowPlayer = isFollowing
 	}
 
 	/**

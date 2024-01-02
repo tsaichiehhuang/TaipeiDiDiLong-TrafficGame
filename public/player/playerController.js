@@ -87,5 +87,34 @@ class PlayerController {
       this.playerSprite.position.x = maxRoadX;
       this.playerSprite.velocity.x = 0;
     }
+
+    // 檢查玩家是否超過我們整條道路的上下範圍    
+    let [screenTopY, screenBottomY] = gameManager.getVisibleYRange();
+    let [minY, maxY] = gameManager.getGameYRange();    // For debug: minY = -33727,  maxY 830
+    if(screenBottomY + this.playerSprite.velocity.y >= maxY) {
+      // console.log("玩家移動不能超過底部");
+      this.playerSprite.velocity.y = Math.min(this.playerSprite.velocity.y, 0);
+    } else if(screenTopY + this.playerSprite.velocity.y <= minY) {
+      // console.log("玩家移動不能超出最上邊界")
+      if( (this.playerSprite.position.y+ this.playerSprite.velocity.y - this.playerHeight / 2) <= minY) {
+        this.playerSprite.velocity.y = Math.max(this.playerSprite.velocity.y, 0);
+      }
+    }
+
+    if(gameManager.canPlayerSeeTopMost(this.playerSprite.velocity.y)) {
+      // 在最頂部時，解除鏡頭跟隨玩家
+      if(gameManager.isCameraFollowPlayer) {
+        gameManager.setCameraFollowPlayer(false);
+        camera.y = (minY + height/2);
+      }
+    }
+
+    if(!gameManager.isCameraFollowPlayer) {
+      // 當玩家離開最頂部區域時，恢復鏡頭跟隨
+      if((this.playerSprite.position.y  + this.playerSprite.velocity.y >= minY + height/2 - gameManager.cameraYOffest)){
+        gameManager.setCameraFollowPlayer(true);
+      }
+    }
+
   };
 }
