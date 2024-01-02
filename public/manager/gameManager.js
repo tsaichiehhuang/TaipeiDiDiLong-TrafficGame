@@ -8,7 +8,6 @@ class GameManager {
 		this._roadSprites = [];
 		this._roadImage = null;
 		this._streetImage = null;
-		this._sidewalkSprites = [];
 		this._bgSprites = []; // 最外層的背景
 
 		// 720 會有一點很小的縫縫
@@ -40,7 +39,6 @@ class GameManager {
 			loadImage("images/road/Road_1.png"),
 			loadImage("images/road/Road_2.png"),
 		]
-		this._sidewalkImage = loadImage("images/road/Sidewalk.png");
 
 		// 馬路 + 人行道
 		this._streetImage = loadImage("images/road/street_bg.png");
@@ -57,14 +55,13 @@ class GameManager {
 		let yPos =  (-this._bgImages[0].height - this.cameraYOffest) / 2  + height + 10;
 		for(let i = 0; i < this._bgImages.length; i++) {
 			this._createRoadSprite(group, width / 2, yPos, this._bgImages[i], this._bgSprites);
-			yPos -= this._bgImages[i].height;
+			yPos -= (this._bgImages[i].height - 1); // 不減 1 會有一點點ㄉ縫縫
 		}
 
 		// Make multiple roads, so they can look like scrolling
 		for (let i = 0; i < 4; i++) {
 			let yPos = i * this._roadHeight;
 			let imageIndx = i % this._roadImages.length;
-			this._createRoadSprite(group, width / 2, yPos, this._sidewalkImage, this._sidewalkSprites);
 			this._createRoadSprite(group, width / 2, yPos, this._roadImages[imageIndx], this._roadSprites);
 		}
 
@@ -195,8 +192,6 @@ class GameManager {
 					roadSprite.position.y =
 						this._roadSprites[nextIndex].position.y - this._roadHeight;
 					
-					this._sidewalkSprites[i].position.y = 
-						this._sidewalkSprites[nextIndex].position.y - this._roadHeight;
 
 				}
 			})
@@ -209,9 +204,6 @@ class GameManager {
 						(i - 1 + this._roadSprites.length) % this._roadSprites.length;
 					roadSprite.position.y =
 						this._roadSprites[prevIndex].position.y + this._roadHeight;
-
-					this._sidewalkSprites[i].position.y = 
-						this._sidewalkSprites[prevIndex].position.y + this._roadHeight;
 
 				}
 			})
