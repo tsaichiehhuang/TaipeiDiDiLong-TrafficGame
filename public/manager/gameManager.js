@@ -7,7 +7,6 @@ class GameManager {
 		this.cameraYOffest = -200;
 		this._roadSprites = [];
 		this._roadImage = null;
-		this._streetImage = null;
 		this._bgSprites = []; // 最外層的背景
 
 		// 720 會有一點很小的縫縫
@@ -39,9 +38,6 @@ class GameManager {
 			loadImage("images/road/Road_1.png"),
 			loadImage("images/road/Road_2.png"),
 		]
-
-		// 馬路 + 人行道
-		this._streetImage = loadImage("images/road/street_bg.png");
 
 		this._backgroundImage = loadImage("images/start.gif");
 	};
