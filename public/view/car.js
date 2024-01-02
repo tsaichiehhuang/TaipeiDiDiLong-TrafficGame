@@ -1,6 +1,6 @@
 function preloadCarImages() {
 	const carImages = [];
-	for (let i = 1; i <= 6; i++) {
+	for (let i = 1; i <= 5; i++) {
 		carImages.push(loadImage(`../images/objects/car/Car_${i}.png`));
 	}
 	return carImages;
@@ -16,10 +16,10 @@ class Car {
 		this.carSpeed = -0.5;
         this.collided = false;
 		this.acc = 0.125;
-		this.colliderOffset = -25;
+		this.colliderOffset = -20;
 		
 		if(carType === null) {
-			this.carType = Math.floor(Math.random() * 6) + 1;
+			this.carType = Math.floor(Math.random() * 5) + 1;
 		}
 	}
 	
