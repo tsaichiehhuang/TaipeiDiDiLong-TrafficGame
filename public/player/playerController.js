@@ -27,8 +27,8 @@ class PlayerController {
     this.playerSprite.img = this.playerImg;
 
     this.playerSprite.removeColliders();
-    this.playerSprite.addCollider(0, 0, 35, 225); // 比較長型的
-    this.playerSprite.addCollider(0, -30, 100, 80); // 比較寬的
+    this.playerSprite.addCollider(0, 0, 30, 170); // 比較長型的
+    this.playerSprite.addCollider(0, -30, 80, 55); // 比較寬的
     this.playerSprite.mass = 5; // 大概是車子的 1/3
 
     // From p5play doc:
