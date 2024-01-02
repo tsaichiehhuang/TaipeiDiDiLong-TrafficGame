@@ -3,8 +3,8 @@ let showImgAndText = true;
 class ViolationManager {
 
     setup = () => {
-        this._realredLineParkingVio = loadImage('../images/start.gif'); // "redLineParking"
-        this._realrunningRedLightVio = loadImage('../images/start.gif'); // "runningRedLight"
+        this._realredLineParkingVio = loadImage('../images/section1/Warn1.png'); // "redLineParking"
+        this._realrunningRedLightVio = loadImage('../images/section5/Warn5.png'); // "runningRedLight"
     };
 
     draw = (whichViolation, showImgAndText) => {

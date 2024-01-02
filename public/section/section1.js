@@ -1,6 +1,6 @@
 // A demo of section
 const Section1 = () => {
-  let sectionVariable = "This is a variable in Section1 scope";
+    let sectionVariable = "This is a variable in Section1 scope";
 
   // Demo walker a in section
   let walker1 = new Walker((startPosY = 100), "第一個行人");
@@ -29,10 +29,10 @@ const Section1 = () => {
       console.log("Section 1 preload");
 
       // load red line parking violation img
-      this._redLineVio = loadImage("../images/redLineParking.jpeg");
-      this._redLightImg = loadImage("../images/redLight.png");
-      this._yellowLightImg = loadImage("../images/yellowLight.png");
-      this._greenLightImg = loadImage("../images/greenLight.png");
+      this._redLineVio = loadImage("../images/road/Wrong1.png");
+      this._redLightImg = loadImage("../images/traffic light/Red.png");
+      this._yellowLightImg = loadImage("../images/traffic light/Yellow.png");
+      this._greenLightImg = loadImage("../images/traffic light/Green.png");
       this._crosswalkImg = loadImage("../images/crosswalk.png");
       this._flowerSellert = loadImage("../images/flowerSellert.png");
     },
@@ -41,8 +41,8 @@ const Section1 = () => {
       walker1.setup(gameManager.getRoadXRange());
 
       // Demo start and success event
-      eventManager.startEvent(EVENT_REPORT_RED_LINE_PARKING, 3000); // start after 4 second
-      eventManager.startEvent(EVENT_LEVEL_TRAFFIC_LIGHT, 6000);
+      eventManager.startEvent(EVENT_REPORT_RED_LINE_PARKING, 5000); // start after 4 second
+      eventManager.startEvent(EVENT_LEVEL_TRAFFIC_LIGHT, 8000);
 
       // 檢舉：紅線停車
       eventManager.listen(EVENT_REPORT_RED_LINE_PARKING, (status) => {
@@ -136,8 +136,8 @@ const Section1 = () => {
       // trigger red line parking img
       image(
         this._redLineVio,
-        gameManager.getRoadXRange()[1] - this._redLineVio.width,
-        startPosiY - 750
+        gameManager.getStreetXRange()[0]+8,
+        startPosiY - 900
       );
 
       // 紅綠燈＆斑馬線
@@ -224,7 +224,7 @@ const Section1 = () => {
             setTimeout(() => {
               eventManager.successEvent(EVENT_QA_FLOWER_SELLER);
               showQaQuestion = false;
-            }, 2000);
+            }, 3000);
           }
         }
 
