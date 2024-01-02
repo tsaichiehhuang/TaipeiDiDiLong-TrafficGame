@@ -81,6 +81,21 @@ function draw() {
 function keyPressed() {
     if(gameManager.isEnded()) return;
 
+    // Report Wrong
+    if(keyIsDown(32)) {
+        const currentEvents = eventManager.getCurrentEvent();
+        for(let eachEvent of currentEvents) {
+            console.log("currentEvent -> "+ eachEvent);
+        }
+        if (!currentEvents.has((
+            EVENT_REPORT_RED_LINE_PARKING ||
+            EVENT_REPORT_RUNNING_RED_LIGHT
+            ))) {
+                playerData.addScore(-0.5);
+                console.log("fail report -0.5");
+        }
+    }
+
     // For demo moving
     switch (keyCode) {
         case UP_ARROW:
