@@ -10,6 +10,7 @@ class MainUIController {
 
 	preload = () => {
 		this.pointerImage = loadImage('images/main_ui/speed_pointer.png');
+		this.pointerCircleImg = loadImage('images/main_ui/Speed.png');
 	}
 
 	setup = () => {
@@ -17,19 +18,21 @@ class MainUIController {
 		textSize(20);
 		fill(255);
 
-		this.speedPos = createVector(width - 110, height - 100);
-		this.speedColor = color(214, 76, 76);
-		this.speedSize = 150 // 儀表板大小
-		this.speedWeight = 15; // 儀表板外匡粗細
+		this.speedPos = createVector(width - 360, height - 55); // Figma 量的
 
-		let pointerW =  75;
-		let pointerH =  20;
-		let flipper = new Sprite(this.speedPos.x, this.speedPos.y, pointerW, pointerH, 'n');
-		flipper.img = this.pointerImage;
-		flipper.offset.x = -pointerW/2;
+		let circle = new Sprite(camera.x,  camera.y, 'n');
+		circle.img = this.pointerCircleImg;
+		this.circle = circle;
+		allSprites.remove(circle);
+
+		let flipper = new Sprite(this.speedPos.x, this.speedPos.y, 'n');
+		flipper.img = this.pointerImage;		
+		let pointerW =  flipper.img.width;
+
+		flipper.offset.x = -(pointerW/2 - 5) ;
 		this.flipper = flipper;
 
-		allSprites.remove(flipper); // TODO
+		allSprites.remove(flipper);
 	}
 
 	update = () => {
@@ -37,13 +40,15 @@ class MainUIController {
 			return;
 		}
 		push();
+		
 		this._drawTaskText();
 		this._drawScore();
 		if (this.showAlertFlag) {
 			this._drawAlert();
 		}
 		this._drawSpeed();
-		this.flipper.draw();	
+		this.circle.draw();	
+		this.flipper.draw(); // 指針
 		pop();
 	}
 
@@ -79,25 +84,16 @@ class MainUIController {
 	}
 
 	_drawSpeed = () => {
-		// 畫出圓形外框
-		stroke(this.speedColor);
-		strokeWeight(this.speedWeight);
-		noFill();
-		let offsetAngle = 15;
-		arc(this.speedPos.x, this.speedPos.y, this.speedSize, this.speedSize, 180 - offsetAngle, 360 + offsetAngle);
-
 		// 依照速度畫出指針
 		let angle = this._speedToAngle(player.vel);
 		this.flipper.rotateTo(angle, 5);
 
 		// 畫出時速
-		textSize(30);
-		textAlign(CENTER, CENTER);
-		strokeWeight(0);
-		fill(this.speedColor);
-		
+		// textSize(30);
+		// textAlign(CENTER, CENTER);
+		// strokeWeight(0);
 		// 四捨五入速度
-		text(round(player.vel.mag()), this.speedPos.x, this.speedPos.y + 40);
+		// text(round(player.vel.mag()), this.speedPos.x, this.speedPos.y + 40);
 	}
 
 	_speedToAngle = (speed) => { 
