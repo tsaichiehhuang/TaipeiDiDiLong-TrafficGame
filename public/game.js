@@ -110,6 +110,7 @@ function keyPressed() {
     default:
       break;
   }
+  mainUIController.setArrowKeyIsDown(keyCode, true);
 }
 
 function keyReleased() {
@@ -117,6 +118,8 @@ function keyReleased() {
 
   // For demo
   playerController.move("stop");
+  
+  mainUIController.setArrowKeyIsDown(keyCode, false);
 }
 
 function mousePressed() {

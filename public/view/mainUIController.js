@@ -6,11 +6,23 @@ class MainUIController {
 		this.alertText = '';
 		this.showAlertFlag = false;
 		this.pointerImage = null;
+		
+		// up, down, left, right
+		this.arrowKeyIsDown = [false, false, false, false];
 	}
 
 	preload = () => {
 		this.pointerImage = loadImage('images/main_ui/speed_pointer.png');
 		this.pointerCircleImg = loadImage('images/main_ui/Speed.png');
+
+		// Arrows
+		this.arrowDefaultImg = loadImage('images/other/Direction.png');
+		this.arrowPressedImgs = [
+			loadImage('images/other/Up.png'),
+			loadImage('images/other/Down.png'),
+			loadImage('images/other/Left.png'),
+			loadImage('images/other/Right.png'),
+		];
 	}
 
 	setup = () => {
@@ -33,6 +45,19 @@ class MainUIController {
 		this.flipper = flipper;
 
 		allSprites.remove(flipper);
+
+		this.arrowSprite = new Sprite(camera.x, camera.y, 'n');
+		this.arrowSprite.img = this.arrowDefaultImg;
+		this.arrowSprite.autoDraw = false;
+		allSprites.remove(this.arrowSprite);
+
+		this.arrowKeySprites = this.arrowPressedImgs.map((img) => {
+			let sprite = new Sprite(camera.x, camera.y, 'n');
+			sprite.img = img;
+			sprite.autoDraw = false;
+			allSprites.remove(sprite);
+			return sprite;
+		});
 	}
 
 	update = () => {
@@ -49,6 +74,8 @@ class MainUIController {
 		this._drawSpeed();
 		this.circle.draw();	
 		this.flipper.draw(); // 指針
+		this._drawArrowKeys();
+		console.log(this.arrowKeyIsDown);
 		pop();
 	}
 
@@ -94,6 +121,25 @@ class MainUIController {
 		// strokeWeight(0);
 		// 四捨五入速度
 		// text(round(player.vel.mag()), this.speedPos.x, this.speedPos.y + 40);
+	}
+
+	_drawArrowKeys = () => {
+		// 底圖
+		this.arrowSprite.draw();
+		// 根據按鈕狀態畫上下左右
+		this.arrowKeySprites.forEach((sprite, i) => {
+			if (this.arrowKeyIsDown[i]) {
+				sprite.draw();
+			}
+		});
+	}
+
+	setArrowKeyIsDown = (keyCode, isDown) => {
+		let keyCodes = [UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW];
+		if(keyCodes.indexOf(keyCode) === -1) {
+			return;
+		}
+		this.arrowKeyIsDown[keyCodes.indexOf(keyCode)] = isDown;
 	}
 
 	_speedToAngle = (speed) => { 
