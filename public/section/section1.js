@@ -20,7 +20,6 @@ const Section1 = () => {
 
     let flowerSellerY;
     let showSeller = false;
-    let qaQuestion;
     let showQaQuestion = false;
 
     return {
@@ -45,7 +44,7 @@ const Section1 = () => {
             walker1.setup(gameManager.getRoadXRange());
 
             // Demo start and success event
-            eventManager.startEvent(EVENT_REPORT_RED_LINE_PARKING, 5000); // start after 4 second
+            eventManager.startEvent(EVENT_REPORT_RED_LINE_PARKING, 3500); // start after 4 second
 
             // 檢舉：紅線停車
             eventManager.listen(EVENT_REPORT_RED_LINE_PARKING, (status) => {
@@ -63,6 +62,10 @@ const Section1 = () => {
                         // Do something
                         console.log("Report Fail!");
                         break;
+                    case EventStatus.END:
+                        // Do something
+                        console.log("Red Line Event End, Report Fail!");
+                        break;
                 }
             });
 
@@ -73,7 +76,7 @@ const Section1 = () => {
                     case EventStatus.START:
                         //紅綠燈位置會在玩家現在的位置的上方500
                         trafficLightY =
-                            playerController.getPlayer().position.y - 1000;
+                            playerController.getPlayer().position.y - 950;
 
                         showTrafficLight = true;
                         setTimeout(() => {
@@ -89,7 +92,6 @@ const Section1 = () => {
                         setTimeout(() => {
                             showRedLightText = true;
                         }, 500);
-                        //TODO: 要限制玩家不能動？
                         eventManager.startEvent(EVENT_QA_FLOWER_SELLER, 500);
                         console.log("Traffic light Success!");
                         break;
@@ -116,7 +118,7 @@ const Section1 = () => {
                         showSeller = true;
                         questionManager.setup();
                         setTimeout(() => {
-                            qaQuestion = questionManager.getRandomQuestion();
+                            questionManager.getRandomQuestion();
                             showQaQuestion = true;
                         }, 3500);
                         break;
@@ -197,8 +199,9 @@ const Section1 = () => {
                         showImgAndText = true;
                         successVio_RedLineParking = true;
                     } else if (
-                        playerController.getPlayer().position.y + 50 <
-                        startPosiY - 750
+                        playerController.getPlayer().position.y -
+                            playerController.playerHeight <
+                        startPosiY - 800
                     ) {
                         eventManager.endEvent(EVENT_REPORT_RED_LINE_PARKING);
                         eventManager.startEvent(
@@ -216,7 +219,7 @@ const Section1 = () => {
                     if (isPlayerStopped) {
                         if (
                             playerController.getPlayer().position.y + 50 <
-                                trafficLightY + 500 &&
+                                trafficLightY + 550 &&
                             playerController.getPlayer().position.y +
                                 playerController.getPlayer().height / 2 <
                                 50

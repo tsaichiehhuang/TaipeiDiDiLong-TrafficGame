@@ -4,6 +4,7 @@ class ViolationManager {
 
     setup = () => {
         this._realredLineParkingVio = loadImage('../images/section1/Warn1.png'); // "redLineParking"
+        this._realdoubleParkingVio = loadImage('../images/section2/Warn2.png'); // "doubleParking"
         this._realrunningRedLightVio = loadImage('../images/section5/Warn5.png'); // "runningRedLight"
     };
 
@@ -18,6 +19,9 @@ class ViolationManager {
             switch(whichViolation) {
                 case "redLineParking":
                     image(this._realredLineParkingVio, xCurrPosi, yCurrPosi);
+                    break;
+                case "doubleParking":
+                    image(this._realdoubleParkingVio, xCurrPosi, yCurrPosi);
                     break;
                 case "runningRedLight":
                     image(this._realrunningRedLightVio, xCurrPosi, yCurrPosi);

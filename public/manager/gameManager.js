@@ -185,7 +185,7 @@ class GameManager {
 	 * 
 	 * @param {number} screenHeightCount 要往上走幾個螢幕高度後，才會進入下一個 section
 	 */
-	nextSectionAfterScreenHeight = (screenHeightCount = 3) => {
+	nextSectionAfterScreenHeight = (screenHeightCount = 1) => {
 		if(this._isCheckingNextSectionDistance) {
 			console.log("[WARN] 已經在等待進入下一個 section 了!")
 			return;
