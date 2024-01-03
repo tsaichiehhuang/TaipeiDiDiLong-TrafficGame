@@ -4,7 +4,7 @@ const Section5 = () => {
     let sectionVariable = 'This is a variable in Section5 scope';
 
     // get car position y when EVENT_REPORT_RUNNING_RED_LIGHT start
-    let RunningRedLightStart_PosiY;
+    let startPosiY;
 
     // running red light violation success var
     let successVio_RunningRedLight = false;
@@ -29,7 +29,7 @@ const Section5 = () => {
                 switch(status) {
                     case EventStatus.START:
                         // get car y position when running red light status is start
-                        RunningRedLightStart_PosiY = playerController.getPlayer().position.y;
+                        startPosiY = playerController.getPlayer().position.y;
                         break;
                     case EventStatus.SUCCESS:
                         // Do something
@@ -38,6 +38,10 @@ const Section5 = () => {
                     case EventStatus.FAIL:
                         // Do something
                         console.log("Report Fail!")
+                        break;
+                    case EventStatus.END:
+                        // Do something
+                        console.log("Running red light Event End, Report Fail!");
                         break;
                 }
             });
@@ -53,7 +57,7 @@ const Section5 = () => {
             // 在這畫圖會畫在 player 底下！
 
             // trigger running red light img
-            image(this._redLightVio, gameManager.getRoadXRange()[1] - this._redLightVio.width, RunningRedLightStart_PosiY - 750);
+            image(this._redLightVio, gameManager.getRoadXRange()[1] - this._redLightVio.width, startPosiY - 800);
 
             // --------  原本的 drawDuringSection() ----------------
             // 這裡的程式碼只會在第 5 段執行
@@ -68,7 +72,9 @@ const Section5 = () => {
                         eventManager.successEvent(EVENT_REPORT_RUNNING_RED_LIGHT);
                         showImgAndText = true;
                         successVio_RunningRedLight = true;
-                    }else if(playerController.getPlayer().position.y + 50 < RunningRedLightStart_PosiY - 750) {
+                    }else if(
+                        playerController.getPlayer().position.y - playerController.playerHeight <
+                        startPosiY - 800) {
                         eventManager.endEvent(EVENT_REPORT_RUNNING_RED_LIGHT);
                     }
                 }
