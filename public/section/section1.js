@@ -184,12 +184,6 @@ const Section1 = () => {
                 console.log("Section 1 draw");
                 const currentEvents = eventManager.getCurrentEvent();
 
-                // Demo draw based on current event
-                if (currentEvents.has(EVENT_LEVEL_TRAFFIC_LIGHT)) {
-                    // 畫紅綠燈的相關遊戲元素
-                    text("紅綠燈相關事件...即將加分", 60, 100);
-                }
-
                 // Report on time or not when red line parking event start
                 if (currentEvents.has(EVENT_REPORT_RED_LINE_PARKING)) {
                     if (keyIsDown(32)) {
