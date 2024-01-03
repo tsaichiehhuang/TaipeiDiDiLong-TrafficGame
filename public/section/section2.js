@@ -102,7 +102,7 @@ const Section2 = () => {
                         successVio_DoubleParking = true;
                     } else if (
                         playerController.getPlayer().position.y - playerController.playerHeight <
-                        startPosiY - 800
+                        startPosiY - 1500
                     ) {
                         eventManager.endEvent(EVENT_REPORT_DOUBLE_PARKING);
                         eventManager.startEvent(EVENT_LEVEL_BUY_DRINK, 7000);
