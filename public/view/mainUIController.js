@@ -75,7 +75,7 @@ class MainUIController {
 		this.circle.draw();	
 		this.flipper.draw(); // 指針
 		this._drawArrowKeys();
-		console.log(this.arrowKeyIsDown);
+		// console.log(this.arrowKeyIsDown);
 		pop();
 	}
 
