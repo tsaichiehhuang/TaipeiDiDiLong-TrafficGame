@@ -97,6 +97,7 @@ function keyPressed() {
   }
 
   // For demo moving
+  // keyPressedManager.getKeyPressedStop()=true -> 玩家不能移動(檢舉成功圖片顯示時&關卡完成&情境出現時)
   if(!keyPressedManager.getKeyPressedStop()) {
     switch (keyCode) {
       case UP_ARROW:
