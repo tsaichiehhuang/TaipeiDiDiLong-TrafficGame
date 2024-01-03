@@ -41,7 +41,7 @@ const Section1 = () => {
       walker1.setup(gameManager.getRoadXRange());
 
       // Demo start and success event
-      eventManager.startEvent(EVENT_REPORT_RED_LINE_PARKING, 5000); // start after 4 second
+      eventManager.startEvent(EVENT_REPORT_RED_LINE_PARKING, 3500); // start after 4 second
       eventManager.startEvent(EVENT_LEVEL_TRAFFIC_LIGHT, 8000);
 
       // 檢舉：紅線停車
@@ -59,6 +59,10 @@ const Section1 = () => {
           case EventStatus.FAIL:
             // Do something
             console.log("Report Fail!");
+            break;
+          case EventStatus.END:
+            // Do something
+            console.log("Red Line Event End, Report Fail!");
             break;
         }
       });
@@ -137,7 +141,7 @@ const Section1 = () => {
       image(
         this._redLineVio,
         gameManager.getStreetXRange()[0]+8,
-        startPosiY - 900
+        startPosiY - 800
       );
 
       // 紅綠燈＆斑馬線
@@ -178,8 +182,7 @@ const Section1 = () => {
             showImgAndText = true;
             successVio_RedLineParking = true;
           } else if (
-            playerController.getPlayer().position.y + 50 <
-            startPosiY - 750
+            playerController.getPlayer().position.y - playerController.playerHeight < startPosiY - 800
           ) {
             eventManager.endEvent(EVENT_REPORT_RED_LINE_PARKING);
           }

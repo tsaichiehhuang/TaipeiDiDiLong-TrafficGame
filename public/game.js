@@ -131,5 +131,10 @@ function mousePressed() {
 
 // Update values
 function update() {
-  playerController.update(); //let player‘s movement range not exceed the road
+  if(eventManager.getCurrentEvent().has(EVENT_LEVEL_BUY_DRINK)) {
+    playerController.update(true);
+  } else {
+    playerController.update(false); //let player‘s movement range not exceed the road
+  }
+  
 }

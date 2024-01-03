@@ -74,7 +74,7 @@ class PlayerController {
     }
   };
 
-  update = () => {
+  update = (specialTime) => {
     //let player‘s movement range not exceed the road
     let minRoadX = gameManager.getRoadXRange()[0] + this.playerWidth / 2;
     let maxRoadX = gameManager.getRoadXRange()[1] - this.playerWidth / 2;
@@ -82,7 +82,7 @@ class PlayerController {
 			image(this.explosion, gameManager.getRoadXRange()[0] - this.playerWidth / 2, this.playerSprite.position.y - this.playerHeight / 2 , 100, 100);
       this.playerSprite.position.x = minRoadX;
       this.playerSprite.velocity.x = 0;
-    } else if (this.playerSprite.position.x > maxRoadX) {
+    } else if (!specialTime && this.playerSprite.position.x > maxRoadX) {
 			image(this.explosion, gameManager.getRoadXRange()[1] - this.playerWidth / 2, this.playerSprite.position.y - this.playerHeight / 2, 100, 100);
       this.playerSprite.position.x = maxRoadX;
       this.playerSprite.velocity.x = 0;
