@@ -1,10 +1,13 @@
 const Section2 = () => {
     // 在 Section 內部宣告的區域變數，只能在這個範圍內存取
-    let sectionVariable = 'This is a variable in Section1 scope';
+    let sectionVariable = 'This is a variable in Section2 scope';
+
+    
 
     return {
         preload: () => {
             // Called in p5.js preload() function
+            console.log("Section 2 preload");
         },
         
         onSectionStart: () => {
