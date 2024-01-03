@@ -149,6 +149,7 @@ const Section2 = () => {
                     violationManager.draw("doubleParking", showImgAndText);
                     setTimeout(() => {
                         successVio_DoubleParking = false;
+                        keyPressedManager.setKeyPressedStop(false);
                     }, 2000);
                     eventManager.startEvent(EVENT_LEVEL_BUY_DRINK, 7000);
                 }
@@ -159,8 +160,10 @@ const Section2 = () => {
                     let yCurrPosi = (gameManager.getVisibleYRange()[0] + gameManager.getVisibleYRange()[1]) / 2;
                     imageMode(CENTER); // 把圖的正中央當定位點
                     image(this._buyDrinkSuccess, xCurrPosi, yCurrPosi);
+                    keyPressedManager.setKeyPressedStop(true);
                     setTimeout(() => {
                         successVio_BuyDrink = false;
+                        keyPressedManager.setKeyPressedStop(false);
                     }, 2000);
                 }
 

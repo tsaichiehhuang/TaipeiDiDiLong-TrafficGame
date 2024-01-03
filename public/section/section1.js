@@ -248,9 +248,18 @@ const Section1 = () => {
                     violationManager.draw("redLineParking", showImgAndText);
                     setTimeout(() => {
                         successVio_RedLineParking = false;
+                        keyPressedManager.setKeyPressedStop(false);
                     }, 2000);
                     eventManager.startEvent(EVENT_LEVEL_TRAFFIC_LIGHT, 4000);
                 }
+        // 在這畫圖會蓋在 player 上面！
+        if (successVio_RedLineParking) {
+          violationManager.draw("redLineParking", showImgAndText);
+          setTimeout(() => {
+            successVio_RedLineParking = false;
+            keyPressedManager.setKeyPressedStop(false);
+          }, 2000);
+        }
 
                 if (showQaQuestion) {
                     questionManager.showQuestion({

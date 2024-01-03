@@ -6,12 +6,15 @@ const playerController = new PlayerController(); //For demo
 const violationManager = new ViolationManager();
 const runRedLightManager = new RunRedLightManager();
 const questionManager = new QuestionManager();
+const keyPressedManager = new KeyPressedManager(); //control keyPressed function
 
 // UIs =======================================
 const mainUIController = new MainUIController();
 
+
 // Sections ================================
 const sectionManager = SectionManager(gameManager);
+
 
 // Player
 let player; // be created after PlayerController.setup()
@@ -94,22 +97,25 @@ function keyPressed() {
   }
 
   // For demo moving
-  switch (keyCode) {
-    case UP_ARROW:
-      playerController.move("up");
-      break;
-    case DOWN_ARROW:
-      playerController.move("down");
-      break;
-    case LEFT_ARROW:
-      playerController.move("left");
-      break;
-    case RIGHT_ARROW:
-      playerController.move("right");
-      break;
-    default:
-      break;
+  if(!keyPressedManager.getKeyPressedStop()) {
+    switch (keyCode) {
+      case UP_ARROW:
+        playerController.move("up");
+        break;
+      case DOWN_ARROW:
+        playerController.move("down");
+        break;
+      case LEFT_ARROW:
+        playerController.move("left");
+        break;
+      case RIGHT_ARROW:
+        playerController.move("right");
+        break;
+      default:
+        break;
+    }
   }
+  
   mainUIController.setArrowKeyIsDown(keyCode, true);
 }
 
