@@ -149,13 +149,13 @@ class QuestionManager {
 
     handleOptionSelect = (selectedIndex) => {
         if (selectedIndex === this.currentQuestion.answer) {
+            this.optionButtons.forEach((button) => button.remove());
+            this.optionButtons = [];
             eventManager.successEvent(EVENT_QA_FLOWER_SELLER);
-            this.optionButtons.forEach((button) => button.remove());
-            this.optionButtons = [];
         } else {
-            eventManager.failEvent(EVENT_QA_FLOWER_SELLER);
             this.optionButtons.forEach((button) => button.remove());
             this.optionButtons = [];
+            eventManager.failEvent(EVENT_QA_FLOWER_SELLER);
         }
     };
 
