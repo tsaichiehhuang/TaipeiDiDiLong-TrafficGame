@@ -27,6 +27,7 @@ class ViolationManager {
                     image(this._realrunningRedLightVio, xCurrPosi, yCurrPosi);
                     break;
             }
+            keyPressedManager.setKeyPressedStop(true);
         }
     }; 
 }
