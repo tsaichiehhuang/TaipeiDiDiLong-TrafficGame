@@ -83,6 +83,8 @@ class PlayerController {
       this.playerSprite.position.x = minRoadX;
       this.playerSprite.velocity.x = 0;
     } else if (!specialTime && this.playerSprite.position.x > maxRoadX) {
+      // 在買飲料事件進行時，讓玩家可以開到人行道上(因為停車格在人行道上)
+      // specialTime = true -> 買飲料事件進行中
 			image(this.explosion, gameManager.getRoadXRange()[1] - this.playerWidth / 2, this.playerSprite.position.y - this.playerHeight / 2, 100, 100);
       this.playerSprite.position.x = maxRoadX;
       this.playerSprite.velocity.x = 0;
