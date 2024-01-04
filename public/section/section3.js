@@ -9,6 +9,12 @@ const Section3 = () => {
     let showQaQuestion = false;
     let qaResult = null;
 
+    let walker = new Walker(0, 0);
+    let crosswalkPosY;
+    // 玩家靠多近行人在開始走，從馬路最上端開始
+    let crosswalkDetectDistance = 500; 
+
+
     return {
         preload: () => {
             // Called in p5.js preload() function
@@ -16,6 +22,9 @@ const Section3 = () => {
 
             // load event image
             this._crossTheRoad = loadImage("../images/section3/Road_3.png");
+
+            this._walkerImg = loadImage("../images/section3/walker_temp.png");
+            
         },
 
         onSectionStart: () => {
@@ -28,6 +37,20 @@ const Section3 = () => {
                     case EventStatus.START:
                         startPosiY_crossTheRoad =
                             playerController.getPlayer().position.y;
+
+                        crosswalkPosY = player.position.y - 1000;
+
+                        let [endX, startX] = gameManager.getRoadXRange();
+                        // 放個行人在斑馬線位置
+                        walker.setup(startX + 100, crosswalkPosY + 200, endX - 80, img = this._walkerImg);
+
+                        // 設定撞到行人就失敗
+                        walker.setCollidePlayerCallback(() => {
+                            if(!eventManager.getCurrentEvent().has(EVENT_LEVEL_CROSS_THE_ROAD)) return;
+                            eventManager.failEvent(
+                                EVENT_LEVEL_CROSS_THE_ROAD, 1000
+                            );
+                        })
                         break;
                     case EventStatus.SUCCESS:
                         isStoppedInLevel = true;
@@ -65,6 +88,7 @@ const Section3 = () => {
                         qaResult = true;
                         setTimeout(() => {
                             qaResult = null;
+                            walker.setIsMoving(true);
                         }, 2000);
                         console.log("Passerby success");
                         keyPressedManager.setKeyPressedStop(false);
@@ -75,6 +99,7 @@ const Section3 = () => {
                         qaResult = false;
                         setTimeout(() => {
                             qaResult = null;
+                            walker.setIsMoving(true);
                         }, 2000);
                         console.log("Passerby fail");
                         keyPressedManager.setKeyPressedStop(false);
@@ -92,7 +117,7 @@ const Section3 = () => {
             image(
                 this._crossTheRoad,
                 gameManager.getRoadXRange()[0] + 7,
-                startPosiY_crossTheRoad - 1000
+                crosswalkPosY
             );
 
             if (gameManager.getSection() == 3) {
@@ -102,26 +127,26 @@ const Section3 = () => {
                 const currentEvents = eventManager.getCurrentEvent();
 
                 if (currentEvents.has(EVENT_LEVEL_CROSS_THE_ROAD)) {
-                    const isPlayerStopped =
-                        playerController.getPlayer().velocity.y === 0;
+                    // Only detect player is stopped when player close to crosswalk
+                    if(player.position.y < crosswalkPosY + crosswalkDetectDistance) {
+                        // 當玩家夠靠近時，行人才會走😈
+                        if(!walker.isMoving)  {
+                            walker.setIsMoving(true);
+                        }
 
-                    if (isPlayerStopped) {
-                        if (
-                            playerController.getPlayer().position.y +
-                                playerController.playerHeight <
-                                startPosiY_crossTheRoad -
-                                    1000 +
-                                    this._crossTheRoad.height * 3 &&
-                            playerController.getPlayer().position.y >
-                                startPosiY_crossTheRoad -
-                                    1000 +
-                                    this._crossTheRoad.height
-                        ) {
+                        // 如果路人可能走到斑馬線中間的時候先停下來 然後顯示感謝禮讓的那段字後 接著情境題
+                        if(walker.sprite.position.x < width/2) {
+                            walker.setIsMoving(false);
+                            walker.say("感謝禮讓！");
                             eventManager.successEvent(
                                 EVENT_LEVEL_CROSS_THE_ROAD
                             );
+                            keyPressedManager.setKeyPressedStop(true);
                         }
-                    } else if (
+                    }
+
+                    // 超過斑馬線也算關卡失敗
+                    if (
                         playerController.getPlayer().position.y +
                             playerController.playerHeight <
                         startPosiY_crossTheRoad - 1000
@@ -132,7 +157,10 @@ const Section3 = () => {
 
                 // 在這畫圖會畫在 player 底下！
                 sparkController.drawExistingSparks(); // 畫碰撞的火花
+                
                 playerController.draw(); // 畫玩家
+                
+                walker.draw();
 
                 // 在這畫圖會蓋在 player 上面！
                 if (showLevelText) {
