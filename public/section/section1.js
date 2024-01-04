@@ -76,26 +76,28 @@ const Section1 = () => {
                     case EventStatus.START:
                         trafficLightY =
                             playerController.getPlayer().position.y - 950;
+                        runRedLightManager.setup();
                         showTrafficLight = true;
                         setTimeout(() => {
                             trafficLightImg = this._yellowLightImg;
-                        }, 1500);
+                        }, 1000);
                         setTimeout(() => {
                             trafficLightImg = this._redLightImg;
-                        }, 3000);
+                        }, 2000);
                         break;
                     case EventStatus.SUCCESS:
-                        // 停紅綠燈 0.5 秒後觸發玉蘭花情境題
                         isStoppedInRedLight = true;
                         setTimeout(() => {
                             showRedLightText = true;
-                        }, 500);
-                        eventManager.startEvent(EVENT_QA_FLOWER_SELLER, 500);
+                        }, 800);
+                        eventManager.startEvent(EVENT_QA_FLOWER_SELLER, 750);
                         console.log("Traffic light Success!");
                         break;
                     case EventStatus.FAIL:
                         isStoppedInRedLight = false;
-                        showRedLightText = true;
+                        setTimeout(() => {
+                            showRedLightText = true;
+                        }, 800);
 
                         setTimeout(() => {
                             trafficLightImg = this._greenLightImg;

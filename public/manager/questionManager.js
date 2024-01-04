@@ -106,12 +106,12 @@ class QuestionManager {
     };
 
     handleKeyPress() {
-        if (keyCode === UP_ARROW) {
+        if (keyIsDown(UP_ARROW)) {
             this.selectedOptionIndex = Math.max(
                 0,
                 this.selectedOptionIndex - 1
             );
-        } else if (keyCode === DOWN_ARROW) {
+        } else if (keyIsDown(DOWN_ARROW)) {
             this.selectedOptionIndex = Math.min(
                 this.currentQuestion.options.length - 1,
                 this.selectedOptionIndex + 1
