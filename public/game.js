@@ -19,6 +19,9 @@ const sectionManager = SectionManager(gameManager);
 // Player
 let player; // be created after PlayerController.setup()
 
+// Objects
+const sparkController = new SparkController();
+
 // Shared Images
 let carImages;
 
@@ -29,6 +32,7 @@ function preload() {
   sectionManager.preloadSections();
   carImages = preloadCarImages();
   playerController.preload();
+  sparkController.preload();
 }
 
 function setup() {
@@ -59,6 +63,7 @@ function setup() {
   // 開始紀錄所有與玩家碰撞的 sprite 的最新碰撞點
   recordPlayerCollidePoint();
 
+  sparkController.setup();
 }
 
 function draw() {
