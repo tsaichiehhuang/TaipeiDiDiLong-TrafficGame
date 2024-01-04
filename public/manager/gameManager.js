@@ -4,6 +4,7 @@ const GAME_HEIGHT = 720;
 // Control the background and section
 class GameManager {
 	constructor() {
+		this.debugMode = true; // for collider
 		this.cameraYOffest = -200;
 		this._roadSprites = [];
 		this._roadImage = null;
@@ -11,7 +12,7 @@ class GameManager {
 
 		// 720 會有一點很小的縫縫
 		this._roadHeight = 719; // road image height
-		this._section = 1; // 1-based, from 1 ~ 5
+		this._section = 1; // 換這裡可以測試，直接從某個 section 開始
 		this._sectionChangedCallbacks = [];
 
 		// For nextSectionAfterScreenHeight()
@@ -39,8 +40,6 @@ class GameManager {
 			loadImage("images/road/Road_1.png"),
 			loadImage("images/road/Road_2.png"),
 		]
-
-		this._backgroundImage = loadImage("images/start.gif");
 	};
 
 	setup = () => {
@@ -78,7 +77,7 @@ class GameManager {
 
 	update = () => {
 		/* 顯示背景 */
-		background(this._backgroundImage);
+		background(255);
 		this._repositionRoadsIfNeed();
 
 		if(this._isCheckingNextSectionDistance) {
