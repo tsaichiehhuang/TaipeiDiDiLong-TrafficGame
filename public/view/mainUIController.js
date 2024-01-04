@@ -26,9 +26,6 @@ class MainUIController {
 	}
 
 	setup = () => {
-		textAlign(LEFT, TOP);
-		textSize(20);
-		fill(255);
 
 		this.speedPos = createVector(width - 360, height - 55); // Figma 量的
 
@@ -60,11 +57,24 @@ class MainUIController {
 		});
 	}
 
+	/**
+	 * 設定字型與大小
+	 */
+	_applyText = () => {
+		textSize(30);
+		fill(255);
+		stroke(82, 105, 90); //深綠色
+		strokeWeight(2);
+		textAlign(LEFT, TOP);
+	}
+
 	update = () => {
 		if(gameManager.isEnded()) {
 			return;
 		}
 		push();
+		// 放在 push() 和 pop() 內好像能防止其他地方的字也被調整到
+		this._applyText(); 
 		
 		this._drawTaskText();
 		this._drawScore();
@@ -105,7 +115,7 @@ class MainUIController {
 	}
 
 	_drawScore = () => {
-		text(`Score: ${this.score}`, width - 150, 20);
+		text(`Score: ${this.score}`, width - 200, 20);
 	}
 
 	_drawAlert = () => {
