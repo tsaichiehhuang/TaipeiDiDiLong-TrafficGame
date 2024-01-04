@@ -50,7 +50,7 @@ function setup() {
     gameManager.addSectionChangedCallback(sectionManager.onSectionChanged);
 
     mainUIController.setup();
-    mainUIController.setTaskText("測試：三寶上路");
+    mainUIController.setTaskText("哈囉這是任務的第一行，\n這是任務如果有第二行！");
 
     mainUIController.setScore(playerData.getScore()); // 設定 UI 上的分數
     playerData.onScoreChange((score) => {
@@ -74,6 +74,8 @@ function setup() {
     recordPlayerCollidePoint();
 
     sparkController.setup();
+
+    textFont(naniFontRegular); // 設定整個遊戲預設的字型，讓原始的字型不要跑出來xD
 }
 
 function draw() {
