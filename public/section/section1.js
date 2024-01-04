@@ -74,10 +74,8 @@ const Section1 = () => {
                 console.log("Traffic light event : " + status);
                 switch (status) {
                     case EventStatus.START:
-                        //紅綠燈位置會在玩家現在的位置的上方500
                         trafficLightY =
                             playerController.getPlayer().position.y - 950;
-
                         showTrafficLight = true;
                         setTimeout(() => {
                             trafficLightImg = this._yellowLightImg;
@@ -154,6 +152,13 @@ const Section1 = () => {
 
             walker1.update();
 
+            // trigger red line parking img
+            image(
+                this._redLineVio,
+                gameManager.getStreetXRange()[0] + 8,
+                startPosiY - 900
+            );
+
             // 玉蘭花阿婆
             if (showSeller) {
                 image(this._flowerSeller, 0, flowerSellerY, 1280, 720);
@@ -174,13 +179,6 @@ const Section1 = () => {
                 );
             }
 
-            // trigger red line parking img
-            image(
-                this._redLineVio,
-                gameManager.getStreetXRange()[0] + 8,
-                startPosiY - 900
-            );
-
             // --------  原本的 drawDuringSection() ----------------
             // 這裡的程式碼只會在第 1 段執行
             if (gameManager.getSection() == 1) {
@@ -195,6 +193,10 @@ const Section1 = () => {
                         );
                         showImgAndText = true;
                         successVio_RedLineParking = true;
+                        eventManager.startEvent(
+                            EVENT_LEVEL_TRAFFIC_LIGHT,
+                            7000
+                        );
                     } else if (
                         playerController.getPlayer().position.y -
                             playerController.playerHeight <
@@ -237,19 +239,10 @@ const Section1 = () => {
                         isStoppedInRedLight ? "stopped" : "notStopped"
                     );
                 }
-               
-                sparkController.drawExistingSparks();  // 畫碰撞的火花
+
+                sparkController.drawExistingSparks(); // 畫碰撞的火花
                 playerController.draw(); // 畫玩家
 
-                // 在這畫圖會蓋在 player 上面！
-                if (successVio_RedLineParking) {
-                    violationManager.draw("redLineParking", showImgAndText);
-                    setTimeout(() => {
-                        successVio_RedLineParking = false;
-                        keyPressedManager.setKeyPressedStop(false);
-                    }, 2000);
-                    eventManager.startEvent(EVENT_LEVEL_TRAFFIC_LIGHT, 4000);
-                }
                 // 在這畫圖會蓋在 player 上面！
                 if (successVio_RedLineParking) {
                     violationManager.draw("redLineParking", showImgAndText);
