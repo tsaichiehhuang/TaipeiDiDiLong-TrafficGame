@@ -237,7 +237,8 @@ const Section1 = () => {
                         isStoppedInRedLight ? "stopped" : "notStopped"
                     );
                 }
-
+               
+                sparkController.drawExistingSparks();  // 畫碰撞的火花
                 playerController.draw(); // 畫玩家
 
                 // 在這畫圖會蓋在 player 上面！

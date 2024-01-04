@@ -10,8 +10,6 @@ class PlayerController {
 
   preload = () => {
     this.playerImg = loadImage("images/player/player.png");
-    //load explode image
-    this.explosion = loadImage("../images/explosion.png");
   };
 
   setup = () => {
@@ -79,13 +77,13 @@ class PlayerController {
     let minRoadX = gameManager.getRoadXRange()[0] + this.playerWidth / 2;
     let maxRoadX = gameManager.getRoadXRange()[1] - this.playerWidth / 2;
     if (this.playerSprite.position.x < minRoadX) {
-			image(this.explosion, gameManager.getRoadXRange()[0] - this.playerWidth / 2, this.playerSprite.position.y - this.playerHeight / 2 , 100, 100);
+      sparkController.createSpark(gameManager.getRoadXRange()[0], this.playerSprite.position.y);
       this.playerSprite.position.x = minRoadX;
       this.playerSprite.velocity.x = 0;
     } else if (!specialTime && this.playerSprite.position.x > maxRoadX) {
       // 在買飲料事件進行時，讓玩家可以開到人行道上(因為停車格在人行道上)
       // specialTime = true -> 買飲料事件進行中
-			image(this.explosion, gameManager.getRoadXRange()[1] - this.playerWidth / 2, this.playerSprite.position.y - this.playerHeight / 2, 100, 100);
+      sparkController.createSpark(gameManager.getRoadXRange()[1], this.playerSprite.position.y);
       this.playerSprite.position.x = maxRoadX;
       this.playerSprite.velocity.x = 0;
     }
