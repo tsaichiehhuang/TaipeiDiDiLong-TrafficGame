@@ -90,6 +90,8 @@ const Section1 = () => {
                         break;
                     case EventStatus.FAIL:
                         isStoppedInRedLight = false;
+                        playerData.addTrafficTicket("闖紅燈", 1);
+
                         setTimeout(() => {
                             showRedLightText = true;
                         }, 800);
