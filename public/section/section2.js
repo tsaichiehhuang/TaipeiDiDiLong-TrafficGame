@@ -59,6 +59,7 @@ const Section2 = () => {
                     case EventStatus.START:
                         // get car y position when buy drink event status is start
                         startPosiY_buyDrink = playerController.getPlayer().position.y;
+                        mainUIController.setTaskText("請將車子停入右方停車格，完成購買飲料的任務！");
                         break;
                     case EventStatus.SUCCESS:
                         // Do something
