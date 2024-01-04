@@ -18,9 +18,8 @@ class Walker {
 		walker.color = color(255, 0, 0);
 		walker.velocity.x = this.walkerSpeed;
 		walker.text = this.text;
+		showSparkWhenCollidePlayer(walker, sparkController);
 		this.walkerSprites.push(walker);
-
-		this.explosion = loadImage("../images/explosion.png");
 	}
 
 	update() {
@@ -34,10 +33,8 @@ class Walker {
 				playerData.addScore(-100);
 
 				// 因為玩家的形狀後來不是正方形，所以放煙火的位置改到兩者碰撞點
-				let collidedPoint = getCollidedPlayerPoint(this.walkerSprites[i]);
-				let effectSize = 100;
-			
-				image(this.explosion, collidedPoint.x - effectSize / 2, collidedPoint.y - effectSize / 2, effectSize, effectSize);
+				// 放煙火使用 showSparkWhenCollidePlayer() ，設定撞到時就放煙火
+				// 畫煙火的地方使用 drawExistingSparks() ，在各個 section 中
 			}
 		}
 	}
