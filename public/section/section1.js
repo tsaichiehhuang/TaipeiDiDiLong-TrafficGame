@@ -115,6 +115,7 @@ const Section1 = () => {
                     case EventStatus.START:
                         const visibleRange = gameManager.getVisibleYRange();
                         flowerSellerY = visibleRange[0];
+                        keyPressedManager.setKeyPressedStop(true);
                         showSeller = true;
                         questionManager.setup();
                         setTimeout(() => {
@@ -127,6 +128,7 @@ const Section1 = () => {
                         showQaQuestion = false;
                         setTimeout(() => {
                             trafficLightImg = this._greenLightImg;
+                            keyPressedManager.setKeyPressedStop(false);
                         }, 500);
                         console.log("Flower seller Success!");
                         gameManager.nextSectionAfterScreenHeight();
@@ -136,6 +138,7 @@ const Section1 = () => {
                         showQaQuestion = false;
                         setTimeout(() => {
                             trafficLightImg = this._greenLightImg;
+                            keyPressedManager.setKeyPressedStop(false);
                         }, 500);
                         console.log("Flower seller Fail!");
                         gameManager.nextSectionAfterScreenHeight();
@@ -246,14 +249,14 @@ const Section1 = () => {
                     }, 2000);
                     eventManager.startEvent(EVENT_LEVEL_TRAFFIC_LIGHT, 4000);
                 }
-        // 在這畫圖會蓋在 player 上面！
-        if (successVio_RedLineParking) {
-          violationManager.draw("redLineParking", showImgAndText);
-          setTimeout(() => {
-            successVio_RedLineParking = false;
-            keyPressedManager.setKeyPressedStop(false);
-          }, 2000);
-        }
+                // 在這畫圖會蓋在 player 上面！
+                if (successVio_RedLineParking) {
+                    violationManager.draw("redLineParking", showImgAndText);
+                    setTimeout(() => {
+                        successVio_RedLineParking = false;
+                        keyPressedManager.setKeyPressedStop(false);
+                    }, 2000);
+                }
 
                 if (showQaQuestion) {
                     questionManager.showQuestion({

@@ -97,11 +97,27 @@ class QuestionManager {
         this.currentQuestion = null;
 
         this.optionButtons = [];
+
+        this.selectedOptionIndex = 0;
     }
 
     setup = () => {
         this._questionBg = loadImage("../images/other/Choose_bg.png");
     };
+
+    handleKeyPress() {
+        if (keyCode === UP_ARROW) {
+            this.selectedOptionIndex = Math.max(
+                0,
+                this.selectedOptionIndex - 1
+            );
+        } else if (keyCode === DOWN_ARROW) {
+            this.selectedOptionIndex = Math.min(
+                this.currentQuestion.options.length - 1,
+                this.selectedOptionIndex + 1
+            );
+        }
+    }
 
     createOptionButtons = () => {
         this.optionButtons.forEach((button) => button.remove());
@@ -131,6 +147,12 @@ class QuestionManager {
             button.style("color", "#C1C1C1");
             button.style("font-size", "16px");
             button.style("text-align", "left");
+
+            if (index === this.selectedOptionIndex) {
+                button.style("color", "#FFF");
+                button.style("text-decoration", "underline");
+            }
+
             button.mousePressed(() => this.handleOptionSelect(index + 1));
             button.mouseOver(() => {
                 button.style("color", "#FFF");
@@ -138,8 +160,10 @@ class QuestionManager {
                 button.style("cursor", "pointer");
             });
             button.mouseOut(() => {
-                button.style("color", "#C1C1C1");
-                button.style("text-decoration", "none");
+                if (index !== this.selectedOptionIndex) {
+                    button.style("color", "#C1C1C1");
+                    button.style("text-decoration", "none");
+                }
                 button.style("cursor", "default");
             });
 
@@ -176,6 +200,8 @@ class QuestionManager {
             2;
         const isMultiLine =
             this.currentQuestion.question.split("\n").length >= 1;
+
+        this.handleKeyPress();
 
         rectMode(CENTER);
         imageMode(CENTER);
