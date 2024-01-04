@@ -1,8 +1,5 @@
 // A demo of section
 const Section1 = () => {
-    // Demo walker a in section
-    let walker1 = new Walker((startPosY = 100), "第一個行人");
-
     // get car position y when EVENT_REPORT_RED_LINE_PARKING start
     let startPosiY;
 
@@ -42,9 +39,6 @@ const Section1 = () => {
         },
 
         onSectionStart: () => {
-            walker1.setup(gameManager.getRoadXRange());
-
-            // Demo start and success event
             eventManager.startEvent(EVENT_REPORT_RED_LINE_PARKING, 3500); // start after 4 second
 
             // 檢舉：紅線停車
@@ -161,8 +155,6 @@ const Section1 = () => {
             // 原本的 drawAlways()
             // 在這畫圖會畫在 player 底下！
 
-            walker1.update();
-
             // trigger red line parking img
             image(
                 this._redLineVio,
@@ -245,12 +237,6 @@ const Section1 = () => {
                     }
                 }
 
-                if (showRedLightText) {
-                    runRedLightManager.draw(
-                        isStoppedInRedLight ? "stopped" : "notStopped"
-                    );
-                }
-
                 sparkController.drawExistingSparks(); // 畫碰撞的火花
                 playerController.draw(); // 畫玩家
 
@@ -261,6 +247,12 @@ const Section1 = () => {
                         successVio_RedLineParking = false;
                         keyPressedManager.setKeyPressedStop(false);
                     }, 2000);
+                }
+
+                if (showRedLightText) {
+                    runRedLightManager.draw(
+                        isStoppedInRedLight ? "stopped" : "notStopped"
+                    );
                 }
 
                 if (showQaQuestion) {
