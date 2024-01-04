@@ -45,7 +45,7 @@ class PlayerController {
     allSprites.remove(this.playerSprite);
 
     // Debug 用，可以看到 player 的 collider
-    this.playerSprite.debug = true;
+    this.playerSprite.debug = gameManager.debugMode;
   };
 
   getPlayer = () => {
@@ -57,6 +57,10 @@ class PlayerController {
   };
 
   move = (direction) => {
+    if(!this.playerSprite) {
+      return; // In case not setup() yet
+    }
+
     // Demo
     if (direction === "up") {
       this.playerSprite.velocity.y = -this.playerSpeed;
