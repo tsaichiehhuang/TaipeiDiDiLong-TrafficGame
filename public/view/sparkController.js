@@ -25,7 +25,7 @@ class SparkController {
         sprite.x -= sprite.width / 2;
         sprite.y -= sprite.height / 2;
         sprite.offset.x += 10; // 因為圖有點偏左，所以往右調整一點
-        sprite.debug = true;
+        sprite.debug = gameManager.debugMode;
         sprite.life = frameRate() * this.sparkSeconds;
     }
 

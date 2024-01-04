@@ -80,11 +80,12 @@ function addPlayerCollideCallback(sprite, callback) {
 
 /**
  * 讓 sprite 跟 player 碰撞時，會顯示爆炸圖
+ * - 務必只呼叫一次，不要重複呼叫會註冊很多個，會卡卡
  * - 顯示爆炸圖的位置是兩者碰撞點
  * - 畫圖用 drawExistingSparks() ，在各個 section 中
  * @param {*} sprite 
  */
-function showSparkWhenCollidePlayer(sprite, sparkController) {
+function registerSparkWhenCollide(sprite, sparkController) {
     addPlayerCollideCallback(sprite, () => {
         let collidedPoint = getCollidedPlayerPoint(sprite);
         sparkController.createSpark(collidedPoint.x, collidedPoint.y);

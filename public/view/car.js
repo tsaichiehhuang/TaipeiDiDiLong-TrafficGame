@@ -34,7 +34,7 @@ class Car {
 		car.w += this.colliderOffset;
 		car.h += this.colliderOffset;
 		car.vel.y = this.carSpeed;
-		car.debug = true; // TODO: remove this debug feature
+		car.debug = gameManager.debugMode; // TODO: remove this debug feature
 		car.autoDraw = false;
 		allSprites.remove(car);
 		car.mass = 15;
