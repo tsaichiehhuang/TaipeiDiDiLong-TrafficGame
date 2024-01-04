@@ -1,8 +1,8 @@
 class CrossTheRoadManager {
 
     setup = () => {
-        this._stopped = loadImage('../images/text/text1.png');
-        this._notStopped = loadImage('../images/text/text2.png');
+        this._stopped = loadImage('../images/text/text6.png');
+        this._notStopped = loadImage('../images/text//text7.png');
     };
 
     draw = (isStoppedInLevel) => {

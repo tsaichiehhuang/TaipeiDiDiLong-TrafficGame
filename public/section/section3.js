@@ -3,9 +3,6 @@ const Section3 = () => {
     let sectionVariable = 'This is a variable in Section3 scope';
 
     let startPosiY_crossTheRoad;
-    let startPosiY;
-    let successVio_notYieldPerson = false;
-    let showImgAndText;
     let showLevelText = false;
     let isStoppedInLevel;
 
@@ -15,8 +12,7 @@ const Section3 = () => {
             console.log("Section 3 preload")
 
             // load event image
-            this._crossTheRoad = loadImage("../images/section3/Walk.gif");
-            this._notYieldPerson = loadImage("../images/section3/3.gif");
+            this._crossTheRoad = loadImage("../images/section3/Road_3.png");
         },
 
         onSectionStart: () => {
@@ -35,42 +31,16 @@ const Section3 = () => {
                             showLevelText = true;
                         },1000);
                         console.log("Cross the road success");
-                        eventManager.startEvent(EVENT_REPORT_NOT_YIELDING_TO_PEDESTRIANS, 4000);
+                        gameManager.nextSectionAfterScreenHeight();
                         break;
                     case EventStatus.FAIL:
                         isStoppedInLevel = false;
                         showLevelText = true;
                         console.log("Cross the road fail");
-                        eventManager.startEvent(EVENT_REPORT_NOT_YIELDING_TO_PEDESTRIANS, 4000);
-                        break;
-                }
-            });
-
-            // 檢舉：未禮讓行人
-            eventManager.listen(EVENT_REPORT_NOT_YIELDING_TO_PEDESTRIANS, (status) => {
-                console.log("Not yielding to pedestrian event : " + status);
-                switch (status) {
-                    case EventStatus.START:
-                        startPosiY = playerController.getPlayer().position.y;
-                        break;
-                    case EventStatus.SUCCESS:
-                        // Do something
-                        console.log("Report Success!");
-                        gameManager.nextSectionAfterScreenHeight();
-                        break;
-                    case EventStatus.FAIL:
-                        // Do something
-                        console.log("Report Fail!");
-                        break;
-                    case EventStatus.END:
-                        // Do something
-                        console.log("not yield person Event End, Report Fail!");
                         gameManager.nextSectionAfterScreenHeight();
                         break;
                 }
             });
-
-
         },
 
         draw: () => {
@@ -79,9 +49,7 @@ const Section3 = () => {
             // 原本的 drawAlways()
             // 在這畫圖會畫在 player 底下！
 
-            image(this._crossTheRoad, gameManager.getStreetXRange()[0] + 6, startPosiY_crossTheRoad  - 1000);
-
-            image(this._notYieldPerson, gameManager.getStreetXRange()[0] + 8, startPosiY - 1500);
+            image(this._crossTheRoad, gameManager.getRoadXRange()[0] + 7, startPosiY_crossTheRoad  - 1000);
 
             if (gameManager.getSection() == 3) {
                 // 原本的 drawDuringSection()
@@ -102,35 +70,16 @@ const Section3 = () => {
                     }
                 }
 
+                // 在這畫圖會畫在 player 底下！
+                sparkController.drawExistingSparks();  // 畫碰撞的火花
+
+                playerController.draw(); // 畫玩家
+
+                // 在這畫圖會蓋在 player 上面！
                 if (showLevelText) {
                     crossTheRoadManager.draw(isStoppedInLevel ? "stopped" : "notStopped");
                     setTimeout(() => {
                         showLevelText = false;
-                    }, 2000);
-                }
-
-                // Report on time or not when red line parking event start
-                if (currentEvents.has(EVENT_REPORT_NOT_YIELDING_TO_PEDESTRIANS)) {
-                    if (keyIsDown(32)) {
-                        eventManager.successEvent(EVENT_REPORT_NOT_YIELDING_TO_PEDESTRIANS);
-                        showImgAndText = true;
-                        successVio_notYieldPerson = true;
-                    } else if (
-                        playerController.getPlayer().position.y + playerController.playerHeight < startPosiY - 1500
-                    ) {
-                        eventManager.endEvent(EVENT_REPORT_NOT_YIELDING_TO_PEDESTRIANS);
-                    }
-                }
-
-                // 在這畫圖會畫在 player 底下！
-                playerController.draw(); // 畫玩家
-
-                // 在這畫圖會蓋在 player 上面！
-                if (successVio_notYieldPerson) {
-                    violationManager.draw("notYieldPerson", showImgAndText);
-                    setTimeout(() => {
-                        successVio_notYieldPerson = false;
-                        keyPressedManager.setKeyPressedStop(false);
                     }, 2000);
                 }
             }
@@ -146,8 +95,7 @@ const Section3 = () => {
 
             // 清除之後不會再用到的事件 listener
             eventManager.clearListeners([
-                EVENT_LEVEL_CROSS_THE_ROAD,
-                EVENT_REPORT_NOT_YIELDING_TO_PEDESTRIANS,
+                EVENT_LEVEL_CROSS_THE_ROAD
             ]);
         }
     };
