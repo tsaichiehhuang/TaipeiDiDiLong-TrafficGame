@@ -27,6 +27,7 @@ function getCollidedPlayerPoint(sprite) {
 }
 
 const playerCollidePoint = new Map(); // key: sprite.idNum, value: 最新碰撞點
+const playerCollideCallback = new Map(); // key: sprite.idNum, value: callback array
 
 /**
  * 當碰撞發生前，紀錄所有與玩家碰撞的 sprite 的碰撞點，存在 playerCollidePoint
@@ -51,7 +52,33 @@ function recordPlayerCollidePoint() {
 
             // 使用 idNum (from p5play) 作為 key
             playerCollidePoint.set(otherSprite.idNum, collidedPoint);
+            // 最後觸發對應 sprite callback
+            if (playerCollideCallback.has(otherSprite.idNum)) {
+                playerCollideCallback.get(otherSprite.idNum).forEach((cb) => {
+                    cb();
+                });
+            }
         }
+    });
+}
+
+function addPlayerCollideCallback(sprite, callback) {
+    if (!playerCollideCallback.has(sprite.idNum)) {
+        playerCollideCallback.set(sprite.idNum, []);
+    }
+    playerCollideCallback.get(sprite.idNum).push(callback);
+};
+
+/**
+ * 讓 sprite 跟 player 碰撞時，會顯示爆炸圖
+ * - 顯示爆炸圖的位置是兩者碰撞點
+ * - 畫圖用 drawExistingSparks() ，在各個 section 中
+ * @param {*} sprite 
+ */
+function showSparkWhenCollidePlayer(sprite, sparkController) {
+    addPlayerCollideCallback(sprite, () => {
+        let collidedPoint = getCollidedPlayerPoint(sprite);
+        sparkController.createSpark(collidedPoint.x, collidedPoint.y);
     });
 }
 
