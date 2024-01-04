@@ -99,6 +99,8 @@ class QuestionManager {
         this.optionButtons = [];
 
         this.selectedOptionIndex = 0;
+
+        this.usedQuestions = new Set();
     }
 
     setup = () => {
@@ -119,7 +121,7 @@ class QuestionManager {
         }
     }
 
-    createOptionButtons = () => {
+    createOptionButtons = (eventID) => {
         this.optionButtons.forEach((button) => button.remove());
         this.optionButtons = [];
 
@@ -154,7 +156,9 @@ class QuestionManager {
             //     button.style("text-decoration", "underline");
             // }
 
-            button.mousePressed(() => this.handleOptionSelect(index + 1));
+            button.mousePressed(() =>
+                this.handleOptionSelect(index + 1, eventID)
+            );
             button.mouseOver(() => {
                 button.style("color", "#FFF");
                 button.style("text-decoration", "underline");
@@ -172,22 +176,38 @@ class QuestionManager {
         });
     };
 
-    handleOptionSelect = (selectedIndex) => {
+    handleOptionSelect = (selectedIndex, eventID) => {
         if (selectedIndex === this.currentQuestion.answer) {
             this.optionButtons.forEach((button) => button.remove());
             this.optionButtons = [];
-            eventManager.successEvent(EVENT_QA_FLOWER_SELLER);
+            eventManager.successEvent(eventID);
         } else {
             this.optionButtons.forEach((button) => button.remove());
             this.optionButtons = [];
-            eventManager.failEvent(EVENT_QA_FLOWER_SELLER);
+            eventManager.failEvent(eventID);
         }
     };
 
-    getRandomQuestion = () => {
-        const randomIndex = Math.floor(Math.random() * this.questions.length);
+    getRandomQuestion = (eventID) => {
+        let randomIndex;
+        let attempts = 0;
+
+        do {
+            randomIndex = Math.floor(Math.random() * this.questions.length);
+            attempts++;
+        } while (
+            this.usedQuestions.has(randomIndex) &&
+            attempts < this.questions.length
+        );
+
+        if (attempts >= this.questions.length) {
+            this.usedQuestions.clear();
+        } else {
+            this.usedQuestions.add(randomIndex);
+        }
+
         this.currentQuestion = this.questions[randomIndex];
-        this.createOptionButtons();
+        this.createOptionButtons(eventID);
         return this.currentQuestion;
     };
 
@@ -257,6 +277,7 @@ class QuestionManager {
         textFont(naniFontRegular);
         textSize(24);
         textAlign(CENTER, CENTER);
+        fill(255);
         text(
             qaResult ? "答對啦！加分加分" : "叭叭！答錯了餒...",
             xCurrPosi,

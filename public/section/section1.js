@@ -90,7 +90,7 @@ const Section1 = () => {
                         break;
                     case EventStatus.FAIL:
                         isStoppedInRedLight = false;
-                        playerData.addTrafficTicket("闖紅燈", 1);
+                        playerData.addTrafficTicket("闖紅燈", 1800);
 
                         setTimeout(() => {
                             showRedLightText = true;
@@ -105,7 +105,7 @@ const Section1 = () => {
                 }
             });
 
-            // 監聽玉蘭花情境題事件
+            // 玉蘭花情境事件
             eventManager.listen(EVENT_QA_FLOWER_SELLER, (status) => {
                 console.log("Flower seller event : " + status);
                 switch (status) {
@@ -116,7 +116,9 @@ const Section1 = () => {
                         showSeller = true;
                         questionManager.setup();
                         setTimeout(() => {
-                            questionManager.getRandomQuestion();
+                            questionManager.getRandomQuestion(
+                                EVENT_QA_FLOWER_SELLER
+                            );
                             showQaQuestion = true;
                         }, 3500);
                         break;
@@ -200,7 +202,7 @@ const Section1 = () => {
                         successVio_RedLineParking = true;
                         eventManager.startEvent(
                             EVENT_LEVEL_TRAFFIC_LIGHT,
-                            7000
+                            6500
                         );
                     } else if (
                         playerController.getPlayer().position.y -
@@ -210,7 +212,7 @@ const Section1 = () => {
                         eventManager.endEvent(EVENT_REPORT_RED_LINE_PARKING);
                         eventManager.startEvent(
                             EVENT_LEVEL_TRAFFIC_LIGHT,
-                            4000
+                            3500
                         );
                     }
                 }
