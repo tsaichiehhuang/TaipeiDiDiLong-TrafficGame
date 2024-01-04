@@ -18,7 +18,6 @@ const EVENT_LEVEL_BUY_DRINK = "event_level_buy_drink";
 
 // Section3
 const EVENT_LEVEL_CROSS_THE_ROAD = "event level cross the road";
-const EVENT_REPORT_NOT_YIELDING_TO_PEDESTRIANS = "event_report_not_yielding_to_pedestrians";
 
 // Section4
 const EVENT_REPORT_ILLEGAL_MAKE_A_U_TURN = "event_report_illegal_make_a_u_turn";
@@ -63,12 +62,6 @@ const _eventsMap = {
     EventType: EventType.LEVEL,
     SuccessScore: 1,
     FailScore: -1,
-  },
-  [EVENT_REPORT_NOT_YIELDING_TO_PEDESTRIANS]: {
-    EventName: "檢舉_未禮讓行人",
-    EventType: EventType.REPORT,
-    SuccessScore: 1,
-    FailScore: -0.5,
   },
   [EVENT_REPORT_ILLEGAL_MAKE_A_U_TURN]: {
     EventName: "檢舉_違規迴轉",
