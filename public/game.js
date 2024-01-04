@@ -22,6 +22,7 @@ const sparkController = new SparkController();
 
 // Shared Images
 let carImages;
+let scooterImages;
 
 // Fonts
 let naniFontRegular;
@@ -36,6 +37,7 @@ function preload() {
     mainUIController.preload();
     sectionManager.preloadSections();
     carImages = preloadCarImages();
+    scooterImages = preloadScooterImages();
     playerController.preload();
     sparkController.preload();
     naniFontRegular = loadFont("../font/NaniFont-Regular.ttf");
