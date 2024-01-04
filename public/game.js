@@ -7,6 +7,7 @@ const violationManager = new ViolationManager();
 const runRedLightManager = new RunRedLightManager();
 const questionManager = new QuestionManager();
 const keyPressedManager = new KeyPressedManager(); //control keyPressed function
+const crossTheRoadManager = new CrossTheRoadManager();
 
 // UIs =======================================
 const mainUIController = new MainUIController();
@@ -72,8 +73,10 @@ function setup() {
     // Violation Success
     violationManager.setup();
 
-    // 開始紀錄所有與玩家碰撞的 sprite 的最新碰撞點
-    recordPlayerCollidePoint();
+  crossTheRoadManager.setup();
+
+  // 開始紀錄所有與玩家碰撞的 sprite 的最新碰撞點
+  recordPlayerCollidePoint();
 
     sparkController.setup();
 
