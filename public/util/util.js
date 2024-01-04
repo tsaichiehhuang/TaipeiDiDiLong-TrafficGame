@@ -38,9 +38,7 @@ const playerCollideCbMinInterval = 500; // 最小間隔毫秒
  */
 function recordPlayerCollidePoint() {
     world.on("begin-contact", function (contact) {
-        // manifold 做 deep-copy
-        let manifold = JSON.parse(JSON.stringify(contact.getManifold()));
-
+        let manifold = contact.getManifold();
         let bodyA = contact.getFixtureA().getBody();
         let bodyB = contact.getFixtureB().getBody();
 
