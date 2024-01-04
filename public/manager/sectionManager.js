@@ -18,8 +18,8 @@ const SectionManager = (gameManager) => {
         });
     }
 
-    const startFirstSection = () => {
-        sections[0].onSectionStart();
+    const startFirstSection = (startNum) => {
+        sections[startNum-1].onSectionStart();
     };
 
     const onSectionChanged = (oldSection, newSection) => {

@@ -64,8 +64,8 @@ function setup() {
     playerController.setup();
     player = playerController.getPlayer();
 
-    // Start from section 1
-    sectionManager.startFirstSection();
+    // Start from the initial section
+    sectionManager.startFirstSection(gameManager.getSection());
 
     // Prevent sprites overlayed UI or section text
     allSprites.autoDraw = false;
