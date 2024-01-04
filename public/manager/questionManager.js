@@ -145,13 +145,14 @@ class QuestionManager {
             button.style("background-color", "transparent");
             button.style("border", "none");
             button.style("color", "#C1C1C1");
+            button.style("font-family", "NaniFont");
             button.style("font-size", "16px");
             button.style("text-align", "left");
 
-            if (index === this.selectedOptionIndex) {
-                button.style("color", "#FFF");
-                button.style("text-decoration", "underline");
-            }
+            // if (index === this.selectedOptionIndex) {
+            //     button.style("color", "#FFF");
+            //     button.style("text-decoration", "underline");
+            // }
 
             button.mousePressed(() => this.handleOptionSelect(index + 1));
             button.mouseOver(() => {
@@ -160,10 +161,10 @@ class QuestionManager {
                 button.style("cursor", "pointer");
             });
             button.mouseOut(() => {
-                if (index !== this.selectedOptionIndex) {
-                    button.style("color", "#C1C1C1");
-                    button.style("text-decoration", "none");
-                }
+                // if (index !== this.selectedOptionIndex) {
+                button.style("color", "#C1C1C1");
+                button.style("text-decoration", "none");
+                // }
                 button.style("cursor", "default");
             });
 
@@ -213,20 +214,53 @@ class QuestionManager {
             isMultiLine ? 450 : 400
         );
 
-        textSize(20);
+        textFont(naniFontLight);
+        textSize(18);
         textAlign(CENTER, CENTER);
         textLeading(20 * 1.5);
         fill(255);
         text(greeting, xCurrPosi, yCurrPosi - 150, 780, 100);
 
         // 題目
-        textStyle(BOLD);
+        textFont(naniFontRegular);
+        textSize(20);
         text(
             this.currentQuestion.question,
             xCurrPosi,
-            yCurrPosi - 75,
+            yCurrPosi - 80,
             780,
             100
+        );
+    };
+
+    showResult = (qaResult) => {
+        let xCurrPosi =
+            (gameManager.getRoadXRange()[0] + gameManager.getRoadXRange()[1]) /
+            2;
+        let yCurrPosi =
+            (gameManager.getVisibleYRange()[0] +
+                gameManager.getVisibleYRange()[1]) /
+            2;
+        const isMultiLine =
+            this.currentQuestion.question.split("\n").length >= 1;
+
+        rectMode(CENTER);
+        imageMode(CENTER);
+        image(
+            this._questionBg,
+            xCurrPosi,
+            yCurrPosi,
+            800,
+            isMultiLine ? 450 : 400
+        );
+
+        textFont(naniFontRegular);
+        textSize(24);
+        textAlign(CENTER, CENTER);
+        text(
+            qaResult ? "答對啦！加分加分" : "叭叭！答錯了餒...",
+            xCurrPosi,
+            yCurrPosi - 55
         );
     };
 }

@@ -21,6 +21,7 @@ const Section1 = () => {
     let flowerSellerY;
     let showSeller = false;
     let showQaQuestion = false;
+    let qaResult = null;
 
     return {
         preload: () => {
@@ -126,6 +127,10 @@ const Section1 = () => {
                     case EventStatus.SUCCESS:
                         showSeller = false;
                         showQaQuestion = false;
+                        qaResult = true;
+                        setTimeout(() => {
+                            qaResult = null;
+                        }, 2000);
                         setTimeout(() => {
                             trafficLightImg = this._greenLightImg;
                             keyPressedManager.setKeyPressedStop(false);
@@ -136,6 +141,10 @@ const Section1 = () => {
                     case EventStatus.FAIL:
                         showSeller = false;
                         showQaQuestion = false;
+                        qaResult = false;
+                        setTimeout(() => {
+                            qaResult = null;
+                        }, 2000);
                         setTimeout(() => {
                             trafficLightImg = this._greenLightImg;
                             keyPressedManager.setKeyPressedStop(false);
@@ -259,6 +268,10 @@ const Section1 = () => {
                         greeting:
                             "來呦，買一朵玉蘭花吧！ 蝦米？你叫我走開？ 那先回答我的問題吧！",
                     });
+                }
+
+                if (qaResult !== null) {
+                    questionManager.showResult(qaResult);
                 }
             }
             // -------------------------------------------
