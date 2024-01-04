@@ -79,8 +79,12 @@ class MainUIController {
 		pop();
 	}
 
+	/**
+	 * 設定任務文字
+	 * @param {*} text 要顯示在左上角的文字
+	 */
 	setTaskText = (text) => {
-		this.taskText = `${text}\n這裡放任務`;
+		this.taskText = text;
 	}
 
 	setScore = (score) => {
