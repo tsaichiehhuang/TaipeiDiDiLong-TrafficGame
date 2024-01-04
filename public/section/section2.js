@@ -21,7 +21,6 @@ const Section2 = () => {
             // load event image
             this._doubleParkingVio = loadImage("../images/road/Wrong2.png");
             this._parkingSpace = loadImage("../images/road/Wrong3&4.png");
-            this._explosion = loadImage("../images/explosion.png");
             this._buyDrinkSuccess = loadImage("../images/section2/Buy_Drink.png");
         },
 
@@ -40,6 +39,7 @@ const Section2 = () => {
                     case EventStatus.SUCCESS:
                         // Do something
                         console.log("Report Success!");
+                        eventManager.startEvent(EVENT_LEVEL_BUY_DRINK, 7000);
                         break;
                     case EventStatus.FAIL:
                         // Do something
@@ -59,7 +59,7 @@ const Section2 = () => {
                     case EventStatus.START:
                         // get car y position when buy drink event status is start
                         startPosiY_buyDrink = playerController.getPlayer().position.y;
-                        mainUIController.setTaskText("請將車子停入右方停車格，完成購買飲料的任務！");
+                        mainUIController.setTaskText("請將車子停入右方停車格，\n完成購買飲料的任務！");
                         break;
                     case EventStatus.SUCCESS:
                         // Do something
@@ -106,7 +106,9 @@ const Section2 = () => {
                         startPosiY - 1500
                     ) {
                         eventManager.endEvent(EVENT_REPORT_DOUBLE_PARKING);
-                        eventManager.startEvent(EVENT_LEVEL_BUY_DRINK, 7000);
+                        if(!currentEvents.has(EVENT_LEVEL_BUY_DRINK)) {
+                            eventManager.startEvent(EVENT_LEVEL_BUY_DRINK, 7000);
+                        }
                     }
                 }
 
@@ -116,19 +118,19 @@ const Section2 = () => {
                     // 限制玩家移動範圍 - 右側
                     if (playerController.getPlayer().position.x > maxRoadX) {
                         playerController.getPlayer().position.x = maxRoadX;
-                        image(this._explosion, gameManager.getStreetXRange()[1] - playerController.playerWidth / 2, playerController.getPlayer().position.y - playerController.playerHeight / 2, 100, 100);
+                        sparkController.createSpark(gameManager.getStreetXRange()[1], playerController.getPlayer().position.y);
                     }
                     // 限制玩家移動範圍 - 上方
                     if (playerController.getPlayer().position.y < startPosiY_buyDrink - 580 && playerController.getPlayer().position.x > gameManager.getRoadXRange()[1] &&
                         playerController.getPlayer().position.x < gameManager.getStreetXRange()[1]) {
                         playerController.getPlayer().position.y = startPosiY_buyDrink - 580;
-                        image(this._explosion, playerController.getPlayer().position.x - playerController.getPlayer().width / 2, startPosiY_buyDrink - 720, 100, 100);
+                        sparkController.createSpark(playerController.getPlayer().position.x, startPosiY_buyDrink - 650);
                     }
                     // 限制玩家移動範圍 - 下方
                     if (playerController.getPlayer().position.y + playerController.playerHeight > startPosiY_buyDrink - 330 && playerController.getPlayer().position.x > gameManager.getRoadXRange()[1] &&
                         playerController.getPlayer().position.x < gameManager.getStreetXRange()[1]) {
                         playerController.getPlayer().position.y = startPosiY_buyDrink - 330 - playerController.playerHeight;
-                        image(this._explosion, playerController.getPlayer().position.x - playerController.getPlayer().width / 2, startPosiY_buyDrink - 470, 100, 100);
+                        sparkController.createSpark(playerController.getPlayer().position.x, startPosiY_buyDrink - 400);
                     }
 
                     // 判斷有沒有停在格子內
@@ -154,7 +156,6 @@ const Section2 = () => {
                         successVio_DoubleParking = false;
                         keyPressedManager.setKeyPressedStop(false);
                     }, 2000);
-                    eventManager.startEvent(EVENT_LEVEL_BUY_DRINK, 7000);
                 }
 
                 // buy drink
@@ -168,6 +169,8 @@ const Section2 = () => {
                         successVio_BuyDrink = false;
                         keyPressedManager.setKeyPressedStop(false);
                     }, 2000);
+                    playerController.getPlayer().position.x = width / 2;
+                    mainUIController.setTaskText("");
                 }
 
             }
