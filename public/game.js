@@ -111,14 +111,13 @@ function keyPressed() {
         if (
             !currentEvents.has(
                 EVENT_REPORT_RED_LINE_PARKING ||
-                    EVENT_REPORT_DOUBLE_PARKING ||
-                    EVENT_REPORT_NOT_YIELDING_TO_PEDESTRIANS ||
-                    EVENT_REPORT_ILLEGAL_MAKE_A_U_TURN ||
-                    EVENT_REPORT_RUNNING_RED_LIGHT
+                EVENT_REPORT_DOUBLE_PARKING ||
+                EVENT_REPORT_CROSS_HATCH_PARKING ||
+                EVENT_REPORT_RUNNING_RED_LIGHT
             )
         ) {
-            playerData.addScore(-0.5);
-            console.log("fail report -0.5");
+            playerData.addScore(-5);
+            console.log("fail report -5");
         }
     }
 

@@ -59,7 +59,7 @@ const Section1 = () => {
                         break;
                     case EventStatus.END:
                         // Do something
-                        console.log("Red Line Event End, Report Fail!");
+                        console.log("Red Line Event End!");
                         break;
                 }
             });
@@ -205,9 +205,8 @@ const Section1 = () => {
                             6500
                         );
                     } else if (
-                        playerController.getPlayer().position.y -
-                            playerController.playerHeight <
-                        startPosiY - 800
+                        playerController.getPlayer().position.y -playerController.playerHeight <
+                        startPosiY - 900
                     ) {
                         eventManager.endEvent(EVENT_REPORT_RED_LINE_PARKING);
                         eventManager.startEvent(

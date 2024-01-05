@@ -47,7 +47,7 @@ const Section2 = () => {
                         break;
                     case EventStatus.END:
                         // Do something
-                        console.log("double parking Event End, Report Fail!");
+                        console.log("double parking Event End!");
                         break;
                 }
             });

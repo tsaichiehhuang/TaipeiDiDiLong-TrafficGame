@@ -6,6 +6,7 @@ class ViolationManager {
         this._realredLineParkingVio = loadImage('../images/section1/Warn1.png'); // "redLineParking"
         this._realdoubleParkingVio = loadImage('../images/section2/Warn2.png'); // "doubleParking"
         this.realnotYieldPersonVio = loadImage("../images/section3/Warn3.png"); // "notYieldPerson"
+        this.realcrossHatchParkingVio = loadImage('../images/section4/Wrong4.png'); // "crossHatchParking"
         this._realrunningRedLightVio = loadImage('../images/section5/Warn5.png'); // "runningRedLight"
     };
 
@@ -29,6 +30,9 @@ class ViolationManager {
                     break;
                 case "runningRedLight":
                     image(this._realrunningRedLightVio, xCurrPosi, yCurrPosi);
+                    break;
+                case "crossHatchParking":
+                    image(this.realcrossHatchParkingVio, xCurrPosi, yCurrPosi);
                     break;
             }
             keyPressedManager.setKeyPressedStop(true);
