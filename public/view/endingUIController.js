@@ -1,6 +1,7 @@
 class EndingUIController {
     constructor() {
         this.state = 0; // 0: 分數結算, 1: 封底
+        this.totalMoney = null;
     }
 
     preload = () => {
@@ -15,17 +16,17 @@ class EndingUIController {
     }
 
     setup = () => {
-        let buttonOnClick = () => { 
+        let buttonOnClick = () => {
             window.location.href = 'index.html';
         }
 
         let buttonTopY = 448;
-        this._button = new Button(width/2, buttonTopY + this._replayButtonImageDefault.height/2,
+        this._button = new Button(width / 2, buttonTopY + this._replayButtonImageDefault.height / 2,
             this._replayButtonImageDefault, this._replayButtonImagePressed, buttonOnClick);
     }
 
     _scoreSize = (score) => {
-        switch(score.toString().length) {
+        switch (score.toString().length) {
             case 1:
                 return 60;
             case 2:
@@ -37,22 +38,51 @@ class EndingUIController {
         }
     }
 
+
+    _moneySize = (score) => {
+        switch (score.toString().length) {
+            case 1:
+                return 40;
+            case 2:
+                return 60;
+            case 3:
+                return 50;
+            case 4:
+                return 40;
+            case 5:
+                return 30;
+            default: // 也太多
+                return 25;
+        }
+    }
+
     show = (score, tickets) => {
         push();
-        
-        if(this.state == 0) {
-            background(this._bgByScore(score));
-            fill(255);
-            textFont('Comic Sans MS');
-            textSize(this._scoreSize(score));
-            text(score, 810, 290);
 
-            let continueText = "(任意處點擊後繼續)"
+        if (this.state == 0) {
+            if (!this.totalMoney) {
+                // For debug
+                // playerData.addTrafficTicket("闖紅燈", 18000);
+                // playerData.addTrafficTicket("闖紅燈", 180000);
+                this.totalMoney = this._getTotalAmount(tickets);
+            }
+            background(this._bgByScore(score));
+
+            // 畫分數
+            fill(255);
+            textSize(this._scoreSize(score));
+            text(score, 790, 250);
+
+            // 畫罰單總金額
+            textSize(this._moneySize(this.totalMoney));
+            text(this.totalMoney, 770 - textWidth(this.totalMoney) / 2, 350);
+
+            let continueText = "(點擊任意處後繼續)"
             fill(200);
             textSize(16);
-            text(continueText, width/2 - textWidth(continueText)/2, height - 70);
-            
-            if(mouseIsPressed) {
+            text(continueText, width / 2 - textWidth(continueText) / 2, height - 70);
+
+            if (mouseIsPressed) {
                 this.state = 1;
             }
         } else {
@@ -66,6 +96,14 @@ class EndingUIController {
         texts.forEach((t, index) => {
             text(t, width / 2 - 200, yOffset + index * 50);
         });
+    }
+
+    _getTotalAmount = (tickets) => {
+        let sum = 0;
+        tickets.forEach((t) => {
+            sum += t.amount;
+        });
+        return sum;
     }
 
     _genereateTicketText = (tickets) => {
@@ -129,7 +167,7 @@ class Button {
         if (this.over()) {
             image(this.img, this.x, this.y);
             cursor(HAND);
-            if(mouseIsPressed) {
+            if (mouseIsPressed) {
                 this.onClick();
             }
         } else {
