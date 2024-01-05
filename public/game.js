@@ -41,6 +41,7 @@ function preload() {
     scooterImages = preloadScooterImages();
     playerController.preload();
     sparkController.preload();
+    preloadSounds();
     naniFontRegular = loadFont("../font/NaniFont-Regular.ttf");
     naniFontLight = loadFont("../font/NaniFont-Light.ttf");
     naniFontExtraLight = loadFont("../font/NaniFont-ExtraLight.ttf");

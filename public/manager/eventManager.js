@@ -10,6 +10,18 @@ class EventManager {
         this.events = _eventsMap;
         this.currentEvents = new Set(); // 目前正在進行的事件
         this._listeners = {}; // 監聽事件的物件
+        this._eventTypeMap = this._prepareEventIdToTypeMap();   
+    }
+
+    _prepareEventIdToTypeMap = () => {
+        const eventIdToTypeMap = {};
+        for (let eventId in this.events) {
+            eventIdToTypeMap[eventId] = this.events[eventId].EventType;
+        }
+    }
+
+    getEventType = (eventId) => { 
+        return this._eventTypeMap[eventId];
     }
 
     /**
@@ -19,6 +31,7 @@ class EventManager {
     getCurrentEvent = () => {
         return this.currentEvents;
     }
+    
 
     startEvent = (eventId, delay = 0) => {
         setTimeout(() => {
@@ -98,6 +111,13 @@ class EventManager {
             // If so, update score
             if (endStatus === EventStatus.SUCCESS || endStatus === EventStatus.FAIL) {
                 this._updateScore(eventId, endStatus);
+
+                // 統一放加分扣分音效
+                if(endStatus === EventStatus.SUCCESS) {
+                    allSounds.get("correct").play();
+                } else {
+                    allSounds.get("wrong").play();
+                }
             }
         }, delay);
     }
