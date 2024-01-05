@@ -65,6 +65,7 @@ const Section3 = () => {
                         showLevelText = true;
                         console.log("Cross the road fail");
                         gameManager.nextSectionAfterScreenHeight();
+                        playerData.addTrafficTicket("未禮讓行人", 6000);
                         break;
                 }
             });
@@ -146,7 +147,7 @@ const Section3 = () => {
                             if(walker.isMoving) {
                                 // 行人先停下來 然後顯示感謝禮讓的那段字後 接著情境題
                                 walker.setIsMoving(false);
-                                walker.say("感謝禮讓！");
+                                // walker.say("感謝禮讓！");
                                 eventManager.successEvent(
                                     EVENT_LEVEL_CROSS_THE_ROAD
                                 );
