@@ -5,7 +5,7 @@ class PlayerData {
     this._scoreCallbacks = new Map();
     this._nextCallbackId = 0;
 
-    this.initScore = 500; // 初始分數
+    this.initScore = 300; // 初始分數
     this._score = this.initScore;
   }
 
