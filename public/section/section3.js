@@ -134,24 +134,26 @@ const Section3 = () => {
                             walker.setIsMoving(true);
                         }
 
-                        // 如果路人可能走到斑馬線中間的時候先停下來 然後顯示感謝禮讓的那段字後 接著情境題
-                        if(walker.sprite.position.x < width/2) {
-                            walker.setIsMoving(false);
-                            walker.say("感謝禮讓！");
-                            eventManager.successEvent(
+                         // 如果玩家已經超過了行人，觸發沒有禮讓
+                        if(player.position.y < walker.sprite.position.y) {
+                            eventManager.failEvent(
                                 EVENT_LEVEL_CROSS_THE_ROAD
                             );
                             keyPressedManager.setKeyPressedStop(true);
                         }
-                    }
 
-                    // 超過斑馬線也算關卡失敗
-                    if (
-                        playerController.getPlayer().position.y +
-                            playerController.playerHeight <
-                        startPosiY_crossTheRoad - 1000
-                    ) {
-                        eventManager.failEvent(EVENT_LEVEL_CROSS_THE_ROAD);
+                        // 如果路人走到超過斑馬線中間的時候
+                        if(walker.sprite.position.x < width/2) {
+                            if(walker.isMoving) {
+                                // 行人先停下來 然後顯示感謝禮讓的那段字後 接著情境題
+                                walker.setIsMoving(false);
+                                walker.say("感謝禮讓！");
+                                eventManager.successEvent(
+                                    EVENT_LEVEL_CROSS_THE_ROAD
+                                );
+                                keyPressedManager.setKeyPressedStop(true);
+                            }
+                        }
                     }
                 }
 
