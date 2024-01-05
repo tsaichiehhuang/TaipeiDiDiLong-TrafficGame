@@ -164,7 +164,7 @@ function mousePressed() {
 // Update values
 function update() {
     // 在買飲料事件進行時，讓玩家可以開到人行道上(因為停車格在人行道上)
-    if (eventManager.getCurrentEvent().has(EVENT_LEVEL_BUY_DRINK)) {
+    if (eventManager.getCurrentEvent().has(EVENT_LEVEL_BUY_DRINK) || eventManager.getCurrentEvent().has(EVENT_LEVEL_BUY_DINNER)) {
         playerController.update(true);
     } else {
         playerController.update(false); //let player‘s movement range not exceed the road
