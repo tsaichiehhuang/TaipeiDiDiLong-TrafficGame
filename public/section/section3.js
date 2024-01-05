@@ -139,7 +139,6 @@ const Section3 = () => {
                             eventManager.failEvent(
                                 EVENT_LEVEL_CROSS_THE_ROAD
                             );
-                            keyPressedManager.setKeyPressedStop(true);
                         }
 
                         // 如果路人走到超過斑馬線中間的時候
