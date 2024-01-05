@@ -41,6 +41,6 @@ function draw() {
     }
 
     if (game_started) {
-        window.location.href = "game.html" ;
+        window.location.href = "open.html" ;
     }
 }
