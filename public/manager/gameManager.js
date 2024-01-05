@@ -49,8 +49,9 @@ class GameManager {
 
 		// Make background
 		let yPos =  (-this._bgImages[0].height - this.cameraYOffest) / 2  + height + 10;
+		let longBgGroup = new Group();
 		for(let i = 0; i < this._bgImages.length; i++) {
-			this._createRoadSprite(group, width / 2, yPos, this._bgImages[i], this._bgSprites);
+			this._createRoadSprite(longBgGroup, width / 2, yPos, this._bgImages[i], this._bgSprites);
 			yPos -= (this._bgImages[i].height - 1); // 不減 1 會有一點點ㄉ縫縫
 		}
 
@@ -63,6 +64,16 @@ class GameManager {
 
 		this._backgroundGroup = group;
 	};
+
+	showBackground() {
+		// 只 show 目前螢幕上看得到的背景
+		let [topY, bottomY] = this.getVisibleYRange();
+		this._bgSprites.forEach((sprite) => {
+			if(sprite.position.y + sprite.h / 2 >= topY && sprite.position.y - sprite.h / 2 <= bottomY) {
+				sprite.draw();
+			}
+		});
+	}
 
 	_createRoadSprite = (group, x, y, img, array) => {
 		let sprite = new group.Sprite(x, y);
@@ -78,6 +89,7 @@ class GameManager {
 	update = () => {
 		/* 顯示背景 */
 		background(255);
+		this.showBackground();
 		this._repositionRoadsIfNeed();
 
 		if(this._isCheckingNextSectionDistance) {
