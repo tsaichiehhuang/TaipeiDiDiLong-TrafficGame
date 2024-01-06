@@ -13,6 +13,10 @@ const Section2 = () => {
     // buy drink success var
     let successVio_BuyDrink = false;
 
+    // Scooter show in section 2
+    let scooter2 = new Scooter();
+
+
     return {
         preload: () => {
             // Called in p5.js preload() function
@@ -27,6 +31,9 @@ const Section2 = () => {
         },
 
         onSectionStart: () => {
+
+            scooter2.setup(gameManager.getRoadCenterXs()[0] , player.position.y - height, speed = -3);
+
             // Demo start event
             eventManager.startEvent(EVENT_REPORT_DOUBLE_PARKING, 1000);
 
@@ -78,6 +85,7 @@ const Section2 = () => {
                         // Do something
                         console.log("Buy drink success!");
                         gameManager.nextSectionAfterScreenHeight();
+                        section345Car.setup(gameManager.getRoadCenterXs()[0], player.position.y - 2 * height, speed = 0);
                         break;
                     case EventStatus.FAIL:
                         // Do something
@@ -202,6 +210,7 @@ const Section2 = () => {
                             eventManager.successEvent(EVENT_LEVEL_BUY_DRINK);
                         }, 1000);
                         successVio_BuyDrink = true;
+                        scooter2.removeOutOfScreen();
                     }
                 }
 
@@ -209,6 +218,7 @@ const Section2 = () => {
                 sparkController.drawExistingSparks(); // 畫碰撞的火花
 
                 playerController.draw(); // 畫玩家
+                scooter2.draw();
 
                 // 在這畫圖會蓋在 player 上面！
                 // double parking
@@ -238,7 +248,7 @@ const Section2 = () => {
                         keyPressedManager.setKeyPressedStop(false);
                     }, 2000);
                     playerController.getPlayer().position.x = width/2 + (gameManager.getRoadXRange()[1] - width / 2) / 2;
-                    mainUIController.setTaskText("");
+                    mainUIController.setTaskText("下一個任務：去買便當\n請繼續直行");
                 }
             }
 
@@ -255,6 +265,9 @@ const Section2 = () => {
                 EVENT_REPORT_DOUBLE_PARKING,
                 EVENT_LEVEL_BUY_DRINK,
             ]);
+
+            scooter2.removeSprite();
+
         },
     };
 };

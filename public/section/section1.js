@@ -20,6 +20,8 @@ const Section1 = () => {
     let showQaQuestion = false;
     let qaResult = null;
 
+    let scooter = new Scooter();
+
     return {
         preload: () => {
             // Called in p5.js preload() function
@@ -39,6 +41,8 @@ const Section1 = () => {
         },
 
         onSectionStart: () => {
+            mainUIController.setTaskText("下一個任務：買飲料\n請繼續直行");
+
             eventManager.startEvent(EVENT_REPORT_RED_LINE_PARKING, 3500); // start after 4 second
 
             // 檢舉：紅線停車
@@ -84,6 +88,9 @@ const Section1 = () => {
                         showTrafficLight = true;
                         setTimeout(() => {
                             trafficLightImg = this._yellowLightImg;
+                            // 設定夠快的速度，可以在紅燈前過去
+                            // 設定起始點：當時的摩托車位置，目標位置：紅燈位置再上去一點，時間：1秒
+                            scooter.updateSpeed(computeSpeed(scooter.sprite.position.y, trafficLightY - 200, 1));
                         }, 1000);
                         setTimeout(() => {
                             trafficLightImg = this._redLightImg;
@@ -159,6 +166,8 @@ const Section1 = () => {
                         break;
                 }
             });
+
+            scooter.setup(player.position.x , player.position.y - 200);
 
             
         },
@@ -253,6 +262,7 @@ const Section1 = () => {
 
                 sparkController.drawExistingSparks(); // 畫碰撞的火花
                 playerController.draw(); // 畫玩家
+                scooter.draw(); // 畫摩托車
 
                 // 在這畫圖會蓋在 player 上面！
                 if (successVio_RedLineParking) {
@@ -301,6 +311,9 @@ const Section1 = () => {
                 EVENT_LEVEL_TRAFFIC_LIGHT,
                 EVENT_QA_FLOWER_SELLER,
             ]);
+
+            scooter.removeSprite();
+            scooter = null;
         },
     };
 };

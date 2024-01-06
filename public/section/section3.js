@@ -33,6 +33,7 @@ const Section3 = () => {
                 console.log("Cross the roas event : " + status);
                 switch (status) {
                     case EventStatus.START:
+                        section345Car.updateSpeed(-2); // 開始移動
                         startPosiY_crossTheRoad =
                             playerController.getPlayer().position.y;
 
@@ -58,6 +59,9 @@ const Section3 = () => {
                             eventManager.failEvent(
                                 EVENT_LEVEL_CROSS_THE_ROAD);
                         });
+
+                        // 設定車要等行人過馬路
+                        section345Car.setWillStopBefore(walker.sprite);
                         break;
                     case EventStatus.SUCCESS:
                         isStoppedInLevel = true;
@@ -172,6 +176,7 @@ const Section3 = () => {
                 sparkController.drawExistingSparks(); // 畫碰撞的火花
 
                 playerController.draw(); // 畫玩家
+                section345Car.draw();
 
 
                 // 在這畫圖會蓋在 player 上面！

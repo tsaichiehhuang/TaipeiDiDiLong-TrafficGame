@@ -25,7 +25,7 @@ const Section4 = () => {
 
         onSectionStart: () => {
             eventManager.startEvent(EVENT_REPORT_CROSS_HATCH_PARKING, 1000);
-
+            section345Car.updateSpeed(-5);
             // 檢舉：網狀線停車
             eventManager.listen(EVENT_REPORT_CROSS_HATCH_PARKING, (status) => {
                 console.log("cross hatch parking event : " + status);
@@ -41,6 +41,7 @@ const Section4 = () => {
                             'static');
                         violationSprite.visible = false;
                         registerSparkWhenCollide(violationSprite, sparkController);
+                        section345Car.setWillChangeRoad(violationSprite);
                         break;
                     case EventStatus.SUCCESS:
                         // Do something
@@ -74,6 +75,7 @@ const Section4 = () => {
                         // Do something
                         console.log("Buy dinner success!");
                         gameManager.nextSectionAfterScreenHeight();
+                        // section345Car.onRoadSensorOverlapping(); // Test: 換回去左車道
                         break;
                     case EventStatus.FAIL:
                         // Do something
@@ -199,6 +201,7 @@ const Section4 = () => {
                 // 在這畫圖會畫在 player 底下！
                 sparkController.drawExistingSparks(); // 畫碰撞的火花
                 playerController.draw(); // 畫玩家
+                section345Car.draw();
 
                 // 在這畫圖會蓋在 player 上面！
                 // cross hatch parking
@@ -228,7 +231,7 @@ const Section4 = () => {
                         keyPressedManager.setKeyPressedStop(false);
                     }, 2000);
                     playerController.getPlayer().position.x = width/2 + (gameManager.getRoadXRange()[1] - width / 2) / 2;
-                    mainUIController.setTaskText("");
+                    mainUIController.setTaskText("下一個任務：準備回家啦！\n");
                 }
             }
 
