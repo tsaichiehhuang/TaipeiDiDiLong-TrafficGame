@@ -12,7 +12,7 @@ class GameManager {
 
         // 720 會有一點很小的縫縫
         this._roadHeight = 719; // road image height
-        this._section = 1; // 換這裡可以測試，直接從某個 section 開始
+        this._section = 3; // 換這裡可以測試，直接從某個 section 開始
         this._sectionChangedCallbacks = [];
 
         // For nextSectionAfterScreenHeight()

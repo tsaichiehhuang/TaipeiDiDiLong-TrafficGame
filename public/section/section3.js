@@ -99,9 +99,9 @@ const Section3 = () => {
                         setTimeout(() => {
                             qaResult = null;
                             walker.setIsMoving(true);
+                            keyPressedManager.setKeyPressedStop(false);
                         }, 3000);
                         console.log("Passerby success");
-                        keyPressedManager.setKeyPressedStop(false);
                         gameManager.nextSectionAfterScreenHeight();
                         break;
                     case EventStatus.FAIL:
@@ -110,9 +110,9 @@ const Section3 = () => {
                         setTimeout(() => {
                             qaResult = null;
                             walker.setIsMoving(true);
+                            keyPressedManager.setKeyPressedStop(false);
                         }, 3500);
                         console.log("Passerby fail");
-                        keyPressedManager.setKeyPressedStop(false);
                         gameManager.nextSectionAfterScreenHeight();
                         break;
                 }

@@ -127,8 +127,7 @@ class QuestionManager {
 
         const leftEdgeX =
             (gameManager.getRoadXRange()[0] + gameManager.getRoadXRange()[1]) /
-                2 -
-            260;
+            3;
 
         textSize(18);
 

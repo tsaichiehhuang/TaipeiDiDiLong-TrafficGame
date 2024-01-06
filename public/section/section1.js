@@ -130,7 +130,7 @@ const Section1 = () => {
                         setTimeout(() => {
                             trafficLightImg = this._greenLightImg;
                             keyPressedManager.setKeyPressedStop(false);
-                        }, 500);
+                        }, 4500);
                         console.log("Flower seller Success!");
                         gameManager.nextSectionAfterScreenHeight();
                         break;
@@ -144,7 +144,7 @@ const Section1 = () => {
                         setTimeout(() => {
                             trafficLightImg = this._greenLightImg;
                             keyPressedManager.setKeyPressedStop(false);
-                        }, 500);
+                        }, 4500);
                         console.log("Flower seller Fail!");
                         gameManager.nextSectionAfterScreenHeight();
                         break;
