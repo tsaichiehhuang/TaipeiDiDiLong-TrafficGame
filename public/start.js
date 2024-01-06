@@ -110,7 +110,7 @@ function mousePressed() {
 function keyPressed() {
     if (game_started) {
         if (keyCode === ENTER) {
-            next();
+            openingUIController.next();
         }
     }
 }
