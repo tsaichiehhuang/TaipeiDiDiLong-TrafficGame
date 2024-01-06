@@ -113,7 +113,7 @@ class PlayerController {
       }
     }
 
-    if(!gameManager.isCameraFollowPlayer) {
+    if(!gameManager.isCameraFollowPlayer && !gameManager.isEnded()) {
       // 當玩家離開最頂部區域時，恢復鏡頭跟隨
       if((this.playerSprite.position.y  + this.playerSprite.velocity.y >= minY + height/2 - gameManager.cameraYOffest)){
         gameManager.setCameraFollowPlayer(true);

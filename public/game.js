@@ -11,6 +11,7 @@ const crossTheRoadManager = new CrossTheRoadManager();
 
 // UIs =======================================
 const mainUIController = new MainUIController();
+const endUIController = new EndingUIController();
 
 // Sections ================================
 const sectionManager = SectionManager(gameManager);
@@ -100,7 +101,10 @@ function draw() {
 }
 
 function keyPressed() {
-    if (gameManager.isEnded()) return;
+    if (gameManager.isEnded()) {
+        endUIController.onKeyPressed(keyCode);
+        return;
+    }    
 
     // Report Wrong
     if (keyIsDown(32)) {

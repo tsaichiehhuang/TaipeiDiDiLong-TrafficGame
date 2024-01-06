@@ -6,7 +6,7 @@ class MainUIController {
 		this.alertText = '';
 		this.showAlertFlag = false;
 		this.pointerImage = null;
-		
+		this._isShowing = true;
 		// up, down, left, right
 		this.arrowKeyIsDown = [false, false, false, false];
 	}
@@ -69,7 +69,7 @@ class MainUIController {
 	}
 
 	update = () => {
-		if(gameManager.isEnded()) {
+		if(gameManager.isEnded() || !this._isShowing) {
 			return;
 		}
 		push();
@@ -95,6 +95,14 @@ class MainUIController {
 	 */
 	setTaskText = (text) => {
 		this.taskText = text;
+	}
+
+	/**
+	 * 是否顯示整個主要 UI
+	 * @param {boolean} isShowing 
+	 */
+	setIsShowing = (isShowing) => {
+		this._isShowing = isShowing;
 	}
 
 	setScore = (score) => {

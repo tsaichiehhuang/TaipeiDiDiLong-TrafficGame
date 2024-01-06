@@ -1,6 +1,6 @@
 class EndingUIController {
     constructor() {
-        this.state = 0; // 0: 分數結算, 1: 封底
+        this.state = -1; // -1: 到家了, 0: 分數結算, 1: 封底
         this.totalMoney = null;
     }
 
@@ -69,6 +69,8 @@ class EndingUIController {
         let buttonTopY = 448;
         this._button = new Button(width / 2, buttonTopY + this._replayButtonImageDefault.height / 2,
             this._replayButtonImageDefault, this._replayButtonImagePressed, buttonOnClick);
+    
+        key
     }
 
     _scoreSize = (score) => {
@@ -101,10 +103,27 @@ class EndingUIController {
         }
     }
 
+    _showContinueText = () => {
+        let continueText = "(ENTER 後繼續)"
+        fill(200);
+        textSize(16);
+        text(continueText, width / 2 - textWidth(continueText) / 2, height - 70);
+    }
+
     show = (score = this.score, tickets = this.tickets) => {
 
         push();
-        if (this.state == 0) {
+        if(this.state == -1) {
+            background(0);
+            // 到家了！
+            fill(255);
+            let arriveText = "到家了！";
+            this._showContinueText();
+            textSize(32);
+            textSize(this._scoreSize(score));
+            text(arriveText, width/2 - textWidth(arriveText)/2, height/2);
+        }
+        else if (this.state == 0) {
             if (!this.totalMoney) {
                 // For debug
                 // playerData.addTrafficTicket("闖紅燈", 18000);
@@ -127,10 +146,6 @@ class EndingUIController {
             textSize(16);
             text(continueText, width / 2 - textWidth(continueText) / 2, height - 70);
 
-            if (keyCode == ENTER) {
-                this.state = 1;
-            }
-
             // // Debug 時用
             // if(mouseIsPressed) {
             //     if(!this.currentBgm.isPlaying()){ 
@@ -140,6 +155,13 @@ class EndingUIController {
         } else {
             background(this._backgroundImage);
             this._button.display();
+        }
+    }
+
+    onKeyPressed = (keyCode) => {
+        if (keyCode == ENTER && this.state <= 0) {
+            allSounds.get("button").play();
+            this.state += 1;
         }
     }
 
