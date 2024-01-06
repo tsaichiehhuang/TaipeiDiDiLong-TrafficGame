@@ -10,7 +10,7 @@ class PlayerController {
 
   preload = () => {
     this.playerImg = loadImage("images/player/player.png");
-    this.alertImg = loadImage("../images/text/text3.png"); // 當玩家開在中間虛線上，跳出提醒文字
+    this.alertImg = loadImage("../images/text/text8.png"); // 當玩家開在中間虛線上，跳出提醒文字
   };
 
   setup = () => {
