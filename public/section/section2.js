@@ -41,7 +41,7 @@ const Section2 = () => {
                     case EventStatus.SUCCESS:
                         // Do something
                         console.log("Report Success!");
-                        eventManager.startEvent(EVENT_LEVEL_BUY_DRINK, 7000);
+                        eventManager.startEvent(EVENT_LEVEL_BUY_DRINK, 9000);
                         break;
                     case EventStatus.FAIL:
                         // Do something
@@ -122,7 +122,7 @@ const Section2 = () => {
                         if (!currentEvents.has(EVENT_LEVEL_BUY_DRINK)) {
                             eventManager.startEvent(
                                 EVENT_LEVEL_BUY_DRINK,
-                                7000
+                                9000
                             );
                         }
                     }

@@ -37,7 +37,7 @@ const Section4 = () => {
                     case EventStatus.SUCCESS:
                         // Do something
                         console.log("Report Success!");
-                        eventManager.startEvent(EVENT_LEVEL_BUY_DINNER, 5000);
+                        eventManager.startEvent(EVENT_LEVEL_BUY_DINNER, 7000);
                         break;
                     case EventStatus.FAIL:
                         // Do something
@@ -115,11 +115,8 @@ const Section4 = () => {
                         startPosiY - 900
                     ) {
                         eventManager.endEvent(EVENT_REPORT_CROSS_HATCH_PARKING);
-                        if (!currentEvents.has(EVENT_LEVEL_BUY_DRINK)) {
-                            eventManager.startEvent(
-                                EVENT_LEVEL_BUY_DINNER,
-                                5000
-                            );
+                        if(!currentEvents.has(EVENT_LEVEL_BUY_DRINK)) {
+                            eventManager.startEvent(EVENT_LEVEL_BUY_DINNER, 7000);
                         }
                     }
                 }
