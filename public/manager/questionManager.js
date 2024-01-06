@@ -281,7 +281,18 @@ class QuestionManager {
         text(
             qaResult ? "答對啦！加分加分" : "叭叭！答錯了餒...",
             xCurrPosi,
-            yCurrPosi - 55
+            yCurrPosi - 105
+        );
+        text(
+            qaResult
+                ? "你真4太聰明了！"
+                : `正確答案是：${
+                      this.currentQuestion.options[
+                          this.currentQuestion.answer - 1
+                      ]
+                  }`,
+            xCurrPosi,
+            yCurrPosi - 50
         );
     };
 }

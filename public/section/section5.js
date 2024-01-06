@@ -33,14 +33,14 @@ const Section5 = () => {
         onSectionStart: () => {
             eventManager.startEvent(EVENT_LEVEL_TRAFFIC_LIGHT, 1500);
 
-            //監聽紅綠燈事件
+            //紅綠燈事件
             eventManager.listen(EVENT_LEVEL_TRAFFIC_LIGHT, (status) => {
                 console.log("Traffic light event : " + status);
                 switch (status) {
                     case EventStatus.START:
                         trafficLightY =
                             playerController.getPlayer().position.y - 950;
-                        runRedLightManager.setup();
+                        trafficLightManager.setup();
                         showTrafficLight = true;
                         setTimeout(() => {
                             trafficLightImg = this._yellowLightImg;
@@ -54,6 +54,9 @@ const Section5 = () => {
                         setTimeout(() => {
                             showRedLightText = true;
                         }, 800);
+                        setTimeout(() => {
+                            trafficLightImg = this._greenLightImg;
+                        }, 5500);
                         eventManager.startEvent(
                             EVENT_REPORT_RUNNING_RED_LIGHT,
                             3000
@@ -62,10 +65,10 @@ const Section5 = () => {
                         break;
                     case EventStatus.FAIL:
                         isStoppedInRedLight = false;
+                        playerData.addTrafficTicket("闖紅燈", 1800);
                         setTimeout(() => {
                             showRedLightText = true;
                         }, 800);
-
                         setTimeout(() => {
                             trafficLightImg = this._greenLightImg;
                         }, 3000);
@@ -158,12 +161,6 @@ const Section5 = () => {
                     }
                 }
 
-                if (showRedLightText) {
-                    runRedLightManager.draw(
-                        isStoppedInRedLight ? "stopped" : "notStopped"
-                    );
-                }
-
                 // Report on time or not when running red light event start
                 if (currentEvents.has(EVENT_REPORT_RUNNING_RED_LIGHT)) {
                     if (keyIsDown(32)) {
@@ -181,11 +178,19 @@ const Section5 = () => {
                     }
                 }
 
-                // 在這畫圖會畫在 player 底下！
                 sparkController.drawExistingSparks(); // 畫碰撞的火花
                 playerController.draw(); // 畫玩家
 
                 // 在這畫圖會蓋在 player 上面！
+                if (showRedLightText) {
+                    trafficLightManager.draw(
+                        isStoppedInRedLight ? "stopped" : "notStopped"
+                    );
+
+                    setTimeout(() => {
+                        showRedLightText = false;
+                    }, 3000);
+                }
 
                 // Break out the game when report success
                 if (successVio_RunningRedLight) {

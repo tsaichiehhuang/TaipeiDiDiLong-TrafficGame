@@ -4,7 +4,7 @@ const eventManager = new EventManager();
 const playerData = new PlayerData();
 const playerController = new PlayerController(); //For demo
 const violationManager = new ViolationManager();
-const runRedLightManager = new RunRedLightManager();
+const trafficLightManager = new TrafficLightManager();
 const questionManager = new QuestionManager();
 const keyPressedManager = new KeyPressedManager(); //control keyPressed function
 const crossTheRoadManager = new CrossTheRoadManager();
@@ -54,7 +54,9 @@ function setup() {
     gameManager.addSectionChangedCallback(sectionManager.onSectionChanged);
 
     mainUIController.setup();
-    mainUIController.setTaskText("哈囉這是任務的第一行，\n這是任務如果有第二行！");
+    mainUIController.setTaskText(
+        "哈囉這是任務的第一行，\n這是任務如果有第二行！"
+    );
 
     mainUIController.setScore(playerData.getScore()); // 設定 UI 上的分數
     playerData.onScoreChange((score) => {
@@ -74,10 +76,10 @@ function setup() {
     // Violation Success
     violationManager.setup();
 
-  crossTheRoadManager.setup();
+    crossTheRoadManager.setup();
 
-  // 開始紀錄所有與玩家碰撞的 sprite 的最新碰撞點
-  recordPlayerCollidePoint();
+    // 開始紀錄所有與玩家碰撞的 sprite 的最新碰撞點
+    recordPlayerCollidePoint();
 
     sparkController.setup();
 
@@ -112,9 +114,9 @@ function keyPressed() {
         if (
             !currentEvents.has(
                 EVENT_REPORT_RED_LINE_PARKING ||
-                EVENT_REPORT_DOUBLE_PARKING ||
-                EVENT_REPORT_CROSS_HATCH_PARKING ||
-                EVENT_REPORT_RUNNING_RED_LIGHT
+                    EVENT_REPORT_DOUBLE_PARKING ||
+                    EVENT_REPORT_CROSS_HATCH_PARKING ||
+                    EVENT_REPORT_RUNNING_RED_LIGHT
             )
         ) {
             playerData.addScore(-5);
@@ -165,7 +167,10 @@ function mousePressed() {
 // Update values
 function update() {
     // 在買飲料事件進行時，讓玩家可以開到人行道上(因為停車格在人行道上)
-    if (eventManager.getCurrentEvent().has(EVENT_LEVEL_BUY_DRINK) || eventManager.getCurrentEvent().has(EVENT_LEVEL_BUY_DINNER)) {
+    if (
+        eventManager.getCurrentEvent().has(EVENT_LEVEL_BUY_DRINK) ||
+        eventManager.getCurrentEvent().has(EVENT_LEVEL_BUY_DINNER)
+    ) {
         playerController.update(true);
     } else {
         playerController.update(false); //let player‘s movement range not exceed the road

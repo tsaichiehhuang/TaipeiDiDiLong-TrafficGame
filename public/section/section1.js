@@ -64,14 +64,14 @@ const Section1 = () => {
                 }
             });
 
-            //監聽紅綠燈事件
+            //紅綠燈事件
             eventManager.listen(EVENT_LEVEL_TRAFFIC_LIGHT, (status) => {
                 console.log("Traffic light event : " + status);
                 switch (status) {
                     case EventStatus.START:
                         trafficLightY =
                             playerController.getPlayer().position.y - 950;
-                        runRedLightManager.setup();
+                        trafficLightManager.setup();
                         showTrafficLight = true;
                         setTimeout(() => {
                             trafficLightImg = this._yellowLightImg;
@@ -91,11 +91,9 @@ const Section1 = () => {
                     case EventStatus.FAIL:
                         isStoppedInRedLight = false;
                         playerData.addTrafficTicket("闖紅燈", 1800);
-
                         setTimeout(() => {
                             showRedLightText = true;
                         }, 800);
-
                         setTimeout(() => {
                             trafficLightImg = this._greenLightImg;
                         }, 3000);
@@ -128,7 +126,7 @@ const Section1 = () => {
                         qaResult = true;
                         setTimeout(() => {
                             qaResult = null;
-                        }, 2000);
+                        }, 3000);
                         setTimeout(() => {
                             trafficLightImg = this._greenLightImg;
                             keyPressedManager.setKeyPressedStop(false);
@@ -142,7 +140,7 @@ const Section1 = () => {
                         qaResult = false;
                         setTimeout(() => {
                             qaResult = null;
-                        }, 2000);
+                        }, 3500);
                         setTimeout(() => {
                             trafficLightImg = this._greenLightImg;
                             keyPressedManager.setKeyPressedStop(false);
@@ -205,7 +203,8 @@ const Section1 = () => {
                             6500
                         );
                     } else if (
-                        playerController.getPlayer().position.y -playerController.playerHeight <
+                        playerController.getPlayer().position.y -
+                            playerController.playerHeight <
                         startPosiY - 900
                     ) {
                         eventManager.endEvent(EVENT_REPORT_RED_LINE_PARKING);
@@ -253,9 +252,13 @@ const Section1 = () => {
                 }
 
                 if (showRedLightText) {
-                    runRedLightManager.draw(
+                    trafficLightManager.draw(
                         isStoppedInRedLight ? "stopped" : "notStopped"
                     );
+
+                    setTimeout(() => {
+                        showRedLightText = false;
+                    }, 3000);
                 }
 
                 if (showQaQuestion) {
