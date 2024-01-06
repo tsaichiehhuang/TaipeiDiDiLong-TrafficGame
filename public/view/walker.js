@@ -22,6 +22,7 @@ class Walker {
 		allSprites.remove(sprite);
 
 		sprite.mass = 1;
+		sprite.rotationLock = true; // 避免被撞之後旋轉
 		registerSparkWhenCollide(sprite, sparkController);
 		this.sprite = sprite;
 
@@ -57,6 +58,16 @@ class Walker {
 				this._sway();
 			} else {
 				this.sprite.rotateTo(0);
+			}
+		} else {
+			// 讓行人被撞之後不會飄到綠色區塊上
+			let [left, right] = gameManager.getStreetXRange();
+			if(this.sprite.position.x - this.sprite.w/2 < left) {
+				this.sprite.vel.x = 0;
+				this.sprite.vel.y = 0;
+			} else if(this.sprite.position.x + this.sprite.w/2 > right) {
+				this.sprite.vel.x = 0;
+				this.sprite.vel.y = 0;
 			}
 		}
 
@@ -113,6 +124,7 @@ class Walker {
 			this.sprite.vel.x = 0;
 			playerData.addScore(-100);
 			playerData.addTrafficTicket("肇事致人受傷", 7200);
+			allSounds.get("wrong").play();
 			this.collided = true;
 			this.say("啊～");
 			if (this.collidePlayerCallback) {

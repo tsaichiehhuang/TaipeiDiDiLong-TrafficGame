@@ -56,9 +56,7 @@ const Section3 = () => {
                             )
                                 return;
                             eventManager.failEvent(
-                                EVENT_LEVEL_CROSS_THE_ROAD,
-                                1000
-                            );
+                                EVENT_LEVEL_CROSS_THE_ROAD);
                         });
                         break;
                     case EventStatus.SUCCESS:
@@ -130,6 +128,8 @@ const Section3 = () => {
                 crosswalkPosY
             );
 
+            walker.draw();
+
             if (gameManager.getSection() == 3) {
                 // 原本的 drawDuringSection()
                 // 這裡的程式碼只會在第 3 段執行
@@ -173,7 +173,6 @@ const Section3 = () => {
 
                 playerController.draw(); // 畫玩家
 
-                walker.draw();
 
                 // 在這畫圖會蓋在 player 上面！
                 if (showLevelText) {
