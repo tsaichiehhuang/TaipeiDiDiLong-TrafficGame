@@ -1,6 +1,6 @@
 const Section2 = () => {
     // 在 Section 內部宣告的區域變數，只能在這個範圍內存取
-    let sectionVariable = 'This is a variable in Section2 scope';
+    let sectionVariable = "This is a variable in Section2 scope";
 
     // get car position y when each event start
     let startPosiY;
@@ -21,7 +21,9 @@ const Section2 = () => {
             // load event image
             this._doubleParkingVio = loadImage("../images/road/Wrong2.png");
             this._parkingSpace = loadImage("../images/road/Wrong3&4.png");
-            this._buyDrinkSuccess = loadImage("../images/section2/Buy_Drink.png");
+            this._buyDrinkSuccess = loadImage(
+                "../images/section2/Buy_Drink.png"
+            );
         },
 
         onSectionStart: () => {
@@ -58,8 +60,11 @@ const Section2 = () => {
                 switch (status) {
                     case EventStatus.START:
                         // get car y position when buy drink event status is start
-                        startPosiY_buyDrink = playerController.getPlayer().position.y;
-                        mainUIController.setTaskText("請將車子停入右方停車格，\n完成購買飲料的任務！");
+                        startPosiY_buyDrink =
+                            playerController.getPlayer().position.y;
+                        mainUIController.setTaskText(
+                            "請將車子停入右方停車格，\n完成購買飲料的任務！"
+                        );
                         break;
                     case EventStatus.SUCCESS:
                         // Do something
@@ -82,17 +87,23 @@ const Section2 = () => {
             // trigger double parking img
             image(
                 this._doubleParkingVio,
-                gameManager.getStreetXRange()[1] - this._doubleParkingVio.width - 10,
+                gameManager.getStreetXRange()[1] -
+                    this._doubleParkingVio.width -
+                    10,
                 startPosiY - 1600
             );
 
             // trigger parking space img
-            image(this._parkingSpace, gameManager.getRoadXRange()[1] - 10, startPosiY_buyDrink - 900);
+            image(
+                this._parkingSpace,
+                gameManager.getRoadXRange()[1] - 10,
+                startPosiY_buyDrink - 900
+            );
 
             // --------  原本的 drawDuringSection() ----------------
             // 這裡的程式碼只會在第 2 段執行
             if (gameManager.getSection() == 2) {
-                console.log('Section 2 draw');
+                console.log("Section 2 draw");
                 const currentEvents = eventManager.getCurrentEvent();
 
                 // Report on time or not when double parking event start
@@ -103,50 +114,91 @@ const Section2 = () => {
                         showImgAndText = true;
                         successVio_DoubleParking = true;
                     } else if (
-                        playerController.getPlayer().position.y - playerController.playerHeight <
+                        playerController.getPlayer().position.y -
+                            playerController.playerHeight <
                         startPosiY - 1500
                     ) {
                         eventManager.endEvent(EVENT_REPORT_DOUBLE_PARKING);
-                        if(!currentEvents.has(EVENT_LEVEL_BUY_DRINK)) {
-                            eventManager.startEvent(EVENT_LEVEL_BUY_DRINK, 7000);
+                        if (!currentEvents.has(EVENT_LEVEL_BUY_DRINK)) {
+                            eventManager.startEvent(
+                                EVENT_LEVEL_BUY_DRINK,
+                                7000
+                            );
                         }
                     }
                 }
 
                 // Buy drink event
                 if (currentEvents.has(EVENT_LEVEL_BUY_DRINK)) {
-                    let maxRoadX = gameManager.getStreetXRange()[1] - playerController.playerWidth / 2;
+                    let maxRoadX =
+                        gameManager.getStreetXRange()[1] -
+                        playerController.playerWidth / 2;
                     // 限制玩家移動範圍 - 右側
                     if (playerController.getPlayer().position.x > maxRoadX) {
                         playerController.getPlayer().position.x = maxRoadX;
-                        sparkController.createSpark(gameManager.getStreetXRange()[1], playerController.getPlayer().position.y);
+                        sparkController.createSpark(
+                            gameManager.getStreetXRange()[1],
+                            playerController.getPlayer().position.y
+                        );
                     }
                     // 限制玩家移動範圍 - 上方
-                    if (playerController.getPlayer().position.y < startPosiY_buyDrink - 580 && playerController.getPlayer().position.x > gameManager.getRoadXRange()[1] &&
-                        playerController.getPlayer().position.x < gameManager.getStreetXRange()[1]) {
-                        playerController.getPlayer().position.y = startPosiY_buyDrink - 580;
-                        sparkController.createSpark(playerController.getPlayer().position.x, startPosiY_buyDrink - 650);
+                    if (
+                        playerController.getPlayer().position.y <
+                            startPosiY_buyDrink - 580 &&
+                        playerController.getPlayer().position.x >
+                            gameManager.getRoadXRange()[1] &&
+                        playerController.getPlayer().position.x <
+                            gameManager.getStreetXRange()[1]
+                    ) {
+                        playerController.getPlayer().position.y =
+                            startPosiY_buyDrink - 580;
+                        sparkController.createSpark(
+                            playerController.getPlayer().position.x,
+                            startPosiY_buyDrink - 650
+                        );
                     }
                     // 限制玩家移動範圍 - 下方
-                    if (playerController.getPlayer().position.y + playerController.playerHeight > startPosiY_buyDrink - 330 && playerController.getPlayer().position.x > gameManager.getRoadXRange()[1] &&
-                        playerController.getPlayer().position.x < gameManager.getStreetXRange()[1]) {
-                        playerController.getPlayer().position.y = startPosiY_buyDrink - 330 - playerController.playerHeight;
-                        sparkController.createSpark(playerController.getPlayer().position.x, startPosiY_buyDrink - 400);
+                    if (
+                        playerController.getPlayer().position.y +
+                            playerController.playerHeight >
+                            startPosiY_buyDrink - 330 &&
+                        playerController.getPlayer().position.x >
+                            gameManager.getRoadXRange()[1] &&
+                        playerController.getPlayer().position.x <
+                            gameManager.getStreetXRange()[1]
+                    ) {
+                        playerController.getPlayer().position.y =
+                            startPosiY_buyDrink -
+                            330 -
+                            playerController.playerHeight;
+                        sparkController.createSpark(
+                            playerController.getPlayer().position.x,
+                            startPosiY_buyDrink - 400
+                        );
                     }
 
                     // 判斷有沒有停在格子內
-                    if (playerController.getPlayer().position.y > startPosiY_buyDrink - 580 &&
-                        playerController.getPlayer().position.y + playerController.playerHeight < startPosiY_buyDrink - 360 &&
-                        playerController.getPlayer().position.x > gameManager.getRoadXRange()[1] + playerController.playerWidth / 2 &&
-                        playerController.getPlayer().position.x < maxRoadX) {
+                    if (
+                        playerController.getPlayer().position.y >
+                            startPosiY_buyDrink - 580 &&
+                        playerController.getPlayer().position.y +
+                            playerController.playerHeight <
+                            startPosiY_buyDrink - 360 &&
+                        playerController.getPlayer().position.x >
+                            gameManager.getRoadXRange()[1] +
+                                playerController.playerWidth / 2 &&
+                        playerController.getPlayer().position.x < maxRoadX
+                    ) {
                         allSounds.get("buy").play();
-                        eventManager.successEvent(EVENT_LEVEL_BUY_DRINK);
+                        setTimeout(() => {
+                            eventManager.successEvent(EVENT_LEVEL_BUY_DRINK);
+                        }, 1000);
                         successVio_BuyDrink = true;
                     }
                 }
 
                 // 在這畫圖會畫在 player 底下！
-                sparkController.drawExistingSparks();  // 畫碰撞的火花
+                sparkController.drawExistingSparks(); // 畫碰撞的火花
 
                 playerController.draw(); // 畫玩家
 
@@ -162,8 +214,14 @@ const Section2 = () => {
 
                 // buy drink
                 if (successVio_BuyDrink) {
-                    let xCurrPosi = (gameManager.getRoadXRange()[0] + gameManager.getRoadXRange()[1]) / 2;
-                    let yCurrPosi = (gameManager.getVisibleYRange()[0] + gameManager.getVisibleYRange()[1]) / 2;
+                    let xCurrPosi =
+                        (gameManager.getRoadXRange()[0] +
+                            gameManager.getRoadXRange()[1]) /
+                        2;
+                    let yCurrPosi =
+                        (gameManager.getVisibleYRange()[0] +
+                            gameManager.getVisibleYRange()[1]) /
+                        2;
                     imageMode(CENTER); // 把圖的正中央當定位點
                     image(this._buyDrinkSuccess, xCurrPosi, yCurrPosi);
                     keyPressedManager.setKeyPressedStop(true);
@@ -174,7 +232,6 @@ const Section2 = () => {
                     playerController.getPlayer().position.x = width / 2;
                     mainUIController.setTaskText("");
                 }
-
             }
 
             // 不管哪個 section，都會執行
@@ -188,8 +245,8 @@ const Section2 = () => {
 
             eventManager.clearListeners([
                 EVENT_REPORT_DOUBLE_PARKING,
-                EVENT_LEVEL_BUY_DRINK
+                EVENT_LEVEL_BUY_DRINK,
             ]);
-        }
+        },
     };
 };
