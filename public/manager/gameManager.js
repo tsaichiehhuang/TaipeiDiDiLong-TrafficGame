@@ -40,6 +40,9 @@ class GameManager {
             loadImage("images/road/Road_1.png"),
             loadImage("images/road/Road_2.png"),
         ];
+
+        // 人行道
+        this._sidewalkImg = loadImage("images/road/Sidewalk.png");
     };
 
     setup = () => {
@@ -111,6 +114,10 @@ class GameManager {
         if (this._isCheckingNextSectionDistance) {
             this._checkIfShouldNextSection();
         }
+
+        // 人行道
+        image(this._sidewalkImg, camera.x - width / 2, camera.y - height / 2, width, height);
+        
         // Draw roads
         this._backgroundGroup.draw();
     };
