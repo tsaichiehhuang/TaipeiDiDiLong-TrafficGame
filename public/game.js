@@ -33,6 +33,8 @@ let naniFontExtraLight;
 let naniFontSemiBold;
 let naniFontBold;
 
+let bgm = {};
+
 // p5js ==========================================
 function preload() {
     gameManager.preload();
@@ -48,6 +50,11 @@ function preload() {
     naniFontExtraLight = loadFont("../font/NaniFont-ExtraLight.ttf");
     naniFontSemiBold = loadFont("../font/NaniFont-SemiBold.ttf");
     naniFontBold = loadFont("../font/NaniFont-Bold.ttf");
+
+    bgm.bgm = createAudio("audio/bgm.mp3");
+    bgm.bgm.loop = true;
+    bgm.carSound = createAudio("audio/車道(車聲明顯).mp3");
+    bgm.carSound.loop = true;
 }
 
 function setup() {
@@ -98,6 +105,9 @@ function draw() {
 
     camera.off();
     mainUIController.update();
+
+    bgm.bgm.play();
+    bgm.carSound.play();
 }
 
 function keyPressed() {
@@ -147,7 +157,6 @@ function keyPressed() {
     }
 
     mainUIController.setArrowKeyIsDown(keyCode, true);
-    return false;
 }
 
 function keyReleased() {

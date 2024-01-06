@@ -9,11 +9,13 @@ let how_to_play_path = "./images/start/howtoplay.png";
 let intro_started = false;
 let game_started = false;
 // ===============================================
+const openingUIController = new OpeningUIController();
 
 // p5js ==========================================
 function preload() {
     background_img = loadImage(background_img_path);
     how_to_play = loadImage(how_to_play_path);
+    openingUIController.preload();
 }
 
 function setup() {
@@ -37,7 +39,10 @@ function setup() {
     // button:遊戲開始
     start_button = createImg(game_started_button_path);
     start_button.position(width / 2 - start_button.width / 2, 500);
-    start_button.mousePressed(() => (game_started = true));
+    start_button.mousePressed(() => {
+        game_started = true;
+        startOpening();
+    });
     start_button.mouseOver(() =>
         start_button.attribute(
             "src",
@@ -50,14 +55,21 @@ function setup() {
 }
 
 function draw() {
+    if (game_started) {
+        openingUIController.draw();
+        return;
+    }
     if (intro_started) {
         // 在指定位置顯示圖片
         image(how_to_play, 0, 0, width, height);
     }
+}
 
-    if (game_started) {
-        window.location.href = "open.html";
-    }
+function startOpening() {
+    // 隱藏介紹按鈕
+    intro_button.hide();
+    // 隱藏遊戲開始按鈕
+    start_button.hide();
 }
 
 function showHowToPlay() {
@@ -70,6 +82,10 @@ function showHowToPlay() {
 }
 
 function mousePressed() {
+    if (game_started) {
+        openingUIController.onMousePressed();
+        return;
+    }
     // 檢查是否點擊了圖片的右上角區域
     if (intro_started && mouseX > width - 130 && mouseY < 130) {
         background(background_img);
@@ -79,5 +95,13 @@ function mousePressed() {
         intro_button.show();
         // 重新顯示遊戲開始按鈕
         start_button.show();
+    }
+}
+
+function keyPressed() {
+    if (game_started) {
+        if (keyCode === ENTER) {
+            next();
+        }
     }
 }
