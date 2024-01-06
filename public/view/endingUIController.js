@@ -4,18 +4,64 @@ class EndingUIController {
         this.totalMoney = null;
     }
 
+    /**
+     * 0 :最差的結局
+     * 1 :中等的結局
+     * 2 :最好的結局
+     */
+    _decideEnding = (score) => {
+        // 只計算玩家的得分，扣掉初始分數
+        let added = score - playerData.initScore;
+        if (added <= 40) {
+            return 0;
+        }
+        if (added <= 90) {
+            return 1;
+        }
+        return 2;
+    }
+
     preload = () => {
         this._backgroundImage = loadImage('images/ending/end_bg.png');
         this._replayButtonImageDefault = loadImage('images/ending/end_button_default.png');
         this._replayButtonImagePressed = loadImage('images/ending/end_button_pressed.png');
-        this._endingsImgs = [
-            loadImage('images/ending/Ending3.png'),
-            loadImage('images/ending/Ending2.png'),
-            loadImage('images/ending/Ending1.png'),
-        ]
+        this._bestImage = loadImage('images/ending/Ending1.png');
+        this._middleImage = loadImage('images/ending/Ending2.png');
+        this._worstImage = loadImage('images/ending/Ending3.png');
+        
+        this._bestBgm = this._loadBgm('audio/結局(高).mp3');
+        this._middleBgm = this._loadBgm('audio/結局(中).mp3');
+        this._worstBgm = this._loadBgm('audio/結局(低).mp3');
     }
 
-    setup = () => {
+    _loadBgm = (file) => {
+        let bgm = loadSound(file);
+        bgm.setVolume(0.1);
+        bgm.looping = true;
+        return bgm;
+    }
+
+    _getBgmByEnding = (ending) => {
+        switch (ending) {
+            case 0:
+                return this._worstBgm;
+            case 1:
+                return this._middleBgm;
+            case 2:
+                return this._bestBgm;
+            default:
+                console.warn("EndingUIController: _getBgmByEnding: ending not found");
+                return this._worstBgm;
+        }
+    }
+
+    setup = (score, tickets) => {
+        this.score = score;
+        this.tickets = tickets;
+        this.ending = this._decideEnding(score);
+        this.currentBgm = this._getBgmByEnding(this.ending);
+        this.currentBgm.play();
+
         let buttonOnClick = () => {
             window.location.href = 'index.html';
         }
@@ -38,7 +84,6 @@ class EndingUIController {
         }
     }
 
-
     _moneySize = (score) => {
         switch (score.toString().length) {
             case 1:
@@ -56,9 +101,9 @@ class EndingUIController {
         }
     }
 
-    show = (score, tickets) => {
-        push();
+    show = (score = this.score, tickets = this.tickets) => {
 
+        push();
         if (this.state == 0) {
             if (!this.totalMoney) {
                 // For debug
@@ -77,20 +122,26 @@ class EndingUIController {
             textSize(this._moneySize(this.totalMoney));
             text(this.totalMoney, 770 - textWidth(this.totalMoney) / 2, 350);
 
-            let continueText = "(點擊任意處後繼續)"
+            let continueText = "(ENTER 後繼續)"
             fill(200);
             textSize(16);
             text(continueText, width / 2 - textWidth(continueText) / 2, height - 70);
 
-            if (mouseIsPressed) {
+            if (keyCode == ENTER) {
                 this.state = 1;
             }
+
+            // // Debug 時用
+            // if(mouseIsPressed) {
+            //     if(!this.currentBgm.isPlaying()){ 
+            //         this.currentBgm.play();
+            //     }
+            // }
         } else {
             background(this._backgroundImage);
             this._button.display();
         }
     }
-
 
     _showTexts = (texts, yOffset = 200) => {
         texts.forEach((t, index) => {
@@ -106,41 +157,18 @@ class EndingUIController {
         return sum;
     }
 
-    _genereateTicketText = (tickets) => {
-        let text = '';
-        let sum = 0;
-        tickets.forEach((t) => {
-            text += `${t.title} ${t.amount} 元\n`;
-            sum += t.amount;
-        });
-        text += `罰單總計 ${sum} 元`;
-        return text;
-    }
-
-    _bgByScore = (score) => {
-        score -= playerData.initScore; // TODO: 最後檢查分數條件
-        if (score <= 4) {
-            return this._endingsImgs[0];
+    _bgByScore = () => {
+        switch (this.ending) {
+            case 0:
+                return this._worstImage;
+            case 1:
+                return this._middleImage;
+            case 2:
+                return this._bestImage;
+            default:
+                console.warn("EndingUIController: _bgByScore: ending not found");
+                return this._worstImage;
         }
-        if (score <= 9) {
-            return this._endingsImgs[1];
-        }
-        return this._endingsImgs[2];
-    }
-
-    /**
-     * 目前沒使用，直接用圖
-     * 根據分數，顯示不同的文字評語
-     */
-    _generateTextByScore = (score) => {
-        score -= playerData.initScore; // TODO: 最後檢查分數條件
-        if (score <= 4) {
-            return `你很有三寶潛力，還是不要上路比較好^_^`;
-        }
-        if (score <= 9) {
-            return `再多注意一些細節，才能快樂出門、平安回家喔！`;
-        }
-        return `你是遵守交通規則的超讚安全駕駛！`;
     }
 }
 

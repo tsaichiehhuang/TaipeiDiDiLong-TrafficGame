@@ -11,7 +11,7 @@ const SectionEnd = () => {
         },
         
         onSectionStart: () => {
-            endUIController.setup();
+            endUIController.setup(score = playerData.getScore(), tickets = playerData.getTrafficTickets());
 
             // 停止玩家移動
             player.vel.x = 0;
@@ -21,7 +21,7 @@ const SectionEnd = () => {
         draw: () => {
             if(gameManager.getSection() == END_SECTION_NUM) {
                 camera.off();
-                endUIController.show(score = playerData.getScore(), tickets = playerData.getTrafficTickets());
+                endUIController.show();
             }
         },
 
