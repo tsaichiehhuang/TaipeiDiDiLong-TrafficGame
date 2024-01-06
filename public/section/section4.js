@@ -33,6 +33,14 @@ const Section4 = () => {
                     case EventStatus.START:
                         // get car y position when double parking status is start
                         startPosiY = playerController.getPlayer().position.y;
+                        let violationSprite = new Sprite(
+                            gameManager.getRoadXRange()[0] + this._crossHatchParkingVio.width /2,
+                            startPosiY - 585 + this._crossHatchParkingVio.height /2,
+                            this._crossHatchParkingVio.width - 50,
+                            this._crossHatchParkingVio.height - 100,
+                            'static');
+                        violationSprite.visible = false;
+                        registerSparkWhenCollide(violationSprite, sparkController);
                         break;
                     case EventStatus.SUCCESS:
                         // Do something

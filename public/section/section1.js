@@ -48,6 +48,14 @@ const Section1 = () => {
                     case EventStatus.START:
                         // get car y position when red line parking status is start
                         startPosiY = playerController.getPlayer().position.y;
+                        let violationSprite = new Sprite(
+                            gameManager.getRoadXRange()[0] + this._redLineVio.width /2,
+                            startPosiY - 900 + this._redLineVio.height /2,
+                            this._redLineVio.width,
+                            this._redLineVio.height - 100,
+                            'static');
+                        violationSprite.visible = false;
+                        registerSparkWhenCollide(violationSprite, sparkController);
                         break;
                     case EventStatus.SUCCESS:
                         // Do something
@@ -63,6 +71,7 @@ const Section1 = () => {
                         break;
                 }
             });
+            
 
             //紅綠燈事件
             eventManager.listen(EVENT_LEVEL_TRAFFIC_LIGHT, (status) => {
@@ -150,6 +159,8 @@ const Section1 = () => {
                         break;
                 }
             });
+
+            
         },
 
         draw: () => {
@@ -160,7 +171,7 @@ const Section1 = () => {
             // trigger red line parking img
             image(
                 this._redLineVio,
-                gameManager.getStreetXRange()[0] + 8,
+                gameManager.getRoadXRange()[0] + 8,
                 startPosiY - 900
             );
 
