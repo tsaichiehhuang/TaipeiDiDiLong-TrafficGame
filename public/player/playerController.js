@@ -10,7 +10,6 @@ class PlayerController {
 
   preload = () => {
     this.playerImg = loadImage("images/player/player.png");
-    this.alertImg = loadImage("../images/text/text8.png"); // 當玩家開在中間虛線上，跳出提醒文字
   };
 
   setup = () => {
@@ -108,7 +107,9 @@ class PlayerController {
 
     // 玩家開在路中間跳出提醒
     if(this.playerSprite.velocity.x == 0 && this.playerSprite.position.x >= width / 2 - 20 && this.playerSprite.position.x <= width / 2 + 20) {
-      image(this.alertImg, 0, gameManager.getVisibleYRange()[0] - 100, 1280, 720);
+      mainUIController.showAlertImg();
+    } else {
+      mainUIController.closeAlertImg();
     }
 
     if(gameManager.canPlayerSeeTopMost(this.playerSprite.velocity.y)) {

@@ -23,6 +23,8 @@ class MainUIController {
 			loadImage('images/other/Left.png'),
 			loadImage('images/other/Right.png'),
 		];
+
+		this.alertImg = loadImage("../images/text/text8.png"); // 當玩家開在中間虛線上，跳出提醒文字
 	}
 
 	setup = () => {
@@ -72,6 +74,7 @@ class MainUIController {
 		if(gameManager.isEnded()) {
 			return;
 		}
+		
 		push();
 		// 放在 push() 和 pop() 內好像能防止其他地方的字也被調整到
 		this._applyText(); 
@@ -87,6 +90,7 @@ class MainUIController {
 			this.circle.draw();	
 			this.flipper.draw(); // 指針
 			this._drawArrowKeys();
+			if(this._isShowingAlertImg) this._drawAlertImg();
 		}
 		pop();
 	}
@@ -111,6 +115,14 @@ class MainUIController {
 		this.score = score;
 	}
 
+	showAlertImg = () => {
+		this._isShowingAlertImg = true;
+	}
+
+	closeAlertImg = () => {
+		this._isShowingAlertImg = false;
+	}
+
 	showAlert = (text) => {
 		this.alertText = text;
 		this.showAlertFlag = true;
@@ -118,6 +130,12 @@ class MainUIController {
 
 	closeCurrentAlert = () => {
 		this.showAlertFlag = false;
+	}
+
+	_drawAlertImg = () => {
+		if(this.showAlertImg) {
+			image(this.alertImg, 0, 0, 1280, 720);
+		}
 	}
 
 	_drawTaskText = () => {
