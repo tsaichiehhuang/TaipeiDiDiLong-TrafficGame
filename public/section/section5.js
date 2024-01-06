@@ -5,8 +5,7 @@ const Section5 = () => {
     // running red light violation success var
     let successVio_RunningRedLight = false;
 
-    // report success var
-    let showImgAndText;
+    let runningRedLightCar = new RunningRedLightCar(0, 0);
 
     // red light success and image position
     let trafficLightImg;
@@ -18,9 +17,9 @@ const Section5 = () => {
     return {
         preload: () => {
             // Called in p5.js preload() function
+            console.log("Section 5 preload");
 
             // load running red light violation img
-            this._redLightVio = loadImage("../images/redLineParking.jpeg");
             this._redLightImg = loadImage("../images/traffic light/Red.png");
             this._yellowLightImg = loadImage(
                 "../images/traffic light/Yellow.png"
@@ -28,6 +27,8 @@ const Section5 = () => {
             this._greenLightImg = loadImage(
                 "../images/traffic light/Green.png"
             );
+
+            this._scooterImg = loadImage("../images/objects/scooter/Scooter_2.png");
         },
 
         onSectionStart: () => {
@@ -59,7 +60,7 @@ const Section5 = () => {
                         }, 5500);
                         eventManager.startEvent(
                             EVENT_REPORT_RUNNING_RED_LIGHT,
-                            3000
+                            2000
                         );
                         console.log("Traffic light Success!");
                         break;
@@ -73,7 +74,9 @@ const Section5 = () => {
                             trafficLightImg = this._greenLightImg;
                         }, 3000);
                         console.log("Traffic light Fail!");
-                        gameManager.nextSectionAfterScreenHeight();
+                        setTimeout(() => {
+                            gameManager.nextSectionAfterScreenHeight();
+                        }, 1000);
                         break;
                 }
             });
@@ -83,12 +86,19 @@ const Section5 = () => {
                 console.log("Running Red Light Event : " + status);
                 switch (status) {
                     case EventStatus.START:
-                        // get car y position when running red light status is start
-                        startPosiY = playerController.getPlayer().position.y;
+                        crosswalkPosY = player.position.y + 500;
+                        let [endX, startX] = gameManager.getRoadXRange();
+                        runningRedLightCar.setup((startX + endX) / 2, crosswalkPosY, crosswalkPosY - 2000, this._scooterImg, true);
+                        setTimeout(() => {
+                            trafficLightImg = this._greenLightImg;
+                        }, 5000);
                         break;
                     case EventStatus.SUCCESS:
                         // Do something
                         console.log("Report Success!");
+                        setTimeout(() => {
+                            gameManager.nextSectionAfterScreenHeight();
+                        }, 1000);
                         break;
                     case EventStatus.FAIL:
                         // Do something
@@ -97,8 +107,11 @@ const Section5 = () => {
                     case EventStatus.END:
                         // Do something
                         console.log(
-                            "Running red light Event End, Report Fail!"
+                            "Running red light Event End!"
                         );
+                        setTimeout(() => {
+                            gameManager.nextSectionAfterScreenHeight();
+                        }, 2000);
                         break;
                 }
             });
@@ -123,13 +136,6 @@ const Section5 = () => {
                     375
                 );
             }
-
-            // trigger running red light img
-            image(
-                this._redLightVio,
-                gameManager.getRoadXRange()[1] - this._redLightVio.width,
-                startPosiY - 800
-            );
 
             // --------  原本的 drawDuringSection() ----------------
             // 這裡的程式碼只會在第 5 段執行
@@ -164,15 +170,13 @@ const Section5 = () => {
                 // Report on time or not when running red light event start
                 if (currentEvents.has(EVENT_REPORT_RUNNING_RED_LIGHT)) {
                     if (keyIsDown(32)) {
-                        eventManager.successEvent(
-                            EVENT_REPORT_RUNNING_RED_LIGHT
-                        );
+                        eventManager.successEvent(EVENT_REPORT_RUNNING_RED_LIGHT);
                         showImgAndText = true;
                         successVio_RunningRedLight = true;
                     } else if (
-                        playerController.getPlayer().position.y -
-                            playerController.playerHeight <
-                        startPosiY - 800
+                        //  在車子消失或是變綠燈就算檢舉失敗
+                        // trafficLightImg == this._greenLightImg //綠燈
+                        runningRedLightCar.sprite.position.y + this._scooterImg.height < gameManager.getVisibleYRange()[0] - 100
                     ) {
                         eventManager.endEvent(EVENT_REPORT_RUNNING_RED_LIGHT);
                     }
@@ -180,6 +184,8 @@ const Section5 = () => {
 
                 sparkController.drawExistingSparks(); // 畫碰撞的火花
                 playerController.draw(); // 畫玩家
+
+                runningRedLightCar.draw();
 
                 // 在這畫圖會蓋在 player 上面！
                 if (showRedLightText) {
@@ -194,9 +200,10 @@ const Section5 = () => {
 
                 // Break out the game when report success
                 if (successVio_RunningRedLight) {
-                    violationManager.draw("runningRedLight", showImgAndText);
+                    violationManager.draw("runningRedLight");
                     setTimeout(() => {
                         successVio_RunningRedLight = false;
+                        keyPressedManager.setKeyPressedStop(false);
                     }, 2000);
                 }
             }
