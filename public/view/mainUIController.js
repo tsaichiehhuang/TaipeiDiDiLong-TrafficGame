@@ -69,7 +69,7 @@ class MainUIController {
 	}
 
 	update = () => {
-		if(gameManager.isEnded() || !this._isShowing) {
+		if(gameManager.isEnded()) {
 			return;
 		}
 		push();
@@ -81,11 +81,13 @@ class MainUIController {
 		if (this.showAlertFlag) {
 			this._drawAlert();
 		}
-		this._drawSpeed();
-		this.circle.draw();	
-		this.flipper.draw(); // 指針
-		this._drawArrowKeys();
-		// console.log(this.arrowKeyIsDown);
+		
+		if(this._isShowing) {
+			this._drawSpeed();
+			this.circle.draw();	
+			this.flipper.draw(); // 指針
+			this._drawArrowKeys();
+		}
 		pop();
 	}
 
@@ -98,7 +100,7 @@ class MainUIController {
 	}
 
 	/**
-	 * 是否顯示整個主要 UI
+	 * 是否顯示時速與方向鍵 UI
 	 * @param {boolean} isShowing 
 	 */
 	setIsShowing = (isShowing) => {
