@@ -54,9 +54,6 @@ function setup() {
     gameManager.addSectionChangedCallback(sectionManager.onSectionChanged);
 
     mainUIController.setup();
-    mainUIController.setTaskText(
-        "哈囉這是任務的第一行，\n這是任務如果有第二行！"
-    );
 
     mainUIController.setScore(playerData.getScore()); // 設定 UI 上的分數
     playerData.onScoreChange((score) => {
