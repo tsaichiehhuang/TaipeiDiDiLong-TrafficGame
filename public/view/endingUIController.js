@@ -28,7 +28,7 @@ class EndingUIController {
         this._bestImage = loadImage('images/ending/Ending1.png');
         this._middleImage = loadImage('images/ending/Ending2.png');
         this._worstImage = loadImage('images/ending/Ending3.png');
-        
+
         this._bestBgm = this._loadBgm('audio/結局(高).mp3');
         this._middleBgm = this._loadBgm('audio/結局(中).mp3');
         this._worstBgm = this._loadBgm('audio/結局(低).mp3');
@@ -60,7 +60,7 @@ class EndingUIController {
         this.tickets = tickets;
         this.ending = this._decideEnding(score);
         this.currentBgm = this._getBgmByEnding(this.ending);
-        this.currentBgm.play();
+
 
         let buttonOnClick = () => {
             window.location.href = 'index.html';
@@ -69,8 +69,12 @@ class EndingUIController {
         let buttonTopY = 448;
         this._button = new Button(width / 2, buttonTopY + this._replayButtonImageDefault.height / 2,
             this._replayButtonImageDefault, this._replayButtonImagePressed, buttonOnClick);
-    
-        key
+
+        // For testing
+        // playerData.addTrafficTicket("闖紅燈", 1800);
+        // playerData.addTrafficTicket("闖紅燈", 1800);
+
+        this.totalMoney = this._getTotalAmount(tickets);
     }
 
     _scoreSize = (score) => {
@@ -113,7 +117,7 @@ class EndingUIController {
     show = (score = this.score, tickets = this.tickets) => {
 
         push();
-        if(this.state == -1) {
+        if (this.state == -1) {
             background(0);
             // 到家了！
             fill(255);
@@ -121,15 +125,15 @@ class EndingUIController {
             this._showContinueText();
             textSize(32);
             textSize(this._scoreSize(score));
-            text(arriveText, width/2 - textWidth(arriveText)/2, height/2);
+            text(arriveText, width / 2 - textWidth(arriveText) / 2, height / 2);
         }
         else if (this.state == 0) {
-            if (!this.totalMoney) {
-                // For debug
-                // playerData.addTrafficTicket("闖紅燈", 18000);
-                // playerData.addTrafficTicket("闖紅燈", 180000);
-                this.totalMoney = this._getTotalAmount(tickets);
+
+            if (!this.currentBgm.isPlaying()) {
+                this.currentBgm.play();
             }
+
+
             background(this._bgByScore(score));
 
             // 畫分數
