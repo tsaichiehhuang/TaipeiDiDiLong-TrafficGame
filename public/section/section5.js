@@ -175,7 +175,7 @@ const Section5 = () => {
                         successVio_RunningRedLight = true;
                     } else if (
                         //  在車子消失或是變綠燈就算檢舉失敗
-                        // trafficLightImg == this._greenLightImg //綠燈
+                        trafficLightImg == this._greenLightImg || //綠燈
                         runningRedLightCar.sprite.position.y + this._scooterImg.height < gameManager.getVisibleYRange()[0] - 100
                     ) {
                         eventManager.endEvent(EVENT_REPORT_RUNNING_RED_LIGHT);
