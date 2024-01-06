@@ -32,6 +32,8 @@ class EndingUIController {
         this._bestBgm = this._loadBgm('audio/結局(高).mp3');
         this._middleBgm = this._loadBgm('audio/結局(中).mp3');
         this._worstBgm = this._loadBgm('audio/結局(低).mp3');
+
+        this._homeHappyImage = loadImage('images/other/Home.png');
     }
 
     _loadBgm = (file) => {
@@ -118,14 +120,8 @@ class EndingUIController {
 
         push();
         if (this.state == -1) {
-            background(0);
             // 到家了！
-            fill(255);
-            let arriveText = "到家了！";
-            this._showContinueText();
-            textSize(32);
-            textSize(this._scoreSize(score));
-            text(arriveText, width / 2 - textWidth(arriveText) / 2, height / 2);
+            background(this._homeHappyImage);
         }
         else if (this.state == 0) {
 
