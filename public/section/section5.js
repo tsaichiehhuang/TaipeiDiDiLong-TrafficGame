@@ -31,6 +31,8 @@ const Section5 = () => {
         },
 
         onSectionStart: () => {
+            eventManager.startEvent(EVENT_LEVEL_TRAFFIC_LIGHT, 1500);
+
             //監聽紅綠燈事件
             eventManager.listen(EVENT_LEVEL_TRAFFIC_LIGHT, (status) => {
                 console.log("Traffic light event : " + status);
