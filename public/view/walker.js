@@ -112,6 +112,7 @@ class Walker {
 		if (!this.collided && this.sprite.collide(playerController.getPlayer())) {
 			this.sprite.vel.x = 0;
 			playerData.addScore(-100);
+			playerData.addTrafficTicket("肇事致人受傷", 7200);
 			this.collided = true;
 			this.say("啊～");
 			if (this.collidePlayerCallback) {
