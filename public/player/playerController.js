@@ -10,14 +10,15 @@ class PlayerController {
 
   preload = () => {
     this.playerImg = loadImage("images/player/player.png");
+    this.alertImg = loadImage("../images/text/text3.png"); // 當玩家開在中間虛線上，跳出提醒文字
   };
 
   setup = () => {
     this.playerWidth = this.playerImg.width + this.playerSizeOffset;
     this.playerHeight = this.playerImg.height + this.playerSizeOffset;
-
+    
     this.playerSprite = new Sprite(
-      width / 2,
+      width / 2 + (gameManager.getRoadXRange()[1] - width / 2) / 2,
       height - 50,
       this.playerWidth,
       this.playerHeight
@@ -103,6 +104,11 @@ class PlayerController {
       if( (this.playerSprite.position.y+ this.playerSprite.velocity.y - this.playerHeight / 2) <= minY) {
         this.playerSprite.velocity.y = Math.max(this.playerSprite.velocity.y, 0);
       }
+    }
+
+    // 玩家開在路中間跳出提醒
+    if(this.playerSprite.velocity.x == 0 && this.playerSprite.position.x >= width / 2 - 20 && this.playerSprite.position.x <= width / 2 + 20) {
+      image(this.alertImg, 0, gameManager.getVisibleYRange()[0] - 100, 1280, 720);
     }
 
     if(gameManager.canPlayerSeeTopMost(this.playerSprite.velocity.y)) {

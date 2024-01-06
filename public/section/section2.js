@@ -229,7 +229,7 @@ const Section2 = () => {
                         successVio_BuyDrink = false;
                         keyPressedManager.setKeyPressedStop(false);
                     }, 2000);
-                    playerController.getPlayer().position.x = width / 2;
+                    playerController.getPlayer().position.x = width/2 + (gameManager.getRoadXRange()[1] - width / 2) / 2;
                     mainUIController.setTaskText("");
                 }
             }
