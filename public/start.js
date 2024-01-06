@@ -3,8 +3,11 @@ let background_img_path = "./images/start/Main_bg.png"; // 封面
 let intro_game_button_path = "./images/start/Howtoplay_1.png";
 let game_started_button_path = "./images/start/Play_1.png";
 let how_to_play_path = "./images/start/howtoplay.png";
+let how_to_play_path_x = './images/start/X.png';
 
-// let game_title_path='./images/UI/start/title.png';
+let background_img;
+let how_to_play;
+let how_to_play_x;
 
 let intro_started = false;
 let game_started = false;
@@ -15,6 +18,7 @@ const openingUIController = new OpeningUIController();
 function preload() {
     background_img = loadImage(background_img_path);
     how_to_play = loadImage(how_to_play_path);
+    how_to_play_x = loadImage(how_to_play_path_x);
     openingUIController.preload();
 }
 
@@ -59,9 +63,14 @@ function draw() {
         openingUIController.draw();
         return;
     }
+
     if (intro_started) {
         // 在指定位置顯示圖片
         image(how_to_play, 0, 0, width, height);
+    }
+
+    if (intro_started && mouseX > width - 130 && mouseY < 130 && mouseX < width - 40 && mouseY > 40) {
+        image(how_to_play_x, 0, 0, width, height);
     }
 }
 
@@ -87,7 +96,7 @@ function mousePressed() {
         return;
     }
     // 檢查是否點擊了圖片的右上角區域
-    if (intro_started && mouseX > width - 130 && mouseY < 130) {
+    if (intro_started && mouseX > width - 130 && mouseY < 130 && mouseX < width - 40 && mouseY > 40) {
         background(background_img);
         intro_started = false;
 
