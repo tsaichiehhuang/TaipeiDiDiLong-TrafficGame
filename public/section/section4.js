@@ -93,6 +93,7 @@ const Section4 = () => {
                 // Report on time or not when cross hatch parking event start
                 if (currentEvents.has(EVENT_REPORT_CROSS_HATCH_PARKING)) {
                     if (keyIsDown(32)) {
+                        allSounds.get("photo").play();
                         eventManager.successEvent(EVENT_REPORT_CROSS_HATCH_PARKING);
                         showImgAndText = true;
                         successVio_crossHatchParking = true;
@@ -133,6 +134,7 @@ const Section4 = () => {
                         playerController.getPlayer().position.y + playerController.playerHeight < startPosiY_buyDinner - 360 &&
                         playerController.getPlayer().position.x > gameManager.getRoadXRange()[1] + playerController.playerWidth / 2 &&
                         playerController.getPlayer().position.x < maxRoadX) {
+                        allSounds.get("buy").play();
                         eventManager.successEvent(EVENT_LEVEL_BUY_DINNER);
                         successVio_BuyDinner = true;
                     }

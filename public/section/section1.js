@@ -193,6 +193,7 @@ const Section1 = () => {
                 // Report on time or not when red line parking event start
                 if (currentEvents.has(EVENT_REPORT_RED_LINE_PARKING)) {
                     if (keyIsDown(32)) {
+                        allSounds.get("photo").play();
                         eventManager.successEvent(
                             EVENT_REPORT_RED_LINE_PARKING
                         );

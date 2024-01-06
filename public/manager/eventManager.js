@@ -107,6 +107,10 @@ class EventManager {
                 this.currentEvents.delete(eventId);
             }
             this._emitEventStatus(eventId, endStatus);
+
+            let waitingEvent = ["event_id_report_red_line_parking", "event_report_double_parking", "event_report_crpss_hatch_parking", 
+                "event_report_double_parking", "event_level_buy_dinner"];
+
             // Check if endStatus is success or fail
             // If so, update score
             if (endStatus === EventStatus.SUCCESS || endStatus === EventStatus.FAIL) {
@@ -114,7 +118,15 @@ class EventManager {
 
                 // 統一放加分扣分音效
                 if(endStatus === EventStatus.SUCCESS) {
-                    allSounds.get("correct").play();
+                    // waitingEvent裡的需要先播放 event 自己的音效，再播放 correct 音效
+                    if(waitingEvent.includes(eventId)) {
+                        setTimeout(() => {
+                            allSounds.get("correct").play();
+                        }, 1000);
+                    } else {
+                        allSounds.get("correct").play();
+                    }
+                    
                 } else {
                     allSounds.get("wrong").play();
                 }

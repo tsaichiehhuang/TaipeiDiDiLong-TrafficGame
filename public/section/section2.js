@@ -98,6 +98,7 @@ const Section2 = () => {
                 // Report on time or not when double parking event start
                 if (currentEvents.has(EVENT_REPORT_DOUBLE_PARKING)) {
                     if (keyIsDown(32)) {
+                        allSounds.get("photo").play();
                         eventManager.successEvent(EVENT_REPORT_DOUBLE_PARKING);
                         showImgAndText = true;
                         successVio_DoubleParking = true;
@@ -138,6 +139,7 @@ const Section2 = () => {
                         playerController.getPlayer().position.y + playerController.playerHeight < startPosiY_buyDrink - 360 &&
                         playerController.getPlayer().position.x > gameManager.getRoadXRange()[1] + playerController.playerWidth / 2 &&
                         playerController.getPlayer().position.x < maxRoadX) {
+                        allSounds.get("buy").play();
                         eventManager.successEvent(EVENT_LEVEL_BUY_DRINK);
                         successVio_BuyDrink = true;
                     }
