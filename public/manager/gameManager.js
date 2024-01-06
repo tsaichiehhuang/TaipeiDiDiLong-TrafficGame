@@ -30,7 +30,7 @@ class GameManager {
         // 背景（綠色草部分）
         this._bgImages = [
             loadImage("images/road/background/Road1.png"),
-            loadImage("images/road/background/Road2.png"),
+            loadImage("images/road/background/Road1.png"), // Road2 疊圖時可能會怪怪
             loadImage("images/road/background/Road3.png"),
             loadImage("images/road/background/Road4.png"),
         ];
