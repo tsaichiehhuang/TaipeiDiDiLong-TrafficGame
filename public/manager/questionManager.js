@@ -156,9 +156,11 @@ class QuestionManager {
             //     button.style("text-decoration", "underline");
             // }
 
-            button.mousePressed(() =>
-                this.handleOptionSelect(index + 1, eventID)
-            );
+            button.mousePressed(() => {
+                allSounds.get("button").play();
+                this.handleOptionSelect(index + 1, eventID);
+            });
+
             button.mouseOver(() => {
                 button.style("color", "#FFF");
                 button.style("text-decoration", "underline");

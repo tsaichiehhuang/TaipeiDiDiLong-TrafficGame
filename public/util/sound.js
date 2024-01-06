@@ -21,4 +21,9 @@ function preloadSounds() {
     photoSound.setVolume(0.5)
     allSounds.set("buy", buySound);
 
+    // 按下按鈕
+    let buttonSound = loadSound("audio/按鈕.mp3");
+    photoSound.setVolume(0.5)
+    allSounds.set("button", buttonSound);
+
 }
