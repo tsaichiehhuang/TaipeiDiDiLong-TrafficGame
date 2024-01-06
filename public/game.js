@@ -147,6 +147,7 @@ function keyPressed() {
     }
 
     mainUIController.setArrowKeyIsDown(keyCode, true);
+    return false;
 }
 
 function keyReleased() {
