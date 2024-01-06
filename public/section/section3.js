@@ -147,8 +147,9 @@ const Section3 = () => {
                             walker.setIsMoving(true);
                         }
 
-                        // 如果玩家已經超過了行人，觸發沒有禮讓
-                        if (player.position.y < walker.sprite.position.y) {
+                        // 如果玩家的最高點已經超過了行人的最低點，觸發沒有禮讓
+                        let playerTop = player.position.y - playerController.playerHeight/2;
+                        if (playerTop <= (walker.sprite.position.y + walker.sprite.h/2)) {
                             eventManager.failEvent(EVENT_LEVEL_CROSS_THE_ROAD);
                         }
 
