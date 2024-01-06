@@ -12,7 +12,7 @@ const Section1 = () => {
     let trafficLightImg;
     let trafficLightY;
     let showTrafficLight = false;
-    let showRedLightText = false;
+    let showTrafficLightText = false;
     let isStoppedInRedLight = false;
 
     let flowerSellerY;
@@ -83,7 +83,7 @@ const Section1 = () => {
                     case EventStatus.SUCCESS:
                         isStoppedInRedLight = true;
                         setTimeout(() => {
-                            showRedLightText = true;
+                            showTrafficLightText = true;
                         }, 800);
                         eventManager.startEvent(EVENT_QA_FLOWER_SELLER, 750);
                         console.log("Traffic light Success!");
@@ -92,7 +92,7 @@ const Section1 = () => {
                         isStoppedInRedLight = false;
                         playerData.addTrafficTicket("闖紅燈", 1800);
                         setTimeout(() => {
-                            showRedLightText = true;
+                            showTrafficLightText = true;
                         }, 800);
                         setTimeout(() => {
                             trafficLightImg = this._greenLightImg;
@@ -252,13 +252,13 @@ const Section1 = () => {
                     }, 2000);
                 }
 
-                if (showRedLightText) {
+                if (showTrafficLightText) {
                     trafficLightManager.draw(
                         isStoppedInRedLight ? "stopped" : "notStopped"
                     );
 
                     setTimeout(() => {
-                        showRedLightText = false;
+                        showTrafficLightText = false;
                     }, 3000);
                 }
 

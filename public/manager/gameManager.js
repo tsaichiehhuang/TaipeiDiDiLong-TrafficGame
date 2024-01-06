@@ -12,7 +12,7 @@ class GameManager {
 
         // 720 會有一點很小的縫縫
         this._roadHeight = 719; // road image height
-        this._section = 3; // 換這裡可以測試，直接從某個 section 開始
+        this._section = 1; // 換這裡可以測試，直接從某個 section 開始
         this._sectionChangedCallbacks = [];
 
         // For nextSectionAfterScreenHeight()
@@ -30,7 +30,7 @@ class GameManager {
         // 背景（綠色草部分）
         this._bgImages = [
             loadImage("images/road/background/Road1.png"),
-            loadImage("images/road/background/Road1.png"), // Road2 疊圖時可能會怪怪
+            loadImage("images/road/background/Road2.png"),
             loadImage("images/road/background/Road3.png"),
             loadImage("images/road/background/Road4.png"),
         ];

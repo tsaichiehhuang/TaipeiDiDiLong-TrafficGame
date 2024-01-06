@@ -11,8 +11,9 @@ const Section5 = () => {
     let trafficLightImg;
     let trafficLightY;
     let showTrafficLight = false;
-    let showRedLightText = false;
-    let isStoppedInRedLight = false;
+    let showTrafficLightText = false;
+    let isStoppedBeforeTrafficLight = false;
+    let hasStoppedAtRedLight = false;
 
     return {
         preload: () => {
@@ -28,7 +29,9 @@ const Section5 = () => {
                 "../images/traffic light/Green.png"
             );
 
-            this._scooterImg = loadImage("../images/objects/scooter/Scooter_2.png");
+            this._scooterImg = loadImage(
+                "../images/objects/scooter/Scooter_2.png"
+            );
         },
 
         onSectionStart: () => {
@@ -39,21 +42,26 @@ const Section5 = () => {
                 console.log("Traffic light event : " + status);
                 switch (status) {
                     case EventStatus.START:
-                        trafficLightY =
-                            playerController.getPlayer().position.y - 950;
-                        trafficLightManager.setup();
-                        showTrafficLight = true;
-                        setTimeout(() => {
-                            trafficLightImg = this._yellowLightImg;
-                        }, 1000);
-                        setTimeout(() => {
-                            trafficLightImg = this._redLightImg;
-                        }, 2000);
+                        if (!hasStoppedAtRedLight) {
+                            trafficLightY =
+                                playerController.getPlayer().position.y - 950;
+                            trafficLightManager.setup();
+                            showTrafficLight = true;
+                            setTimeout(() => {
+                                trafficLightImg = this._yellowLightImg;
+                            }, 1000);
+                            setTimeout(() => {
+                                trafficLightImg = this._redLightImg;
+                            }, 2000);
+                        } else {
+                            hasStoppedAtRedLight = false;
+                        }
                         break;
                     case EventStatus.SUCCESS:
-                        isStoppedInRedLight = true;
+                        isStoppedBeforeTrafficLight = true;
+                        hasStoppedAtRedLight = true;
                         setTimeout(() => {
-                            showRedLightText = true;
+                            showTrafficLightText = true;
                         }, 800);
                         setTimeout(() => {
                             trafficLightImg = this._greenLightImg;
@@ -65,10 +73,10 @@ const Section5 = () => {
                         console.log("Traffic light Success!");
                         break;
                     case EventStatus.FAIL:
-                        isStoppedInRedLight = false;
+                        isStoppedBeforeTrafficLight = false;
                         playerData.addTrafficTicket("闖紅燈", 1800);
                         setTimeout(() => {
-                            showRedLightText = true;
+                            showTrafficLightText = true;
                         }, 800);
                         setTimeout(() => {
                             trafficLightImg = this._greenLightImg;
@@ -88,7 +96,13 @@ const Section5 = () => {
                     case EventStatus.START:
                         crosswalkPosY = player.position.y + 500;
                         let [endX, startX] = gameManager.getRoadXRange();
-                        runningRedLightCar.setup((startX + endX) / 2, crosswalkPosY, crosswalkPosY - 2000, this._scooterImg, true);
+                        runningRedLightCar.setup(
+                            (startX + endX) / 2,
+                            crosswalkPosY,
+                            crosswalkPosY - 2000,
+                            this._scooterImg,
+                            true
+                        );
                         setTimeout(() => {
                             trafficLightImg = this._greenLightImg;
                         }, 5000);
@@ -106,9 +120,7 @@ const Section5 = () => {
                         break;
                     case EventStatus.END:
                         // Do something
-                        console.log(
-                            "Running red light Event End!"
-                        );
+                        console.log("Running red light Event End!");
                         setTimeout(() => {
                             gameManager.nextSectionAfterScreenHeight();
                         }, 2000);
@@ -144,10 +156,9 @@ const Section5 = () => {
                 const currentEvents = eventManager.getCurrentEvent();
 
                 // Traffic light event
+                const isPlayerStopped =
+                    playerController.getPlayer().velocity.y === 0;
                 if (currentEvents.has(EVENT_LEVEL_TRAFFIC_LIGHT)) {
-                    const isPlayerStopped =
-                        playerController.getPlayer().velocity.y === 0;
-
                     if (isPlayerStopped) {
                         if (
                             playerController.getPlayer().position.y + 50 <
@@ -166,17 +177,31 @@ const Section5 = () => {
                         eventManager.failEvent(EVENT_LEVEL_TRAFFIC_LIGHT);
                     }
                 }
+                if (hasStoppedAtRedLight && !isPlayerStopped) {
+                    if (
+                        playerController.getPlayer().position.y + 50 <
+                            trafficLightY &&
+                        trafficLightImg === this._redLightImg
+                    ) {
+                        eventManager.startEvent(EVENT_LEVEL_TRAFFIC_LIGHT, 0);
+                        eventManager.failEvent(EVENT_LEVEL_TRAFFIC_LIGHT);
+                    }
+                }
 
                 // Report on time or not when running red light event start
                 if (currentEvents.has(EVENT_REPORT_RUNNING_RED_LIGHT)) {
                     if (keyIsDown(32)) {
-                        eventManager.successEvent(EVENT_REPORT_RUNNING_RED_LIGHT);
+                        eventManager.successEvent(
+                            EVENT_REPORT_RUNNING_RED_LIGHT
+                        );
                         showImgAndText = true;
                         successVio_RunningRedLight = true;
                     } else if (
                         //  在車子消失或是變綠燈就算檢舉失敗
                         trafficLightImg == this._greenLightImg || //綠燈
-                        runningRedLightCar.sprite.position.y + this._scooterImg.height < gameManager.getVisibleYRange()[0] - 100
+                        runningRedLightCar.sprite.position.y +
+                            this._scooterImg.height <
+                            gameManager.getVisibleYRange()[0] - 100
                     ) {
                         eventManager.endEvent(EVENT_REPORT_RUNNING_RED_LIGHT);
                     }
@@ -188,13 +213,13 @@ const Section5 = () => {
                 runningRedLightCar.draw();
 
                 // 在這畫圖會蓋在 player 上面！
-                if (showRedLightText) {
+                if (showTrafficLightText) {
                     trafficLightManager.draw(
-                        isStoppedInRedLight ? "stopped" : "notStopped"
+                        isStoppedBeforeTrafficLight ? "stopped" : "notStopped"
                     );
 
                     setTimeout(() => {
-                        showRedLightText = false;
+                        showTrafficLightText = false;
                     }, 3000);
                 }
 
