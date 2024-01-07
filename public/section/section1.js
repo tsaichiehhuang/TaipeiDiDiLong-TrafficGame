@@ -49,13 +49,18 @@ const Section1 = () => {
                         // get car y position when red line parking status is start
                         startPosiY = playerController.getPlayer().position.y;
                         let violationSprite = new Sprite(
-                            gameManager.getRoadXRange()[0] + this._redLineVio.width /2,
-                            startPosiY - 900 + this._redLineVio.height /2,
+                            gameManager.getRoadXRange()[0] +
+                                this._redLineVio.width / 2,
+                            startPosiY - 900 + this._redLineVio.height / 2,
                             this._redLineVio.width,
                             this._redLineVio.height - 100,
-                            'static');
+                            "static"
+                        );
                         violationSprite.visible = false;
-                        registerSparkWhenCollide(violationSprite, sparkController);
+                        registerSparkWhenCollide(
+                            violationSprite,
+                            sparkController
+                        );
                         break;
                     case EventStatus.SUCCESS:
                         // Do something
@@ -71,7 +76,6 @@ const Section1 = () => {
                         break;
                 }
             });
-            
 
             //紅綠燈事件
             eventManager.listen(EVENT_LEVEL_TRAFFIC_LIGHT, (status) => {
@@ -79,15 +83,15 @@ const Section1 = () => {
                 switch (status) {
                     case EventStatus.START:
                         trafficLightY =
-                            playerController.getPlayer().position.y - 950;
+                            playerController.getPlayer().position.y - 1150;
                         trafficLightManager.setup();
                         showTrafficLight = true;
                         setTimeout(() => {
                             trafficLightImg = this._yellowLightImg;
-                        }, 1000);
+                        }, 1500);
                         setTimeout(() => {
                             trafficLightImg = this._redLightImg;
-                        }, 2000);
+                        }, 2500);
                         break;
                     case EventStatus.SUCCESS:
                         isStoppedInRedLight = true;
@@ -159,21 +163,12 @@ const Section1 = () => {
                         break;
                 }
             });
-
-            
         },
 
         draw: () => {
             // 不管哪個 section，都會執行
             // 原本的 drawAlways()
             // 在這畫圖會畫在 player 底下！
-
-            // trigger red line parking img
-            image(
-                this._redLineVio,
-                gameManager.getRoadXRange()[0] + 8,
-                startPosiY - 900
-            );
 
             // 玉蘭花阿婆
             if (showSeller) {
@@ -194,6 +189,13 @@ const Section1 = () => {
                     375
                 );
             }
+
+            // trigger red line parking img
+            image(
+                this._redLineVio,
+                gameManager.getRoadXRange()[0] + 8,
+                startPosiY - 900
+            );
 
             // --------  原本的 drawDuringSection() ----------------
             // 這裡的程式碼只會在第 1 段執行
@@ -222,7 +224,7 @@ const Section1 = () => {
                         eventManager.endEvent(EVENT_REPORT_RED_LINE_PARKING);
                         eventManager.startEvent(
                             EVENT_LEVEL_TRAFFIC_LIGHT,
-                            3500
+                            4000
                         );
                     }
                 }
@@ -239,13 +241,20 @@ const Section1 = () => {
                             playerController.getPlayer().position.y +
                                 playerController.getPlayer().height / 2 <
                                 50
-                        )
+                        ) {
                             eventManager.successEvent(
                                 EVENT_LEVEL_TRAFFIC_LIGHT
                             );
+                        }
+                        if (
+                            playerController.getPlayer().position.y + 50 <
+                            trafficLightY + 370
+                        ) {
+                            eventManager.failEvent(EVENT_LEVEL_TRAFFIC_LIGHT);
+                        }
                     } else if (
                         playerController.getPlayer().position.y + 50 <
-                        trafficLightY
+                        trafficLightY + 370
                     ) {
                         eventManager.failEvent(EVENT_LEVEL_TRAFFIC_LIGHT);
                     }

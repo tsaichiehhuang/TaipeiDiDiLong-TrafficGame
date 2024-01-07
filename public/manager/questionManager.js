@@ -134,7 +134,7 @@ class QuestionManager {
         this.currentQuestion.options.forEach((option, index) => {
             const isMultiLine =
                 this.currentQuestion.question.split("\n").length > 1;
-            const yNewPosi = (isMultiLine ? 425 : 415) + index * 50;
+            const yNewPosi = (isMultiLine ? 405 : 395) + index * 50;
 
             const contextWidth = textWidth(option) + 20;
 
@@ -150,11 +150,6 @@ class QuestionManager {
             button.style("font-size", "16px");
             button.style("text-align", "left");
 
-            // if (index === this.selectedOptionIndex) {
-            //     button.style("color", "#FFF");
-            //     button.style("text-decoration", "underline");
-            // }
-
             button.mousePressed(() => {
                 allSounds.get("button").play();
                 this.handleOptionSelect(index + 1, eventID);
@@ -166,10 +161,8 @@ class QuestionManager {
                 button.style("cursor", "pointer");
             });
             button.mouseOut(() => {
-                // if (index !== this.selectedOptionIndex) {
                 button.style("color", "#C1C1C1");
                 button.style("text-decoration", "none");
-                // }
                 button.style("cursor", "default");
             });
 

@@ -3,7 +3,7 @@ let background_img_path = "./images/start/Main_bg.png"; // 封面
 let intro_game_button_path = "./images/start/Howtoplay_1.png";
 let game_started_button_path = "./images/start/Play_1.png";
 let how_to_play_path = "./images/start/howtoplay.png";
-let how_to_play_path_x = './images/start/X.png';
+let how_to_play_path_x = "./images/start/X.png";
 
 let background_img;
 let how_to_play;
@@ -27,8 +27,10 @@ function setup() {
     background(background_img);
 
     // button:遊戲介紹
-    intro_button = createImg(intro_game_button_path);
-    intro_button.position(width / 2 - intro_button.width / 2, 600);
+    intro_button = createImg(intro_game_button_path, () => {
+        const imgWidth = intro_button.width;
+        intro_button.position(width / 2 - imgWidth / 5, 600);
+    });
     intro_button.mousePressed(showHowToPlay);
     intro_button.mouseOver(() =>
         intro_button.attribute(
@@ -41,8 +43,10 @@ function setup() {
     );
 
     // button:遊戲開始
-    start_button = createImg(game_started_button_path);
-    start_button.position(width / 2 - start_button.width / 2, 500);
+    start_button = createImg(game_started_button_path, () => {
+        const imgWidth = start_button.width;
+        start_button.position(width / 2 - imgWidth / 5, 500);
+    });
     start_button.mousePressed(() => {
         game_started = true;
         startOpening();
@@ -69,7 +73,13 @@ function draw() {
         image(how_to_play, 0, 0, width, height);
     }
 
-    if (intro_started && mouseX > width - 130 && mouseY < 130 && mouseX < width - 40 && mouseY > 40) {
+    if (
+        intro_started &&
+        mouseX > width - 130 &&
+        mouseY < 130 &&
+        mouseX < width - 40 &&
+        mouseY > 40
+    ) {
         image(how_to_play_x, 0, 0, width, height);
     }
 }
@@ -96,7 +106,13 @@ function mousePressed() {
         return;
     }
     // 檢查是否點擊了圖片的右上角區域
-    if (intro_started && mouseX > width - 130 && mouseY < 130 && mouseX < width - 40 && mouseY > 40) {
+    if (
+        intro_started &&
+        mouseX > width - 130 &&
+        mouseY < 130 &&
+        mouseX < width - 40 &&
+        mouseY > 40
+    ) {
         background(background_img);
         intro_started = false;
 

@@ -166,21 +166,29 @@ const Section5 = () => {
                             playerController.getPlayer().position.y +
                                 playerController.getPlayer().height / 2 <
                                 50
-                        )
+                        ) {
                             eventManager.successEvent(
                                 EVENT_LEVEL_TRAFFIC_LIGHT
                             );
+                        }
+                        if (
+                            playerController.getPlayer().position.y + 50 <
+                            trafficLightY + 370
+                        ) {
+                            eventManager.failEvent(EVENT_LEVEL_TRAFFIC_LIGHT);
+                        }
                     } else if (
                         playerController.getPlayer().position.y + 50 <
-                        trafficLightY
+                        trafficLightY + 370
                     ) {
                         eventManager.failEvent(EVENT_LEVEL_TRAFFIC_LIGHT);
                     }
                 }
+
                 if (hasStoppedAtRedLight && !isPlayerStopped) {
                     if (
                         playerController.getPlayer().position.y + 50 <
-                            trafficLightY &&
+                            trafficLightY + 370 &&
                         trafficLightImg === this._redLightImg
                     ) {
                         eventManager.startEvent(EVENT_LEVEL_TRAFFIC_LIGHT, 0);

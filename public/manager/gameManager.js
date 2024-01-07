@@ -116,8 +116,14 @@ class GameManager {
         }
 
         // 人行道
-        image(this._sidewalkImg, camera.x - width / 2, camera.y - height / 2, width, height);
-        
+        image(
+            this._sidewalkImg,
+            camera.x - width / 2,
+            camera.y - height / 2,
+            width,
+            height
+        );
+
         // Draw roads
         this._backgroundGroup.draw();
     };
