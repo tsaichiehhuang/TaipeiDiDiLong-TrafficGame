@@ -4,7 +4,7 @@ const GAME_HEIGHT = 720;
 // Control the background and section
 class GameManager {
     constructor() {
-        this.debugMode = true; // for collider
+        this.debugMode = false; // for collider
         this.cameraYOffest = -200;
         this._roadSprites = [];
         this._roadImage = null;

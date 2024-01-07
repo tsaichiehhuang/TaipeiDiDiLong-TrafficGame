@@ -228,7 +228,7 @@ const Section4 = () => {
                         keyPressedManager.setKeyPressedStop(false);
                     }, 2000);
                     playerController.getPlayer().position.x = width/2 + (gameManager.getRoadXRange()[1] - width / 2) / 2;
-                    mainUIController.setTaskText("回家囉！\n請繼續前進");
+                    mainUIController.setTaskText("回家囉！\n請繼續直行");
                 }
             }
 
