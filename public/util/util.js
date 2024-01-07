@@ -95,3 +95,8 @@ function registerSparkWhenCollide(sprite, sparkController) {
 function bodyIsSprite(body, sprite) {
     return body.sprite.idNum == sprite.idNum;
 }
+
+
+function computeSpeed(from, to, seconds) {
+    return (to-from) / (seconds * frameRate());
+}

@@ -21,6 +21,7 @@ let player; // be created after PlayerController.setup()
 
 // Objects
 const sparkController = new SparkController();
+let section345Car =  new Car(2); // init in section2, used in section345
 
 // Shared Images
 let carImages;
