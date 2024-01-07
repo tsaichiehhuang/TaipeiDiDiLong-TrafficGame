@@ -39,6 +39,8 @@ const Section1 = () => {
         },
 
         onSectionStart: () => {
+            mainUIController.setTaskText("下一個任務：買飲料\n前往飲料店");
+
             eventManager.startEvent(EVENT_REPORT_RED_LINE_PARKING, 3500); // start after 4 second
 
             // 檢舉：紅線停車
