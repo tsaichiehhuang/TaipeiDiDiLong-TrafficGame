@@ -116,7 +116,7 @@ function keyPressed() {
     if (gameManager.isEnded()) {
         endUIController.onKeyPressed(keyCode);
         return;
-    }    
+    }
 
     // Report Wrong
     if (keyIsDown(32)) {
@@ -138,7 +138,7 @@ function keyPressed() {
             setTimeout(() => {
                 mainUIController.closeNoVioImg();
             }, 1500);
-        } 
+        }
     }
 
     // For demo moving
@@ -192,4 +192,10 @@ function update() {
     } else {
         playerController.update(false); //let player‘s movement range not exceed the road
     }
+}
+
+function windowResized() {
+    const divWidth = windowWidth * 0.2;
+    const leftPosition = windowWidth * 0.375 - divWidth / 2;
+    select(".optionButtonDiv").style("left", leftPosition + "px");
 }

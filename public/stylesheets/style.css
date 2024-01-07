@@ -31,8 +31,10 @@ body {
     transform: translate(-50%, -50%);
 }
 
-#option1 {
+.optionButtonDiv {
     position: absolute;
-    top: 20%;
-    left: 20%;
+    top: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }

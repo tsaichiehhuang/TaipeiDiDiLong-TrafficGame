@@ -125,26 +125,21 @@ class QuestionManager {
         this.optionButtons.forEach((button) => button.remove());
         this.optionButtons = [];
 
-        const leftEdgeX =
-            (gameManager.getRoadXRange()[0] + gameManager.getRoadXRange()[1]) /
-            3;
-
         textSize(18);
 
-        this.currentQuestion.options.forEach((option, index) => {
-            const isMultiLine =
-                this.currentQuestion.question.split("\n").length > 1;
-            const yNewPosi = (isMultiLine ? 405 : 395) + index * 50;
+        const buttonDiv = createDiv();
+        buttonDiv.class("optionButtonDiv");
+        const divWidth = windowWidth * 0.2;
+        buttonDiv.style("width", divWidth + "px");
+        const leftPosition = windowWidth * 0.375 - divWidth / 2;
+        buttonDiv.style("left", leftPosition + "px");
 
+        this.currentQuestion.options.forEach((option, index) => {
             const contextWidth = textWidth(option) + 20;
 
             const button = createButton(option);
-            const buttonX = leftEdgeX;
-            // button.position(buttonX, yNewPosi);
-            //給予每個按鈕一個獨特的 id
-            button.id("option" + index + 1);
+            button.parent(buttonDiv);
             button.style("width", contextWidth + "px");
-            button.style("padding", "5px");
             button.style("background-color", "transparent");
             button.style("border", "none");
             button.style("color", "#C1C1C1");
