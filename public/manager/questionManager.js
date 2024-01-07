@@ -140,7 +140,9 @@ class QuestionManager {
 
             const button = createButton(option);
             const buttonX = leftEdgeX;
-            button.position(buttonX, yNewPosi);
+            // button.position(buttonX, yNewPosi);
+            //給予每個按鈕一個獨特的 id
+            button.id("option" + index + 1);
             button.style("width", contextWidth + "px");
             button.style("padding", "5px");
             button.style("background-color", "transparent");

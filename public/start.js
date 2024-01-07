@@ -27,10 +27,8 @@ function setup() {
     background(background_img);
 
     // button:遊戲介紹
-    intro_button = createImg(intro_game_button_path, () => {
-        const imgWidth = intro_button.width;
-        intro_button.position(width / 2 - imgWidth / 5, 600);
-    });
+    intro_button = createImg(intro_game_button_path);
+    intro_button.class("intro_button");
     intro_button.mousePressed(showHowToPlay);
     intro_button.mouseOver(() =>
         intro_button.attribute(
@@ -43,10 +41,8 @@ function setup() {
     );
 
     // button:遊戲開始
-    start_button = createImg(game_started_button_path, () => {
-        const imgWidth = start_button.width;
-        start_button.position(width / 2 - imgWidth / 5, 500);
-    });
+    start_button = createImg(game_started_button_path);
+    start_button.class("start_button");
     start_button.mousePressed(() => {
         game_started = true;
         startOpening();
