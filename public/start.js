@@ -29,7 +29,7 @@ function setup() {
     // button:遊戲介紹
     intro_button = createImg(intro_game_button_path, () => {
         const imgWidth = intro_button.width;
-        intro_button.position(width / 2 - imgWidth / 5, 600);
+        intro_button.position(width / 2 - imgWidth / 2, 600);
     });
     intro_button.mousePressed(showHowToPlay);
     intro_button.mouseOver(() =>
@@ -45,7 +45,7 @@ function setup() {
     // button:遊戲開始
     start_button = createImg(game_started_button_path, () => {
         const imgWidth = start_button.width;
-        start_button.position(width / 2 - imgWidth / 5, 500);
+        start_button.position(width / 2 - imgWidth / 2, 500);
     });
     start_button.mousePressed(() => {
         game_started = true;
