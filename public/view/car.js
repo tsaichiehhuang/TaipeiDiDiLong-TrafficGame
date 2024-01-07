@@ -119,12 +119,13 @@ class Car {
 
         if (this._isChangingRoad) {
             if (this._targetRoad == 'right') {
-                this.sprite.moveTowards(gameManager.getRoadCenterXs()[1], this.sprite.position.y, 2 / frameRate())
-                if (this.sprite.position.x >= gameManager.getRoadCenterXs()[1] - 20) {
-                    this._isChangingRoad = false
-                    this.sprite.vel.x = 0
-                    this.setIsMoving(true)
-                }
+                this.setIsMoving(false)
+                // this.sprite.moveTowards(gameManager.getRoadCenterXs()[1], this.sprite.position.y, 2 / frameRate())
+                // if (this.sprite.position.x >= gameManager.getRoadCenterXs()[1] - 20) {
+                //     this._isChangingRoad = false
+                //     this.sprite.vel.x = 0
+                //     this.setIsMoving(true)
+                // }
             } else {
                 this.sprite.moveTowards(gameManager.getRoadCenterXs()[0], this.sprite.position.y, 2 / frameRate())
                 if (this.sprite.position.x <= gameManager.getRoadCenterXs()[0] + 20) {
