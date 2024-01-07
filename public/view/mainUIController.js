@@ -25,6 +25,8 @@ class MainUIController {
 		];
 
 		this.alertImg = loadImage("../images/text/text8.png"); // 當玩家開在中間虛線上，跳出提醒文字
+
+		this.noVioImg = loadImage("../images/text/text9.png"); // 當玩家亂檢舉時跳出沒有違規的字卡
 	}
 
 	setup = () => {
@@ -91,6 +93,7 @@ class MainUIController {
 			this.flipper.draw(); // 指針
 			this._drawArrowKeys();
 			if(this._isShowingAlertImg) this._drawAlertImg();
+			if(this._isShowingNoVioImg) this._drawNoVioImg();
 		}
 		pop();
 	}
@@ -119,14 +122,23 @@ class MainUIController {
 		this._isShowingAlertImg = true;
 	}
 
+	showNoVioImg = () => {
+		this._isShowingNoVioImg = true;
+	}
+
 	closeAlertImg = () => {
 		this._isShowingAlertImg = false;
+	}
+
+	closeNoVioImg = () => {
+		this._isShowingNoVioImg = false;
 	}
 
 	showAlert = (text) => {
 		this.alertText = text;
 		this.showAlertFlag = true;
 	}
+	
 
 	closeCurrentAlert = () => {
 		this.showAlertFlag = false;
@@ -135,6 +147,12 @@ class MainUIController {
 	_drawAlertImg = () => {
 		if(this.showAlertImg) {
 			image(this.alertImg, 0, 0, 1280, 720);
+		}
+	}
+
+	_drawNoVioImg = () => {
+		if(this.showNoVioImg) {
+			image(this.noVioImg, 0, 0, 1280, 720);
 		}
 	}
 

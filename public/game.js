@@ -55,6 +55,8 @@ function preload() {
     bgm.bgm.loop = true;
     bgm.carSound = createAudio("audio/車道(車聲明顯).mp3");
     bgm.carSound.loop = true;
+
+    this._violationAlert = loadImage("./images/text/text9.png");
 }
 
 function setup() {
@@ -130,9 +132,13 @@ function keyPressed() {
                     EVENT_REPORT_RUNNING_RED_LIGHT
             )
         ) {
+            mainUIController.showNoVioImg();
             playerData.addScore(-5);
             console.log("fail report -5");
-        }
+            setTimeout(() => {
+                mainUIController.closeNoVioImg();
+            }, 1500);
+        } 
     }
 
     // For demo moving
