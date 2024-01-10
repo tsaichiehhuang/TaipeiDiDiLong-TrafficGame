@@ -1,6 +1,9 @@
 # 歹把迪迪隆 TaipeiDiDiLong
 
-NCCU 112 JavaScript 期末專案 - 使用上課所學 p5js 套件並結合交通議題實作動態互動遊戲。
+NCCU 112 JavaScript 期末專案 - 使用 p5js 套件並結合交通議題實作卷軸遊戲。
+<a href="https://youtu.be/BahdQd2NUcU">
+2分鐘短片介紹
+</a>
 
 <div align="left">
    <a href="https://youtu.be/BahdQd2NUcU">
@@ -14,40 +17,49 @@ NCCU 112 JavaScript 期末專案 - 使用上課所學 p5js 套件並結合交通
 
 玩家化身機車騎士，並完成遊戲中的關卡，遵守交通規則，安全返家。
 
-## 操作說明
+### 🛵操作說明
 
-透過鍵盤上下左右與空白鍵來操作機車移動及選項選擇。
+透過鍵盤(上下左右與空白鍵)以及滑鼠來操作機車移動及選項選擇。
 
-## 內容設計
+### 🛵內容設計
 
-### 關卡
+-   <b>關卡</b>：三項主關卡，檢測玩家是否遵守交通規則
+<div align="left">
+   <a href="https://youtu.be/BahdQd2NUcU">
+     <img src="public\images\intro\關卡.png" 
+      alt="關卡" 
+      style="width:30%;">
+   </a>
+</div>
 
-三項主關卡，檢測玩家是否遵守交通規則
-
-| 紅綠燈 | 行人過斑馬線                             | 停車購物 |
-| ------ | ---------------------------------------- | -------- |
-|        | <img src="public\images\section3\3.gif"> |          |
-
-### 檢舉
-
-道路上隨機出現交通違規事項，玩家可隨時按空白鍵檢舉
-檢舉成功的畫面 ↓
+-   <b>檢舉</b>：道路上隨機出現交通違規事項，玩家可隨時按空白鍵檢舉
+    檢舉成功的畫面 ↓
 
 <div align="left">
    <a href="https://youtu.be/BahdQd2NUcU">
      <img src="public\images\section2\Warn2.png" 
       alt="檢舉" 
-      style="width:50%;">
+      style="width:30%;">
    </a>
 </div>
 
-### 情境題
+-   <b>情境題</b>：隨機出現交通相關規則題目，讓玩家對道路知識更加了解
+<div align="left">
+   <a href="https://youtu.be/BahdQd2NUcU">
+     <img src="public\images\intro\情境題.png" 
+      alt="情境題" 
+      style="width:30%;">
+   </a>
+</div>
 
-隨機出現交通相關規則題目，讓玩家對道路知識更加了解
-
-### 結局回饋
-
-根據不同的分數階層來給予不同回饋
+-   <b>結局回饋</b>：根據不同的分數階層來給予不同回饋
+<div align="left">
+   <a href="https://youtu.be/BahdQd2NUcU">
+     <img src="public\images\ending\Ending1.png" 
+      alt="結局" 
+      style="width:30%;">
+   </a>
+</div>
 
 # Contributors
 
