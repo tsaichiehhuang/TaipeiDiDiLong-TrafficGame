@@ -1,16 +1,14 @@
 # 歹把迪迪隆 TaipeiDiDiLong
 
 NCCU 112 JavaScript 期末專案 - 使用 p5js 套件並結合交通議題實作卷軸遊戲。
-<a href="https://youtu.be/BahdQd2NUcU">
+<a href="https://youtu.be/7YsyVokig7g">
 2分鐘短片介紹
 </a>
 
 <div align="left">
-   <a href="https://youtu.be/BahdQd2NUcU">
      <img src="public\images\start\封面長相.png" 
       alt="start" 
       style="width:50%;">
-   </a>
 </div>
 
 # Game Design
@@ -25,11 +23,9 @@ NCCU 112 JavaScript 期末專案 - 使用 p5js 套件並結合交通議題實作
 
 -   <b>關卡</b>：三項主關卡，檢測玩家是否遵守交通規則
 <div align="left">
-   <a href="https://youtu.be/BahdQd2NUcU">
      <img src="public\images\intro\關卡.png" 
       alt="關卡" 
       style="width:30%;">
-   </a>
 </div>
 
 -   <b>檢舉</b>：道路上隨機出現交通違規事項，玩家可隨時按空白鍵檢舉
@@ -45,20 +41,16 @@ NCCU 112 JavaScript 期末專案 - 使用 p5js 套件並結合交通議題實作
 
 -   <b>情境題</b>：隨機出現交通相關規則題目，讓玩家對道路知識更加了解
 <div align="left">
-   <a href="https://youtu.be/BahdQd2NUcU">
      <img src="public\images\intro\情境題.png" 
       alt="情境題" 
       style="width:30%;">
-   </a>
 </div>
 
 -   <b>結局回饋</b>：根據不同的分數階層來給予不同回饋
 <div align="left">
-   <a href="https://youtu.be/BahdQd2NUcU">
      <img src="public\images\ending\Ending1.png" 
       alt="結局" 
       style="width:30%;">
-   </a>
 </div>
 
 # Contributors
